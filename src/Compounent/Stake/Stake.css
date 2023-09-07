@@ -1,0 +1,69 @@
+.colorsa{
+    min-height: 21pc !important;
+    background: rgb(0, 3, 48) !important;
+    border: 1px solid rgb(40, 41, 54);
+    position: relative;
+}
+.possition{
+    position: absolute;
+    bottom: 20px !important;
+    width: 100%;
+}
+.wi_th{
+  width: 30px !important;
+}
+.sdsd{
+  border-color: #414141 !important;
+}
+.batan{
+
+    background-color: rgba(61, 68, 99, 0.6) !important;
+    color: white !important;
+}
+.batan:hover{
+
+    background-color: rgba(89, 99, 145, 0.6) !important;
+    color: white !important;
+}
+.dico{
+    min-height: 10pc !important;
+    background: rgb(0, 3, 48) !important;
+    border: 1px solid rgb(40, 41, 54);
+}
+input[type="text"] {
+
+    background-color : #293269b8;
+    width: 25% !important; 
+    height: 6vh;
+    border: none !important;
+  color: white !important;
+  }
+ 
+  
+  ::-webkit-input-placeholder {
+    text-align: center;
+  }
+  
+  :-moz-placeholder {
+    text-align: center;
+  }
+  ::-webkit-scrollbar {
+    width: 10px;
+  }
+  
+  /* Track */
+  ::-webkit-scrollbar-track {
+    box-shadow: inset 0 0 5px #242060; 
+    border-radius: 10px;
+  }
+   
+  /* Handle */
+  ::-webkit-scrollbar-thumb {
+    background: #42405d; 
+    border-radius: 10px;
+  }
+  
+  /* Handle on hover */
+  ::-webkit-scrollbar-thumb:hover {
+    background: #343160; 
+  }

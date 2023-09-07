@@ -1,0 +1,17 @@
+.w_25{
+    width: 15% !important;
+}
+.icons{
+    display: flex !important;
+    justify-content: center;
+    gap: 80px !important;
+}
+@media only screen and (max-width:600px)  {
+    .icons{
+       
+        gap: 40px !important;
+    } 
+    .w_25{
+        width: 45% !important;
+    }
+}
