@@ -20,28 +20,36 @@ function Referrals() {
         <br />
         For more information, please read the referral program details.
       </p>
-      <div className="btn-group d-flex w-25 m-auto " role="group" aria-label="Basic example">
+      <div
+        className="btn-group d-flex w-25 m-auto "
+        role="group"
+        aria-label="Basic example"
+      >
         <button
           onClick={handleFirstButtonClick}
           type="button"
           className="btn btn-white shadow-none"
           style={{
-            backgroundColor: showFirstData ? '#2d42fc' : 'rgba(61, 68, 99, 0.6)',
-            color:showFirstData?"white":"white"
+            backgroundColor: showFirstData
+              ? "#2d42fc"
+              : "rgba(61, 68, 99, 0.6)",
+            color: showFirstData ? "white" : "white",
           }}
         >
-         Traders
+          Traders
         </button>
         <button
           onClick={handleSecondButtonClick}
           type="button"
           className="btn btn-white shadow-none"
           style={{
-            backgroundColor: !showFirstData ? "#2d42fc" : "rgba(61, 68, 99, 0.6)",
-            color:!showFirstData?"white":"white"
+            backgroundColor: !showFirstData
+              ? "#2d42fc"
+              : "rgba(61, 68, 99, 0.6)",
+            color: !showFirstData ? "white" : "white",
           }}
         >
-         Affiliates
+          Affiliates
         </button>
       </div>
       <div className="card dico m-auto mt-5" style={{ width: "30rem" }}>

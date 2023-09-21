@@ -1,5 +1,5 @@
 import React from "react";
-import logo from "../image/logo.svg";
+import logo from "../image/AFT.png";
 import wallet from "../image/wallet.svg";
 import drop from "../image/drop.jpg";
 import "./Navbar.css";
@@ -15,7 +15,6 @@ function Navbar() {
 
   const connectWallet = async () => {
     dispatch(connectionAction());
-    console.log("eth", window.ethereum);
     if (window.ethereum) {
       const web3 = new Web3(window.ethereum);
       dispatch(web3Actions(web3)); // Pass the Web3 instance to Redux
@@ -27,7 +26,7 @@ function Navbar() {
       <nav className="navbar navbar-expand-lg navbar-light text-white p-0">
         <div className="container-fluid py-2 px-2 px-md-5">
           <a className="navbar-brand" href="#">
-            <img src={logo} alt="" />
+            <img src={logo} alt="" width={100} />
           </a>
           <button
             className="navbar-toggler bg-white"
@@ -46,17 +45,27 @@ function Navbar() {
                 <Link
                   className="nav-link active"
                   aria-current="page"
+                  to="/Dashboard"
+                >
+                  Dashboard
+                </Link>
+              </li>
+
+              {/* <li className="nav-item">
+                <Link
+                  className="nav-link active"
+                  aria-current="page"
                   to="/Swap"
                 >
                   Swap
                 </Link>
-              </li>
+              </li> */}
 
-              <li className="nav-item">
+              {/* <li className="nav-item">
                 <Link className="nav-link " to="/Buy">
                   Buy
                 </Link>
-              </li>
+              </li> */}
 
               <li className="nav-item">
                 <Link className="nav-link" to="/Stake">
@@ -70,7 +79,7 @@ function Navbar() {
                   aria-current="page"
                   to="/Lend"
                 >
-                  Lend
+                  Lending
                 </Link>
               </li>
               <li className="nav-item">
@@ -79,7 +88,7 @@ function Navbar() {
                   aria-current="page"
                   to="/Borrow"
                 >
-                  Borrow
+                  Borrowing
                 </Link>
               </li>
               {/* <li className="nav-item">
@@ -109,7 +118,7 @@ function Navbar() {
                       acc?.substring(acc.length - 4)
                   : null}
               </button>
-              <Dropdown>
+              {/* <Dropdown>
                 <Dropdown.Toggle
                   className="btn btnnn d-flex align-items-center"
                   type="button"
@@ -119,13 +128,6 @@ function Navbar() {
                     className=""
                     style={{ backgroundColor: "rgb(0, 6, 60)" }}
                   >
-                    {/* <Dropdown.Item className="text-white" href="#/action-1">
-                      Arbitrum
-                    </Dropdown.Item>
-                    <Dropdown.Item className="text-white" href="#/action-2">
-                      Avalanche
-                    </Dropdown.Item>
-                    <hr className="text-white" /> */}
                     <Dropdown.Item className="text-white" href="#/action-3">
                       Setting
                     </Dropdown.Item>
@@ -151,7 +153,7 @@ function Navbar() {
                     </svg>
                   </span>
                 </Dropdown.Toggle>
-              </Dropdown>
+              </Dropdown> */}
             </form>
           </div>
         </div>

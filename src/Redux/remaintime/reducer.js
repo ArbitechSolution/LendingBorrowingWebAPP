@@ -4,7 +4,7 @@ const INITIAL_STATE = {
   remaintime: Date.now(),
 };
 
-const remaintimeReducer = (state = INITIAL_STATE, {type, payload}) => {
+const remaintimeReducer = (state = INITIAL_STATE, { type, payload }) => {
   switch (type) {
     case ActionTypes.REMAIN_TIME:
       return {

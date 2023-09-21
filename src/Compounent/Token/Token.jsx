@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import drop from "../image/drop.svg";
 import token from "../image/token.svg";
-import "./Token.css"
+import "./Token.css";
 function Token() {
   return (
     <div>
@@ -16,10 +16,14 @@ function Token() {
               <div className="card-body">
                 <div className="row">
                   <div className="col-md-8 col-sm-12">
-                    <div className="d-flex"><img src={token} alt="" />
-                    <h6 className="ms-2 m-0 ">AFT<br/><p className="fs m-0">AFT</p></h6>
-
-</div>
+                    <div className="d-flex">
+                      <img src={token} alt="" />
+                      <h6 className="ms-2 m-0 ">
+                        AFT
+                        <br />
+                        <p className="fs m-0">AFT</p>
+                      </h6>
+                    </div>
                     <hr />
 
                     <div className="row">
@@ -158,12 +162,16 @@ function Token() {
           <div className="col-md-6 col-sm-12 mt-2">
             <div className="card color">
               <div className="card-body">
-              <div className="row">
+                <div className="row">
                   <div className="col-md-8 col-sm-12">
-                    <div className="d-flex"><img src={token} alt="" />
-                    <h6 className="ms-2 m-0 ">AFT<br/><p className="fs m-0">AFT</p></h6>
-
-</div>
+                    <div className="d-flex">
+                      <img src={token} alt="" />
+                      <h6 className="ms-2 m-0 ">
+                        AFT
+                        <br />
+                        <p className="fs m-0">AFT</p>
+                      </h6>
+                    </div>
                     <hr />
 
                     <div className="row">
@@ -296,7 +304,6 @@ function Token() {
                     </div>
                   </div>
                 </div>
-               
               </div>
             </div>
           </div>

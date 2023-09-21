@@ -1,11 +1,11 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
+
 import { useSelector } from "react-redux";
 import Pagination from "../Pagination/Pagination";
 
 function Composition_Table({ title, table_data, tokenData, itemsPerPage }) {
   let web3 = useSelector((state) => state.connect?.web3);
   let url = "https://testnet.bscscan.com/address/";
-
 
   const [currentPage, setCurrentPage] = useState(0);
 
@@ -26,13 +26,15 @@ function Composition_Table({ title, table_data, tokenData, itemsPerPage }) {
           <table className="table table-borderless   text-center text-white">
             <thead>
               <tr>
-                <th scope="col">Request ID</th>
+                <th scope="col">Loan ID</th>
+                <th scope="col">Lend Request ID</th>
                 <th scope="col">Lender Address</th>
-                <th scope="col">Lend Token</th>
-                <th scope="col">Lend Amount</th>
-                <th scope="col">remainingLendAmount</th>
-                <th scope="col">Lending Duration</th>
-                <th scope="col">Open to Borrow</th>
+                <th scope="col">Borrower Address</th>
+                <th scope="col">Collateral Token</th>
+                <th scope="col">Borrow Token</th>
+                <th scope="col">Collateral Amount</th>
+                <th scope="col">Borrow Amount</th>
+                <th scope="col">Status</th>
               </tr>
             </thead>
             <tbody>
@@ -49,41 +51,57 @@ function Composition_Table({ title, table_data, tokenData, itemsPerPage }) {
                       <span className="text-start">
                         <p className="m-0">{items?.name}</p>
                         <p className="m-0" style={{ fontSize: "12px" }}>
-                          {items?.requestID}
+                          {items?.loanID}
                         </p>
                       </span>
                     </div>
                   </th>
+                  <td>{items.lendRequestID}</td>
                   <td>
                     {items.lenderAddress?.slice(0, 6) +
                       "..." +
                       items.lenderAddress?.slice(-4)}
                   </td>
                   <td>
+                    {items.borrowerAddress?.slice(0, 6) +
+                      "..." +
+                      items.borrowerAddress?.slice(-4)}
+                  </td>
+                  <td>
                     {
                       <a
-                        href={url + items.tokenAddress}
+                        href={url + items.collateralToken}
                         target="_blank"
                         rel="noreferrer"
                       >
                         {tokenData?.map((item, index) => {
-                          if (item.address === items.tokenAddress) {
+                          if (item.address === items.collateralToken) {
                             return item.name;
                           }
                         })}
                       </a>
-
-                      // items.tokenAddress?.slice(0, 6) +
-                      //   "..." +
-                      //   items.tokenAddress?.slice(-4)
                     }
                   </td>
-                  <td>{web3.utils.fromWei(items?.lendAmount)}</td>
                   <td>
-                    {web3.utils.fromWei(items.remainingLendAmount)?.slice(0, 6)}
+                    {
+                      <a
+                        href={url + items.lendToken}
+                        target="_blank"
+                        rel="noreferrer"
+                      >
+                        {tokenData?.map((item, index) => {
+                          if (item.address === items.lendToken) {
+                            return item.name;
+                          }
+                        })}
+                      </a>
+                    }
                   </td>
-                  <td>{items?.lendingDuration / 60 + "min"}</td>
-                  <td>{items?.isOpenToBorrow ? "Open" : "Closed"}</td>
+                  <td>{web3.utils.fromWei(items.collateralAmount, "ether")}</td>
+                  <td>
+                    {web3.utils.fromWei(items.lendAmount, "ether")?.slice(0, 6)}
+                  </td>
+                  <td>{items.status === "2" ? "Loan Availed" : "-"}</td>
                 </tr>
               ))}
             </tbody>
@@ -91,10 +109,10 @@ function Composition_Table({ title, table_data, tokenData, itemsPerPage }) {
         </div>
       </div>
       <div className="mt-2">
-      <Pagination 
-        pageCount={Math.ceil(table_data.length / itemsPerPage)}
-        onPageChange={handlePageChange}
-      />
+        <Pagination
+          pageCount={Math.ceil(table_data.length / itemsPerPage)}
+          onPageChange={handlePageChange}
+        />
       </div>
     </div>
   );

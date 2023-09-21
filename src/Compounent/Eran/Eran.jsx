@@ -1,12 +1,12 @@
-import React from 'react'
-import Stake from '../Stake/Stake'
+import React from "react";
+import Stake from "../Stake/Stake";
 
 function Eran() {
   return (
     <div>
-        <Stake/>
+      <Stake />
     </div>
-  )
+  );
 }
 
-export default Eran
+export default Eran;
