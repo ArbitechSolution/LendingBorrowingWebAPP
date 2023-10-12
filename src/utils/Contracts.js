@@ -1,4 +1,4 @@
-export const TokenAddress = "0x09245d12bfeD6F90817fEe87BB9Ca2956d9c6438";
+export const TokenAddress = "0xA913aB2A43a832a8BdDa2Bf5b07405F0F971EfF5";
 export const TokenAbi = [
   { inputs: [], stateMutability: "nonpayable", type: "constructor" },
   {
@@ -32,6 +32,44 @@ export const TokenAbi = [
       {
         indexed: true,
         internalType: "address",
+        name: "account",
+        type: "address",
+      },
+      {
+        indexed: false,
+        internalType: "bool",
+        name: "isExcluded",
+        type: "bool",
+      },
+    ],
+    name: "ExcludeFromFees",
+    type: "event",
+  },
+  {
+    anonymous: false,
+    inputs: [
+      {
+        indexed: false,
+        internalType: "address[]",
+        name: "accounts",
+        type: "address[]",
+      },
+      {
+        indexed: false,
+        internalType: "bool",
+        name: "isExcluded",
+        type: "bool",
+      },
+    ],
+    name: "ExcludeMultipleAccountsFromFees",
+    type: "event",
+  },
+  {
+    anonymous: false,
+    inputs: [
+      {
+        indexed: true,
+        internalType: "address",
         name: "previousOwner",
         type: "address",
       },
@@ -50,12 +88,27 @@ export const TokenAbi = [
     inputs: [
       {
         indexed: false,
-        internalType: "address",
-        name: "account",
-        type: "address",
+        internalType: "uint256",
+        name: "tokensSwapped",
+        type: "uint256",
+      },
+      {
+        indexed: false,
+        internalType: "uint256",
+        name: "amount",
+        type: "uint256",
       },
     ],
-    name: "Paused",
+    name: "SendDividendsToMarketing",
+    type: "event",
+  },
+  {
+    anonymous: false,
+    inputs: [
+      { indexed: true, internalType: "address", name: "pair", type: "address" },
+      { indexed: true, internalType: "bool", name: "value", type: "bool" },
+    ],
+    name: "SetAutomatedMarketMakerPair",
     type: "event",
   },
   {
@@ -71,19 +124,6 @@ export const TokenAbi = [
       },
     ],
     name: "Transfer",
-    type: "event",
-  },
-  {
-    anonymous: false,
-    inputs: [
-      {
-        indexed: false,
-        internalType: "address",
-        name: "account",
-        type: "address",
-      },
-    ],
-    name: "Unpaused",
     type: "event",
   },
   {
@@ -107,27 +147,17 @@ export const TokenAbi = [
     type: "function",
   },
   {
-    inputs: [{ internalType: "address", name: "account", type: "address" }],
-    name: "balanceOf",
-    outputs: [{ internalType: "uint256", name: "", type: "uint256" }],
+    inputs: [{ internalType: "address", name: "", type: "address" }],
+    name: "automatedMarketMakerPairs",
+    outputs: [{ internalType: "bool", name: "", type: "bool" }],
     stateMutability: "view",
     type: "function",
   },
   {
-    inputs: [{ internalType: "uint256", name: "amount", type: "uint256" }],
-    name: "burn",
-    outputs: [],
-    stateMutability: "nonpayable",
-    type: "function",
-  },
-  {
-    inputs: [
-      { internalType: "address", name: "account", type: "address" },
-      { internalType: "uint256", name: "amount", type: "uint256" },
-    ],
-    name: "burnFrom",
-    outputs: [],
-    stateMutability: "nonpayable",
+    inputs: [{ internalType: "address", name: "account", type: "address" }],
+    name: "balanceOf",
+    outputs: [{ internalType: "uint256", name: "", type: "uint256" }],
+    stateMutability: "view",
     type: "function",
   },
   {
@@ -149,6 +179,26 @@ export const TokenAbi = [
   },
   {
     inputs: [
+      { internalType: "address", name: "account", type: "address" },
+      { internalType: "bool", name: "excluded", type: "bool" },
+    ],
+    name: "excludeFromFees",
+    outputs: [],
+    stateMutability: "nonpayable",
+    type: "function",
+  },
+  {
+    inputs: [
+      { internalType: "address[]", name: "accounts", type: "address[]" },
+      { internalType: "bool", name: "excluded", type: "bool" },
+    ],
+    name: "excludeMultipleAccountsFromFees",
+    outputs: [],
+    stateMutability: "nonpayable",
+    type: "function",
+  },
+  {
+    inputs: [
       { internalType: "address", name: "spender", type: "address" },
       { internalType: "uint256", name: "addedValue", type: "uint256" },
     ],
@@ -158,13 +208,10 @@ export const TokenAbi = [
     type: "function",
   },
   {
-    inputs: [
-      { internalType: "address", name: "to", type: "address" },
-      { internalType: "uint256", name: "amount", type: "uint256" },
-    ],
-    name: "mint",
-    outputs: [],
-    stateMutability: "nonpayable",
+    inputs: [{ internalType: "address", name: "account", type: "address" }],
+    name: "isExcludedFromFees",
+    outputs: [{ internalType: "bool", name: "", type: "bool" }],
+    stateMutability: "view",
     type: "function",
   },
   {
@@ -183,21 +230,17 @@ export const TokenAbi = [
   },
   {
     inputs: [],
-    name: "pause",
+    name: "renounceOwnership",
     outputs: [],
     stateMutability: "nonpayable",
     type: "function",
   },
   {
-    inputs: [],
-    name: "paused",
-    outputs: [{ internalType: "bool", name: "", type: "bool" }],
-    stateMutability: "view",
-    type: "function",
-  },
-  {
-    inputs: [],
-    name: "renounceOwnership",
+    inputs: [
+      { internalType: "address", name: "pair", type: "address" },
+      { internalType: "bool", name: "value", type: "bool" },
+    ],
+    name: "setAutomatedMarketMakerPair",
     outputs: [],
     stateMutability: "nonpayable",
     type: "function",
@@ -211,6 +254,13 @@ export const TokenAbi = [
   },
   {
     inputs: [],
+    name: "taxFee",
+    outputs: [{ internalType: "uint256", name: "", type: "uint256" }],
+    stateMutability: "view",
+    type: "function",
+  },
+  {
+    inputs: [],
     name: "totalSupply",
     outputs: [{ internalType: "uint256", name: "", type: "uint256" }],
     stateMutability: "view",
@@ -218,7 +268,7 @@ export const TokenAbi = [
   },
   {
     inputs: [
-      { internalType: "address", name: "to", type: "address" },
+      { internalType: "address", name: "recipient", type: "address" },
       { internalType: "uint256", name: "amount", type: "uint256" },
     ],
     name: "transfer",
@@ -228,8 +278,8 @@ export const TokenAbi = [
   },
   {
     inputs: [
-      { internalType: "address", name: "from", type: "address" },
-      { internalType: "address", name: "to", type: "address" },
+      { internalType: "address", name: "sender", type: "address" },
+      { internalType: "address", name: "recipient", type: "address" },
       { internalType: "uint256", name: "amount", type: "uint256" },
     ],
     name: "transferFrom",
@@ -246,7 +296,23 @@ export const TokenAbi = [
   },
   {
     inputs: [],
-    name: "unpause",
+    name: "uniswapV2Pair",
+    outputs: [{ internalType: "address", name: "", type: "address" }],
+    stateMutability: "view",
+    type: "function",
+  },
+  {
+    inputs: [
+      { internalType: "address", name: "_pairAddress", type: "address" },
+    ],
+    name: "updatePairAddress",
+    outputs: [],
+    stateMutability: "nonpayable",
+    type: "function",
+  },
+  {
+    inputs: [{ internalType: "uint256", name: "taxfee", type: "uint256" }],
+    name: "updateTaxFee",
     outputs: [],
     stateMutability: "nonpayable",
     type: "function",
@@ -414,9 +480,13 @@ export const BUSDTokenAbi = [
   },
 ];
 
-export const StakingAddress = "0xb6fc19276BB2A76Fb2146EbA2241C29335270806";
+export const StakingAddress = "0x3b613B6515b37a26F82b07B6276A6b7A0F04D326";
 export const StakingAbi = [
-  { inputs: [], stateMutability: "nonpayable", type: "constructor" },
+  {
+    inputs: [{ internalType: "address", name: "_token", type: "address" }],
+    stateMutability: "nonpayable",
+    type: "constructor",
+  },
   {
     anonymous: false,
     inputs: [
@@ -450,16 +520,6 @@ export const StakingAbi = [
     inputs: [{ internalType: "address", name: "borrower", type: "address" }],
     name: "borrowerStatus",
     outputs: [{ internalType: "bool", name: "", type: "bool" }],
-    stateMutability: "view",
-    type: "function",
-  },
-  {
-    inputs: [],
-    name: "checkContractData",
-    outputs: [
-      { internalType: "uint256", name: "", type: "uint256" },
-      { internalType: "uint256", name: "", type: "uint256" },
-    ],
     stateMutability: "view",
     type: "function",
   },
@@ -560,43 +620,23 @@ export const StakingAbi = [
   },
 ];
 
-export const LendingAddress = "0xeAC9801f36B77774bcF037a92a685E552e7c3401";
+export const LendingAddress = "0x5254d81D710Ae6FFDD7CC91be6039C86fC3e301E";
 export const LendingAbi = [
   {
     inputs: [
-      {
-        internalType: "uint256",
-        name: "_loanID",
-        type: "uint256",
-      },
-      {
-        internalType: "uint256",
-        name: "_lendRequestID",
-        type: "uint256",
-      },
-      {
-        internalType: "uint256",
-        name: "_loanDuration",
-        type: "uint256",
-      },
-    ],
-    name: "availLoan",
-    outputs: [],
-    stateMutability: "nonpayable",
-    type: "function",
-  },
-  {
-    inputs: [
-      {
-        internalType: "address[]",
-        name: "_tokenAddresses",
-        type: "address[]",
-      },
+      { internalType: "address[]", name: "_tokenAddresses", type: "address[]" },
       {
         internalType: "address[]",
         name: "_priceFeedAddresses",
         type: "address[]",
       },
+      {
+        internalType: "address",
+        name: "_archefiTokenAddress",
+        type: "address",
+      },
+      { internalType: "address", name: "_feeContract", type: "address" },
+      { internalType: "address", name: "_stakingContract", type: "address" },
     ],
     stateMutability: "nonpayable",
     type: "constructor",
@@ -687,83 +727,6 @@ export const LendingAbi = [
     ],
     name: "CollateralWithdrawn",
     type: "event",
-  },
-  {
-    inputs: [
-      {
-        internalType: "uint256",
-        name: "_lendAmount",
-        type: "uint256",
-      },
-      {
-        internalType: "uint256",
-        name: "_interestRate",
-        type: "uint256",
-      },
-      {
-        internalType: "uint256",
-        name: "_lendingDuration",
-        type: "uint256",
-      },
-      {
-        internalType: "address",
-        name: "_tokenAddress",
-        type: "address",
-      },
-    ],
-    name: "createLendRequest",
-    outputs: [],
-    stateMutability: "payable",
-    type: "function",
-  },
-  {
-    inputs: [
-      {
-        internalType: "address",
-        name: "_borrowerAddress",
-        type: "address",
-      },
-      {
-        internalType: "uint256",
-        name: "_loanID",
-        type: "uint256",
-      },
-    ],
-    name: "defaultLoan",
-    outputs: [],
-    stateMutability: "nonpayable",
-    type: "function",
-  },
-  {
-    inputs: [
-      {
-        internalType: "uint256",
-        name: "_collateralAmount",
-        type: "uint256",
-      },
-      {
-        internalType: "address",
-        name: "_tokenAddress",
-        type: "address",
-      },
-    ],
-    name: "depositCollateral",
-    outputs: [],
-    stateMutability: "payable",
-    type: "function",
-  },
-  {
-    inputs: [
-      {
-        internalType: "address",
-        name: "_token",
-        type: "address",
-      },
-    ],
-    name: "emergencyWithdrawToken",
-    outputs: [],
-    stateMutability: "nonpayable",
-    type: "function",
   },
   {
     anonymous: false,
@@ -982,13 +945,507 @@ export const LendingAbi = [
     type: "event",
   },
   {
+    anonymous: false,
     inputs: [
       {
+        indexed: false,
+        internalType: "address",
+        name: "lender",
+        type: "address",
+      },
+      {
+        indexed: false,
         internalType: "uint256",
-        name: "_loanID",
+        name: "amount",
         type: "uint256",
       },
     ],
+    name: "Withdrawal",
+    type: "event",
+  },
+  {
+    inputs: [],
+    name: "FEE_PERCENTAGE",
+    outputs: [{ internalType: "uint256", name: "", type: "uint256" }],
+    stateMutability: "view",
+    type: "function",
+  },
+  {
+    inputs: [],
+    name: "TRADEING_DURATION_THRESHOLD",
+    outputs: [{ internalType: "uint256", name: "", type: "uint256" }],
+    stateMutability: "view",
+    type: "function",
+  },
+  {
+    inputs: [],
+    name: "TRADE_AMOUNT_THRESHOLD",
+    outputs: [{ internalType: "uint256", name: "", type: "uint256" }],
+    stateMutability: "view",
+    type: "function",
+  },
+  {
+    inputs: [{ internalType: "uint256", name: "", type: "uint256" }],
+    name: "activeLendRequests",
+    outputs: [{ internalType: "uint256", name: "", type: "uint256" }],
+    stateMutability: "view",
+    type: "function",
+  },
+  {
+    inputs: [],
+    name: "archefiTokenAddress",
+    outputs: [{ internalType: "contract IERC20", name: "", type: "address" }],
+    stateMutability: "view",
+    type: "function",
+  },
+  {
+    inputs: [
+      { internalType: "uint256", name: "_loanID", type: "uint256" },
+      { internalType: "uint256", name: "_lendRequestID", type: "uint256" },
+      { internalType: "uint256", name: "_loanDuration", type: "uint256" },
+    ],
+    name: "availLoan",
+    outputs: [],
+    stateMutability: "nonpayable",
+    type: "function",
+  },
+  {
+    inputs: [
+      { internalType: "uint256", name: "amount", type: "uint256" },
+      { internalType: "address", name: "collateralToken", type: "address" },
+      { internalType: "address", name: "borrowToken", type: "address" },
+    ],
+    name: "calculateBorrowableAmount",
+    outputs: [{ internalType: "uint256", name: "", type: "uint256" }],
+    stateMutability: "view",
+    type: "function",
+  },
+  {
+    inputs: [
+      { internalType: "uint256", name: "tradeAmount", type: "uint256" },
+      { internalType: "uint256", name: "tradeDuration", type: "uint256" },
+    ],
+    name: "calculateFeeOnTrading",
+    outputs: [{ internalType: "uint256", name: "", type: "uint256" }],
+    stateMutability: "pure",
+    type: "function",
+  },
+  {
+    inputs: [
+      { internalType: "uint256", name: "amountInWei", type: "uint256" },
+      { internalType: "uint256", name: "annualInterestRate", type: "uint256" },
+      { internalType: "uint256", name: "durationInDays", type: "uint256" },
+    ],
+    name: "calculateInterestAmount",
+    outputs: [{ internalType: "uint256", name: "", type: "uint256" }],
+    stateMutability: "pure",
+    type: "function",
+  },
+  {
+    inputs: [
+      { internalType: "uint256", name: "loanId", type: "uint256" },
+      { internalType: "address", name: "borrowerAddress", type: "address" },
+    ],
+    name: "calculateLoanAdjustment",
+    outputs: [
+      {
+        internalType: "uint256",
+        name: "additionalDepositRequired",
+        type: "uint256",
+      },
+      {
+        internalType: "uint256",
+        name: "additionalLoanAvailable",
+        type: "uint256",
+      },
+    ],
+    stateMutability: "view",
+    type: "function",
+  },
+  {
+    inputs: [
+      { internalType: "address", name: "_borrower", type: "address" },
+      { internalType: "uint256", name: "_loanID", type: "uint256" },
+    ],
+    name: "calculateRemainingTime",
+    outputs: [{ internalType: "uint256", name: "", type: "uint256" }],
+    stateMutability: "view",
+    type: "function",
+  },
+  {
+    inputs: [],
+    name: "calculateTotalContractBalanceOfEachToken",
+    outputs: [
+      { internalType: "address[]", name: "tokens", type: "address[]" },
+      { internalType: "uint256[]", name: "amounts", type: "uint256[]" },
+    ],
+    stateMutability: "view",
+    type: "function",
+  },
+  {
+    inputs: [{ internalType: "uint256", name: "requestId", type: "uint256" }],
+    name: "checkLoansStatus",
+    outputs: [{ internalType: "uint256[]", name: "", type: "uint256[]" }],
+    stateMutability: "view",
+    type: "function",
+  },
+  {
+    inputs: [
+      { internalType: "uint256", name: "_lendAmount", type: "uint256" },
+      { internalType: "uint256", name: "_interestRate", type: "uint256" },
+      { internalType: "uint256", name: "_lendingDuration", type: "uint256" },
+      { internalType: "address", name: "_tokenAddress", type: "address" },
+    ],
+    name: "createLendRequest",
+    outputs: [],
+    stateMutability: "payable",
+    type: "function",
+  },
+  {
+    inputs: [
+      { internalType: "address", name: "_borrowerAddress", type: "address" },
+      { internalType: "uint256", name: "_loanID", type: "uint256" },
+    ],
+    name: "defaultLoan",
+    outputs: [],
+    stateMutability: "nonpayable",
+    type: "function",
+  },
+  {
+    inputs: [
+      { internalType: "uint256", name: "_collateralAmount", type: "uint256" },
+      { internalType: "address", name: "_tokenAddress", type: "address" },
+    ],
+    name: "depositCollateral",
+    outputs: [],
+    stateMutability: "payable",
+    type: "function",
+  },
+  {
+    inputs: [{ internalType: "address", name: "_token", type: "address" }],
+    name: "emergencyWithdrawToken",
+    outputs: [],
+    stateMutability: "nonpayable",
+    type: "function",
+  },
+  {
+    inputs: [],
+    name: "feeContract",
+    outputs: [{ internalType: "address", name: "", type: "address" }],
+    stateMutability: "view",
+    type: "function",
+  },
+  {
+    inputs: [],
+    name: "getAllActiveLendRequests",
+    outputs: [
+      {
+        components: [
+          { internalType: "uint256", name: "requestID", type: "uint256" },
+          { internalType: "address", name: "lenderAddress", type: "address" },
+          { internalType: "address", name: "tokenAddress", type: "address" },
+          { internalType: "uint256", name: "lendAmount", type: "uint256" },
+          { internalType: "uint256", name: "interestRate", type: "uint256" },
+          { internalType: "uint256", name: "startTime", type: "uint256" },
+          { internalType: "uint256", name: "lendingDuration", type: "uint256" },
+          { internalType: "uint256", name: "earnedInterest", type: "uint256" },
+          {
+            internalType: "uint256",
+            name: "remainingLendAmount",
+            type: "uint256",
+          },
+          { internalType: "bool", name: "isOpenToBorrow", type: "bool" },
+        ],
+        internalType: "struct P2PLendingBorrowing.LendDetails[]",
+        name: "",
+        type: "tuple[]",
+      },
+    ],
+    stateMutability: "view",
+    type: "function",
+  },
+  {
+    inputs: [],
+    name: "getAllBorrowerInfo",
+    outputs: [
+      {
+        components: [
+          { internalType: "uint256", name: "loanID", type: "uint256" },
+          { internalType: "uint256", name: "lendRequestID", type: "uint256" },
+          { internalType: "address", name: "borrowerAddress", type: "address" },
+          { internalType: "address", name: "lenderAddress", type: "address" },
+          { internalType: "address", name: "collateralToken", type: "address" },
+          {
+            internalType: "uint256",
+            name: "collateralAmount",
+            type: "uint256",
+          },
+          {
+            internalType: "uint256",
+            name: "collateralLivePrice",
+            type: "uint256",
+          },
+          { internalType: "address", name: "lendToken", type: "address" },
+          { internalType: "uint256", name: "lendAmount", type: "uint256" },
+          { internalType: "uint256", name: "loanStartTime", type: "uint256" },
+          { internalType: "uint256", name: "repaymentTime", type: "uint256" },
+          {
+            internalType: "enum P2PLendingBorrowing.LoanStatus",
+            name: "status",
+            type: "uint8",
+          },
+          {
+            components: [
+              {
+                internalType: "uint256",
+                name: "interestRate",
+                type: "uint256",
+              },
+              {
+                internalType: "uint256",
+                name: "repaidAmount",
+                type: "uint256",
+              },
+              {
+                internalType: "uint256",
+                name: "remainingLoanAmount",
+                type: "uint256",
+              },
+              {
+                internalType: "uint256",
+                name: "loanPlusInterest",
+                type: "uint256",
+              },
+              { internalType: "bool", name: "isDefaulted", type: "bool" },
+              { internalType: "bool", name: "isClosed", type: "bool" },
+              { internalType: "bool", name: "isRedeposit", type: "bool" },
+            ],
+            internalType: "struct P2PLendingBorrowing.PaymentDetails",
+            name: "payment",
+            type: "tuple",
+          },
+        ],
+        internalType: "struct P2PLendingBorrowing.Borrower[]",
+        name: "",
+        type: "tuple[]",
+      },
+    ],
+    stateMutability: "view",
+    type: "function",
+  },
+  {
+    inputs: [],
+    name: "getAllTokenAddresses",
+    outputs: [{ internalType: "address[]", name: "", type: "address[]" }],
+    stateMutability: "view",
+    type: "function",
+  },
+  {
+    inputs: [],
+    name: "getFeeContract",
+    outputs: [{ internalType: "address", name: "", type: "address" }],
+    stateMutability: "view",
+    type: "function",
+  },
+  {
+    inputs: [
+      { internalType: "address", name: "_tokenAddress", type: "address" },
+    ],
+    name: "getLendRequestIDsByToken",
+    outputs: [{ internalType: "uint256[]", name: "", type: "uint256[]" }],
+    stateMutability: "view",
+    type: "function",
+  },
+  {
+    inputs: [{ internalType: "uint256", name: "lenderID", type: "uint256" }],
+    name: "getLenderDetails",
+    outputs: [
+      {
+        components: [
+          { internalType: "uint256", name: "requestID", type: "uint256" },
+          { internalType: "address", name: "lenderAddress", type: "address" },
+          { internalType: "address", name: "tokenAddress", type: "address" },
+          { internalType: "uint256", name: "lendAmount", type: "uint256" },
+          { internalType: "uint256", name: "interestRate", type: "uint256" },
+          { internalType: "uint256", name: "startTime", type: "uint256" },
+          { internalType: "uint256", name: "lendingDuration", type: "uint256" },
+          { internalType: "uint256", name: "earnedInterest", type: "uint256" },
+          {
+            internalType: "uint256",
+            name: "remainingLendAmount",
+            type: "uint256",
+          },
+          { internalType: "bool", name: "isOpenToBorrow", type: "bool" },
+        ],
+        internalType: "struct P2PLendingBorrowing.LendDetails",
+        name: "",
+        type: "tuple",
+      },
+    ],
+    stateMutability: "view",
+    type: "function",
+  },
+  {
+    inputs: [
+      { internalType: "address", name: "_lenderAddress", type: "address" },
+    ],
+    name: "getLenderRequests",
+    outputs: [
+      { internalType: "uint256[]", name: "", type: "uint256[]" },
+      { internalType: "address[]", name: "", type: "address[]" },
+    ],
+    stateMutability: "view",
+    type: "function",
+  },
+  {
+    inputs: [{ internalType: "address", name: "token", type: "address" }],
+    name: "getLivePrice",
+    outputs: [{ internalType: "uint256", name: "livePrice", type: "uint256" }],
+    stateMutability: "view",
+    type: "function",
+  },
+  {
+    inputs: [{ internalType: "address", name: "_borrower", type: "address" }],
+    name: "getLoanIDs",
+    outputs: [{ internalType: "uint256[]", name: "", type: "uint256[]" }],
+    stateMutability: "view",
+    type: "function",
+  },
+  {
+    inputs: [
+      { internalType: "address", name: "_borrowerAddress", type: "address" },
+    ],
+    name: "getLoanIDsAndCollateralByBorrower",
+    outputs: [
+      { internalType: "uint256[]", name: "", type: "uint256[]" },
+      { internalType: "address[]", name: "", type: "address[]" },
+    ],
+    stateMutability: "view",
+    type: "function",
+  },
+  {
+    inputs: [
+      { internalType: "uint256", name: "lendRequestId", type: "uint256" },
+    ],
+    name: "getLoanInfo",
+    outputs: [
+      { internalType: "bool", name: "success", type: "bool" },
+      { internalType: "uint256[]", name: "indexes", type: "uint256[]" },
+      {
+        components: [
+          { internalType: "uint256", name: "lendID", type: "uint256" },
+          { internalType: "uint256", name: "loanID", type: "uint256" },
+          { internalType: "address", name: "collateralToken", type: "address" },
+          { internalType: "address", name: "borrower", type: "address" },
+          { internalType: "uint256", name: "Borrowed", type: "uint256" },
+        ],
+        internalType: "struct P2PLendingBorrowing.loanDetail[]",
+        name: "data",
+        type: "tuple[]",
+      },
+    ],
+    stateMutability: "view",
+    type: "function",
+  },
+  {
+    inputs: [{ internalType: "uint256", name: "_loanID", type: "uint256" }],
+    name: "getborrowerInfo",
+    outputs: [
+      {
+        components: [
+          { internalType: "uint256", name: "loanID", type: "uint256" },
+          { internalType: "uint256", name: "lendRequestID", type: "uint256" },
+          { internalType: "address", name: "borrowerAddress", type: "address" },
+          { internalType: "address", name: "lenderAddress", type: "address" },
+          { internalType: "address", name: "collateralToken", type: "address" },
+          {
+            internalType: "uint256",
+            name: "collateralAmount",
+            type: "uint256",
+          },
+          {
+            internalType: "uint256",
+            name: "collateralLivePrice",
+            type: "uint256",
+          },
+          { internalType: "address", name: "lendToken", type: "address" },
+          { internalType: "uint256", name: "lendAmount", type: "uint256" },
+          { internalType: "uint256", name: "loanStartTime", type: "uint256" },
+          { internalType: "uint256", name: "repaymentTime", type: "uint256" },
+          {
+            internalType: "enum P2PLendingBorrowing.LoanStatus",
+            name: "status",
+            type: "uint8",
+          },
+          {
+            components: [
+              {
+                internalType: "uint256",
+                name: "interestRate",
+                type: "uint256",
+              },
+              {
+                internalType: "uint256",
+                name: "repaidAmount",
+                type: "uint256",
+              },
+              {
+                internalType: "uint256",
+                name: "remainingLoanAmount",
+                type: "uint256",
+              },
+              {
+                internalType: "uint256",
+                name: "loanPlusInterest",
+                type: "uint256",
+              },
+              { internalType: "bool", name: "isDefaulted", type: "bool" },
+              { internalType: "bool", name: "isClosed", type: "bool" },
+              { internalType: "bool", name: "isRedeposit", type: "bool" },
+            ],
+            internalType: "struct P2PLendingBorrowing.PaymentDetails",
+            name: "payment",
+            type: "tuple",
+          },
+        ],
+        internalType: "struct P2PLendingBorrowing.Borrower",
+        name: "",
+        type: "tuple",
+      },
+    ],
+    stateMutability: "view",
+    type: "function",
+  },
+  {
+    inputs: [],
+    name: "lendRequestCounter",
+    outputs: [{ internalType: "uint256", name: "", type: "uint256" }],
+    stateMutability: "view",
+    type: "function",
+  },
+  {
+    inputs: [],
+    name: "loanCounter",
+    outputs: [{ internalType: "uint256", name: "", type: "uint256" }],
+    stateMutability: "view",
+    type: "function",
+  },
+  {
+    inputs: [],
+    name: "owner",
+    outputs: [{ internalType: "address", name: "", type: "address" }],
+    stateMutability: "view",
+    type: "function",
+  },
+  {
+    inputs: [{ internalType: "uint256", name: "", type: "uint256" }],
+    name: "priceFeedAddresses",
+    outputs: [{ internalType: "address", name: "", type: "address" }],
+    stateMutability: "view",
+    type: "function",
+  },
+  {
+    inputs: [{ internalType: "uint256", name: "_loanID", type: "uint256" }],
     name: "reavailLoan",
     outputs: [],
     stateMutability: "nonpayable",
@@ -996,11 +1453,7 @@ export const LendingAbi = [
   },
   {
     inputs: [
-      {
-        internalType: "uint256",
-        name: "_loanID",
-        type: "uint256",
-      },
+      { internalType: "uint256", name: "_loanID", type: "uint256" },
       {
         internalType: "uint256",
         name: "_additionalCollateralAmount",
@@ -1021,16 +1474,8 @@ export const LendingAbi = [
   },
   {
     inputs: [
-      {
-        internalType: "uint256",
-        name: "_loanID",
-        type: "uint256",
-      },
-      {
-        internalType: "uint256",
-        name: "_repaymentAmount",
-        type: "uint256",
-      },
+      { internalType: "uint256", name: "_loanID", type: "uint256" },
+      { internalType: "uint256", name: "_repaymentAmount", type: "uint256" },
     ],
     name: "repayLoan",
     outputs: [],
@@ -1038,1044 +1483,79 @@ export const LendingAbi = [
     type: "function",
   },
   {
-    inputs: [
-      {
-        internalType: "address[]",
-        name: "tokens",
-        type: "address[]",
-      },
-    ],
+    inputs: [{ internalType: "address[]", name: "tokens", type: "address[]" }],
     name: "setAllowedTokens",
     outputs: [],
     stateMutability: "nonpayable",
     type: "function",
   },
   {
-    inputs: [
-      {
-        internalType: "address",
-        name: "newOwner",
-        type: "address",
-      },
-    ],
+    inputs: [],
+    name: "stakingContract",
+    outputs: [{ internalType: "contract IStaking", name: "", type: "address" }],
+    stateMutability: "view",
+    type: "function",
+  },
+  {
+    inputs: [{ internalType: "uint256", name: "", type: "uint256" }],
+    name: "tokenAddresses",
+    outputs: [{ internalType: "address", name: "", type: "address" }],
+    stateMutability: "view",
+    type: "function",
+  },
+  {
+    inputs: [{ internalType: "address", name: "newOwner", type: "address" }],
     name: "transferOwnership",
     outputs: [],
     stateMutability: "nonpayable",
     type: "function",
   },
   {
-    inputs: [
-      {
-        internalType: "address",
-        name: "_contract",
-        type: "address",
-      },
-    ],
+    inputs: [{ internalType: "address", name: "_contract", type: "address" }],
     name: "updateFeeContract",
     outputs: [],
     stateMutability: "nonpayable",
     type: "function",
   },
   {
-    inputs: [
-      {
-        internalType: "uint256",
-        name: "requestId",
-        type: "uint256",
-      },
-    ],
+    inputs: [{ internalType: "uint256", name: "requestId", type: "uint256" }],
     name: "updateRequestStatus",
     outputs: [],
     stateMutability: "nonpayable",
     type: "function",
   },
   {
-    inputs: [
-      {
-        internalType: "address",
-        name: "addr",
-        type: "address",
-      },
-    ],
+    inputs: [{ internalType: "address", name: "addr", type: "address" }],
     name: "updateStakeContract",
     outputs: [],
     stateMutability: "nonpayable",
     type: "function",
   },
   {
-    anonymous: false,
-    inputs: [
-      {
-        indexed: false,
-        internalType: "address",
-        name: "lender",
-        type: "address",
-      },
-      {
-        indexed: false,
-        internalType: "uint256",
-        name: "amount",
-        type: "uint256",
-      },
-    ],
-    name: "Withdrawal",
-    type: "event",
-  },
-  {
-    inputs: [
-      {
-        internalType: "uint256",
-        name: "amount",
-        type: "uint256",
-      },
-    ],
+    inputs: [{ internalType: "uint256", name: "amount", type: "uint256" }],
     name: "withdrawBNB",
     outputs: [],
     stateMutability: "nonpayable",
     type: "function",
   },
   {
-    inputs: [
-      {
-        internalType: "uint256",
-        name: "_loanID",
-        type: "uint256",
-      },
-    ],
+    inputs: [{ internalType: "uint256", name: "_loanID", type: "uint256" }],
     name: "withdrawCollateral",
     outputs: [],
     stateMutability: "nonpayable",
     type: "function",
   },
   {
-    inputs: [
-      {
-        internalType: "uint256",
-        name: "requestId",
-        type: "uint256",
-      },
-    ],
+    inputs: [{ internalType: "uint256", name: "requestId", type: "uint256" }],
     name: "withdrawLendAmount",
     outputs: [],
     stateMutability: "nonpayable",
     type: "function",
   },
-  {
-    stateMutability: "payable",
-    type: "receive",
-  },
-  {
-    inputs: [
-      {
-        internalType: "uint256",
-        name: "",
-        type: "uint256",
-      },
-    ],
-    name: "activeLendRequests",
-    outputs: [
-      {
-        internalType: "uint256",
-        name: "",
-        type: "uint256",
-      },
-    ],
-    stateMutability: "view",
-    type: "function",
-  },
-  {
-    inputs: [],
-    name: "archefiTokenAddress",
-    outputs: [
-      {
-        internalType: "contract IERC20",
-        name: "",
-        type: "address",
-      },
-    ],
-    stateMutability: "view",
-    type: "function",
-  },
-  {
-    inputs: [
-      {
-        internalType: "uint256",
-        name: "amount",
-        type: "uint256",
-      },
-      {
-        internalType: "address",
-        name: "collateralToken",
-        type: "address",
-      },
-      {
-        internalType: "address",
-        name: "borrowToken",
-        type: "address",
-      },
-    ],
-    name: "calculateBorrowableAmount",
-    outputs: [
-      {
-        internalType: "uint256",
-        name: "",
-        type: "uint256",
-      },
-    ],
-    stateMutability: "view",
-    type: "function",
-  },
-  {
-    inputs: [
-      {
-        internalType: "uint256",
-        name: "tradeAmount",
-        type: "uint256",
-      },
-      {
-        internalType: "uint256",
-        name: "tradeDuration",
-        type: "uint256",
-      },
-    ],
-    name: "calculateFeeOnTrading",
-    outputs: [
-      {
-        internalType: "uint256",
-        name: "",
-        type: "uint256",
-      },
-    ],
-    stateMutability: "pure",
-    type: "function",
-  },
-  {
-    inputs: [
-      {
-        internalType: "uint256",
-        name: "amountInWei",
-        type: "uint256",
-      },
-      {
-        internalType: "uint256",
-        name: "annualInterestRate",
-        type: "uint256",
-      },
-      {
-        internalType: "uint256",
-        name: "durationInDays",
-        type: "uint256",
-      },
-    ],
-    name: "calculateInterestAmount",
-    outputs: [
-      {
-        internalType: "uint256",
-        name: "",
-        type: "uint256",
-      },
-    ],
-    stateMutability: "pure",
-    type: "function",
-  },
-  {
-    inputs: [
-      {
-        internalType: "uint256",
-        name: "loanId",
-        type: "uint256",
-      },
-      {
-        internalType: "address",
-        name: "borrowerAddress",
-        type: "address",
-      },
-    ],
-    name: "calculateLoanAdjustment",
-    outputs: [
-      {
-        internalType: "uint256",
-        name: "additionalDepositRequired",
-        type: "uint256",
-      },
-      {
-        internalType: "uint256",
-        name: "additionalLoanAvailable",
-        type: "uint256",
-      },
-    ],
-    stateMutability: "view",
-    type: "function",
-  },
-  {
-    inputs: [
-      {
-        internalType: "address",
-        name: "_borrower",
-        type: "address",
-      },
-      {
-        internalType: "uint256",
-        name: "_loanID",
-        type: "uint256",
-      },
-    ],
-    name: "calculateRemainingTime",
-    outputs: [
-      {
-        internalType: "uint256",
-        name: "",
-        type: "uint256",
-      },
-    ],
-    stateMutability: "view",
-    type: "function",
-  },
-  {
-    inputs: [],
-    name: "calculateTotalContractBalanceOfEachToken",
-    outputs: [
-      {
-        internalType: "address[]",
-        name: "tokens",
-        type: "address[]",
-      },
-      {
-        internalType: "uint256[]",
-        name: "amounts",
-        type: "uint256[]",
-      },
-    ],
-    stateMutability: "view",
-    type: "function",
-  },
-  {
-    inputs: [
-      {
-        internalType: "uint256",
-        name: "requestId",
-        type: "uint256",
-      },
-    ],
-    name: "checkLoansStatus",
-    outputs: [
-      {
-        internalType: "uint256[]",
-        name: "",
-        type: "uint256[]",
-      },
-    ],
-    stateMutability: "view",
-    type: "function",
-  },
-  {
-    inputs: [],
-    name: "FEE_PERCENTAGE",
-    outputs: [
-      {
-        internalType: "uint256",
-        name: "",
-        type: "uint256",
-      },
-    ],
-    stateMutability: "view",
-    type: "function",
-  },
-  {
-    inputs: [],
-    name: "feeContract",
-    outputs: [
-      {
-        internalType: "address",
-        name: "",
-        type: "address",
-      },
-    ],
-    stateMutability: "view",
-    type: "function",
-  },
-  {
-    inputs: [],
-    name: "getAllActiveLendRequests",
-    outputs: [
-      {
-        components: [
-          {
-            internalType: "uint256",
-            name: "requestID",
-            type: "uint256",
-          },
-          {
-            internalType: "address",
-            name: "lenderAddress",
-            type: "address",
-          },
-          {
-            internalType: "address",
-            name: "tokenAddress",
-            type: "address",
-          },
-          {
-            internalType: "uint256",
-            name: "lendAmount",
-            type: "uint256",
-          },
-          {
-            internalType: "uint256",
-            name: "interestRate",
-            type: "uint256",
-          },
-          {
-            internalType: "uint256",
-            name: "startTime",
-            type: "uint256",
-          },
-          {
-            internalType: "uint256",
-            name: "lendingDuration",
-            type: "uint256",
-          },
-          {
-            internalType: "uint256",
-            name: "earnedInterest",
-            type: "uint256",
-          },
-          {
-            internalType: "uint256",
-            name: "remainingLendAmount",
-            type: "uint256",
-          },
-          {
-            internalType: "bool",
-            name: "isOpenToBorrow",
-            type: "bool",
-          },
-        ],
-        internalType: "struct P2PLendingBorrowing.LendDetails[]",
-        name: "",
-        type: "tuple[]",
-      },
-    ],
-    stateMutability: "view",
-    type: "function",
-  },
-  {
-    inputs: [],
-    name: "getAllBorrowerInfo",
-    outputs: [
-      {
-        components: [
-          {
-            internalType: "uint256",
-            name: "loanID",
-            type: "uint256",
-          },
-          {
-            internalType: "uint256",
-            name: "lendRequestID",
-            type: "uint256",
-          },
-          {
-            internalType: "address",
-            name: "borrowerAddress",
-            type: "address",
-          },
-          {
-            internalType: "address",
-            name: "lenderAddress",
-            type: "address",
-          },
-          {
-            internalType: "address",
-            name: "collateralToken",
-            type: "address",
-          },
-          {
-            internalType: "uint256",
-            name: "collateralAmount",
-            type: "uint256",
-          },
-          {
-            internalType: "uint256",
-            name: "collateralLivePrice",
-            type: "uint256",
-          },
-          {
-            internalType: "address",
-            name: "lendToken",
-            type: "address",
-          },
-          {
-            internalType: "uint256",
-            name: "lendAmount",
-            type: "uint256",
-          },
-          {
-            internalType: "uint256",
-            name: "loanStartTime",
-            type: "uint256",
-          },
-          {
-            internalType: "uint256",
-            name: "repaymentTime",
-            type: "uint256",
-          },
-          {
-            internalType: "enum P2PLendingBorrowing.LoanStatus",
-            name: "status",
-            type: "uint8",
-          },
-          {
-            components: [
-              {
-                internalType: "uint256",
-                name: "interestRate",
-                type: "uint256",
-              },
-              {
-                internalType: "uint256",
-                name: "repaidAmount",
-                type: "uint256",
-              },
-              {
-                internalType: "uint256",
-                name: "remainingLoanAmount",
-                type: "uint256",
-              },
-              {
-                internalType: "uint256",
-                name: "loanPlusInterest",
-                type: "uint256",
-              },
-              {
-                internalType: "bool",
-                name: "isDefaulted",
-                type: "bool",
-              },
-              {
-                internalType: "bool",
-                name: "isClosed",
-                type: "bool",
-              },
-              {
-                internalType: "bool",
-                name: "isRedeposit",
-                type: "bool",
-              },
-            ],
-            internalType: "struct P2PLendingBorrowing.PaymentDetails",
-            name: "payment",
-            type: "tuple",
-          },
-        ],
-        internalType: "struct P2PLendingBorrowing.Borrower[]",
-        name: "",
-        type: "tuple[]",
-      },
-    ],
-    stateMutability: "view",
-    type: "function",
-  },
-  {
-    inputs: [],
-    name: "getAllTokenAddresses",
-    outputs: [
-      {
-        internalType: "address[]",
-        name: "",
-        type: "address[]",
-      },
-    ],
-    stateMutability: "view",
-    type: "function",
-  },
-  {
-    inputs: [
-      {
-        internalType: "uint256",
-        name: "_loanID",
-        type: "uint256",
-      },
-    ],
-    name: "getborrowerInfo",
-    outputs: [
-      {
-        components: [
-          {
-            internalType: "uint256",
-            name: "loanID",
-            type: "uint256",
-          },
-          {
-            internalType: "uint256",
-            name: "lendRequestID",
-            type: "uint256",
-          },
-          {
-            internalType: "address",
-            name: "borrowerAddress",
-            type: "address",
-          },
-          {
-            internalType: "address",
-            name: "lenderAddress",
-            type: "address",
-          },
-          {
-            internalType: "address",
-            name: "collateralToken",
-            type: "address",
-          },
-          {
-            internalType: "uint256",
-            name: "collateralAmount",
-            type: "uint256",
-          },
-          {
-            internalType: "uint256",
-            name: "collateralLivePrice",
-            type: "uint256",
-          },
-          {
-            internalType: "address",
-            name: "lendToken",
-            type: "address",
-          },
-          {
-            internalType: "uint256",
-            name: "lendAmount",
-            type: "uint256",
-          },
-          {
-            internalType: "uint256",
-            name: "loanStartTime",
-            type: "uint256",
-          },
-          {
-            internalType: "uint256",
-            name: "repaymentTime",
-            type: "uint256",
-          },
-          {
-            internalType: "enum P2PLendingBorrowing.LoanStatus",
-            name: "status",
-            type: "uint8",
-          },
-          {
-            components: [
-              {
-                internalType: "uint256",
-                name: "interestRate",
-                type: "uint256",
-              },
-              {
-                internalType: "uint256",
-                name: "repaidAmount",
-                type: "uint256",
-              },
-              {
-                internalType: "uint256",
-                name: "remainingLoanAmount",
-                type: "uint256",
-              },
-              {
-                internalType: "uint256",
-                name: "loanPlusInterest",
-                type: "uint256",
-              },
-              {
-                internalType: "bool",
-                name: "isDefaulted",
-                type: "bool",
-              },
-              {
-                internalType: "bool",
-                name: "isClosed",
-                type: "bool",
-              },
-              {
-                internalType: "bool",
-                name: "isRedeposit",
-                type: "bool",
-              },
-            ],
-            internalType: "struct P2PLendingBorrowing.PaymentDetails",
-            name: "payment",
-            type: "tuple",
-          },
-        ],
-        internalType: "struct P2PLendingBorrowing.Borrower",
-        name: "",
-        type: "tuple",
-      },
-    ],
-    stateMutability: "view",
-    type: "function",
-  },
-  {
-    inputs: [],
-    name: "getFeeContract",
-    outputs: [
-      {
-        internalType: "address",
-        name: "",
-        type: "address",
-      },
-    ],
-    stateMutability: "view",
-    type: "function",
-  },
-  {
-    inputs: [
-      {
-        internalType: "uint256",
-        name: "lenderID",
-        type: "uint256",
-      },
-    ],
-    name: "getLenderDetails",
-    outputs: [
-      {
-        components: [
-          {
-            internalType: "uint256",
-            name: "requestID",
-            type: "uint256",
-          },
-          {
-            internalType: "address",
-            name: "lenderAddress",
-            type: "address",
-          },
-          {
-            internalType: "address",
-            name: "tokenAddress",
-            type: "address",
-          },
-          {
-            internalType: "uint256",
-            name: "lendAmount",
-            type: "uint256",
-          },
-          {
-            internalType: "uint256",
-            name: "interestRate",
-            type: "uint256",
-          },
-          {
-            internalType: "uint256",
-            name: "startTime",
-            type: "uint256",
-          },
-          {
-            internalType: "uint256",
-            name: "lendingDuration",
-            type: "uint256",
-          },
-          {
-            internalType: "uint256",
-            name: "earnedInterest",
-            type: "uint256",
-          },
-          {
-            internalType: "uint256",
-            name: "remainingLendAmount",
-            type: "uint256",
-          },
-          {
-            internalType: "bool",
-            name: "isOpenToBorrow",
-            type: "bool",
-          },
-        ],
-        internalType: "struct P2PLendingBorrowing.LendDetails",
-        name: "",
-        type: "tuple",
-      },
-    ],
-    stateMutability: "view",
-    type: "function",
-  },
-  {
-    inputs: [
-      {
-        internalType: "address",
-        name: "_lenderAddress",
-        type: "address",
-      },
-    ],
-    name: "getLenderRequests",
-    outputs: [
-      {
-        internalType: "uint256[]",
-        name: "",
-        type: "uint256[]",
-      },
-      {
-        internalType: "address[]",
-        name: "",
-        type: "address[]",
-      },
-    ],
-    stateMutability: "view",
-    type: "function",
-  },
-  {
-    inputs: [
-      {
-        internalType: "address",
-        name: "_tokenAddress",
-        type: "address",
-      },
-    ],
-    name: "getLendRequestIDsByToken",
-    outputs: [
-      {
-        internalType: "uint256[]",
-        name: "",
-        type: "uint256[]",
-      },
-    ],
-    stateMutability: "view",
-    type: "function",
-  },
-  {
-    inputs: [
-      {
-        internalType: "address",
-        name: "token",
-        type: "address",
-      },
-    ],
-    name: "getLivePrice",
-    outputs: [
-      {
-        internalType: "uint256",
-        name: "livePrice",
-        type: "uint256",
-      },
-    ],
-    stateMutability: "view",
-    type: "function",
-  },
-  {
-    inputs: [
-      {
-        internalType: "address",
-        name: "_borrower",
-        type: "address",
-      },
-    ],
-    name: "getLoanIDs",
-    outputs: [
-      {
-        internalType: "uint256[]",
-        name: "",
-        type: "uint256[]",
-      },
-    ],
-    stateMutability: "view",
-    type: "function",
-  },
-  {
-    inputs: [
-      {
-        internalType: "address",
-        name: "_borrowerAddress",
-        type: "address",
-      },
-    ],
-    name: "getLoanIDsAndCollateralByBorrower",
-    outputs: [
-      {
-        internalType: "uint256[]",
-        name: "",
-        type: "uint256[]",
-      },
-      {
-        internalType: "address[]",
-        name: "",
-        type: "address[]",
-      },
-    ],
-    stateMutability: "view",
-    type: "function",
-  },
-  {
-    inputs: [
-      {
-        internalType: "uint256",
-        name: "lendRequestId",
-        type: "uint256",
-      },
-    ],
-    name: "getLoanInfo",
-    outputs: [
-      {
-        internalType: "bool",
-        name: "success",
-        type: "bool",
-      },
-      {
-        internalType: "uint256[]",
-        name: "indexes",
-        type: "uint256[]",
-      },
-      {
-        components: [
-          {
-            internalType: "uint256",
-            name: "lendID",
-            type: "uint256",
-          },
-          {
-            internalType: "uint256",
-            name: "loanID",
-            type: "uint256",
-          },
-          {
-            internalType: "address",
-            name: "collateralToken",
-            type: "address",
-          },
-          {
-            internalType: "address",
-            name: "borrower",
-            type: "address",
-          },
-          {
-            internalType: "uint256",
-            name: "Borrowed",
-            type: "uint256",
-          },
-        ],
-        internalType: "struct P2PLendingBorrowing.loanDetail[]",
-        name: "data",
-        type: "tuple[]",
-      },
-    ],
-    stateMutability: "view",
-    type: "function",
-  },
-  {
-    inputs: [],
-    name: "lendRequestCounter",
-    outputs: [
-      {
-        internalType: "uint256",
-        name: "",
-        type: "uint256",
-      },
-    ],
-    stateMutability: "view",
-    type: "function",
-  },
-  {
-    inputs: [],
-    name: "loanCounter",
-    outputs: [
-      {
-        internalType: "uint256",
-        name: "",
-        type: "uint256",
-      },
-    ],
-    stateMutability: "view",
-    type: "function",
-  },
-  {
-    inputs: [],
-    name: "owner",
-    outputs: [
-      {
-        internalType: "address",
-        name: "",
-        type: "address",
-      },
-    ],
-    stateMutability: "view",
-    type: "function",
-  },
-  {
-    inputs: [
-      {
-        internalType: "uint256",
-        name: "",
-        type: "uint256",
-      },
-    ],
-    name: "priceFeedAddresses",
-    outputs: [
-      {
-        internalType: "address",
-        name: "",
-        type: "address",
-      },
-    ],
-    stateMutability: "view",
-    type: "function",
-  },
-  {
-    inputs: [],
-    name: "stakingContract",
-    outputs: [
-      {
-        internalType: "contract IStaking",
-        name: "",
-        type: "address",
-      },
-    ],
-    stateMutability: "view",
-    type: "function",
-  },
-  {
-    inputs: [
-      {
-        internalType: "uint256",
-        name: "",
-        type: "uint256",
-      },
-    ],
-    name: "tokenAddresses",
-    outputs: [
-      {
-        internalType: "address",
-        name: "",
-        type: "address",
-      },
-    ],
-    stateMutability: "view",
-    type: "function",
-  },
-  {
-    inputs: [],
-    name: "TRADE_AMOUNT_THRESHOLD",
-    outputs: [
-      {
-        internalType: "uint256",
-        name: "",
-        type: "uint256",
-      },
-    ],
-    stateMutability: "view",
-    type: "function",
-  },
-  {
-    inputs: [],
-    name: "TRADEING_DURATION_THRESHOLD",
-    outputs: [
-      {
-        internalType: "uint256",
-        name: "",
-        type: "uint256",
-      },
-    ],
-    stateMutability: "view",
-    type: "function",
-  },
+  { stateMutability: "payable", type: "receive" },
 ];
 
-export const redeemRewardAddress = "0x3DB4cd5eB34d579e0bA3B321Ab870d47fc034e3b";
+export const redeemRewardAddress = "0x47ae437f9c4756C9Be87b4D83B8CDCF80f009a91";
 export const redeemRewardAbi = [
   {
     inputs: [

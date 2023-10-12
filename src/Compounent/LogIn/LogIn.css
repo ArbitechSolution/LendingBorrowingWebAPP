@@ -1,0 +1,242 @@
+.loginDiv
+{
+    display:flex;
+    justify-content:space-around;
+    align-items:center;
+    height:500px;  
+    margin-top: 40px;  
+}
+
+.login
+{
+    text-align:center;
+    height:100%; 
+    border:2px solid #38B6FF;
+    padding:50px;
+    border-radius:2%;
+    width: 35%;
+    margin-top: 0px;
+    transition: margin-top 2s ease;
+
+}
+
+.loginBeforeAnimate
+{
+    margin-top: 900px;
+    transition: all 2s ease;
+}
+
+.loginForm
+{
+    display:flex; 
+    flex-direction:column;
+    justify-content:space-around;
+    height:90%;
+    align-items:center;
+    width: 100%;
+}
+
+.loginForm input
+{
+    padding: 5px;
+    font-size: 13px;
+    width: 90% ;
+    height: 35px;
+}
+
+input[type="text"] {
+    width: 90% !important;
+    height: 35px;
+    background-color: white;
+    border: none !important;
+    border-radius: 3px;
+    color: black !important;
+}
+
+.loginForm input::placeholder
+{
+    font-size: 14px;
+}
+
+.loginButton
+{
+    border-radius:5px;
+    border:none;
+    padding:7px;
+    width:50%;
+    background-color:#1E2559;
+    color: white;
+    transition:background-color 1s;
+}
+
+.loginButton:hover
+{
+    background-color: #38B6FF;
+    box-shadow: 3px 3px 40px #38B6FF;
+    transition: all 1s;
+}
+
+.loginLogo
+{
+    padding-bottom: 0px;
+    transition: all 2s ease;
+}
+
+.loginLogoBeforeAnimate
+{
+    padding-bottom: 900px;
+    transition: all 2s ease;
+}
+
+.error
+{
+    color: rgb(171, 17, 17);
+    margin-bottom: -8px;
+    font-size: 11px;
+    transition: all 1s;
+}
+
+.registeration
+{
+    font-size: 11px;
+    transition: all 1s;
+}
+
+.register 
+{
+    color: #38B6FF;
+}
+
+@media only screen and (min-device-width:768px) and (max-device-width:1200px) {
+
+    .loginDiv
+    {
+        flex-direction: column;
+        margin-top: 300px;
+        height: 100%;
+    }
+
+    .login
+    {
+        width: 70%;
+        height: 500px;
+    }
+
+    .loginBeforeAnimate
+    {
+        margin-top: 900px;
+        transition: all 2s ease;
+    }
+
+    .loginLogo
+    {
+        height: 30%;
+        width: 30%;
+        position: absolute;
+        top: 60px;
+    }
+    .loginLogo img
+    {
+        width: 100%;
+    }
+
+    .loginLogoBeforeAnimate
+    {
+        padding-bottom: 0px;
+        transition: all 2s ease;
+    }
+
+    .login h1
+    {
+        font-size: 45px;
+    }
+
+    .loginForm label 
+    {
+        font-size: 20px;
+    }
+
+    .loginForm input 
+    {
+        font-size: 16px;
+    }
+
+    .loginButton
+    {
+        padding: 10px;
+        width: 30%;
+    }
+
+}
+
+
+
+
+
+@media only screen and (min-device-width:320px) and (max-device-width:480px) {
+
+    .loginDiv
+    {
+        flex-direction: column;
+        margin-top: 180px;
+        height: 100%;
+    }
+
+    .login
+    {
+        width: 100%;
+        height: 400px;
+    }
+
+    .loginBeforeAnimate
+    {
+        margin-top: 900px;
+        transition: all 2s ease;
+    }
+
+    .loginLogo
+    {
+        height: 30%;
+        width: 40%;
+        position: absolute;
+        top: 40px;
+    }
+    .loginLogo img
+    {
+        width: 100%;
+    }
+
+    .loginLogoBeforeAnimate
+    {
+        padding-bottom: 0px;
+        transition: all 2s ease;
+    }
+
+    .login h1
+    {
+        font-size: 35px;
+    }
+
+    .loginForm label 
+    {
+        font-size: 18px;
+    }
+
+    .loginForm input 
+    {
+        font-size: 12px;
+        width: 100%;
+    }
+
+    .loginButton
+    {
+        padding: 10px;
+        width: 40%;
+    }
+
+    input[type="text"] {
+        width: 100% !important;
+    }
+    
+
+}

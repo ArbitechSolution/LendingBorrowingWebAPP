@@ -127,7 +127,16 @@ function Dashbord() {
   }, [acc]);
 
   return (
-    <div>
+    <div style={{marginTop:"150px"}}>
+      {/* <div style={{width:"44%" , height:"550px" ,
+    boxShadow:"50px -50px 900px skyblue",
+    opacity:"0.5",
+    position:"absolute",
+    top:"170px",
+    right:"60px"
+    }}>
+
+      </div> */}
       <Dash_Stats />
       {/* <Token /> */}
       <Composition_Table

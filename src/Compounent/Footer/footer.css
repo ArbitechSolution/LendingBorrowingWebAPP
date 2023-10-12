@@ -14,3 +14,12 @@
     width: 45% !important;
   }
 }
+
+/* @media only screen and (min-device-width:768px) and (max-device-width:1024px)
+{
+  .icons
+  {
+    display: flex !important;
+    flex-direction: column;
+  }
+} */

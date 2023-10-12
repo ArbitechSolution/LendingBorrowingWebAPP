@@ -11,7 +11,9 @@ function Referrals() {
     setShowFirstData(false);
   };
   return (
-    <div className="px-md-5 px-2 mt-5 " style={{ marginBottom: "125px" }}>
+    // <div className="px-md-5 px-2 mt-5 " style={{ marginBottom: "125px" }}>
+    <div className="px-md-5 px-2" style={{ marginBottom: "125px" , marginTop:"150px"}}>
+
       <h2>
         Referrals <img src={drop} alt="" />
       </h2>

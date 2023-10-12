@@ -575,13 +575,26 @@ function Lend() {
   }, [acc]);
 
   return (
-    <div>
+    <div style={{marginTop:"150px"}}>
       <div>
         <div className="px-md-5 mt-2 mb-4 px-2">
           <h2>Lend</h2>
           <p>Lend your Assets </p>
 
           <div className="row pb-4">
+
+
+
+
+
+
+
+
+
+
+
+
+
             <div className="col-md-4 col-sm-12 mt-2 ">
               <div className="card colorsa">
                 <div className="card-body">
@@ -595,9 +608,10 @@ function Lend() {
                       <label>Amount</label>
                       <input
                         type="number"
-                        className="py-2 px-2"
+                        className="py-2 px-2 w-50"
                         placeholder="Amount"
                         value={amount}
+                        min={0}
                         onChange={(e) => setAmount(e.target.value)}
                         name="amount"
                         id="amount"
@@ -612,11 +626,12 @@ function Lend() {
                       <label>percentage</label>
                       <input
                         type="number"
-                        className="py-2 px-2"
+                        className="py-2 px-2 w-50"
                         placeholder="percentage"
                         name="percentage"
                         id="percentage"
                         value={percentage}
+                        min={0}
                         onChange={(e) => setpercentage(e.target.value)}
                       />
                     </div>
@@ -629,9 +644,10 @@ function Lend() {
                       <label>Days</label>
                       <input
                         type="number"
-                        className="py-2 px-2"
+                        className="py-2 px-2 w-50"
                         placeholder="Days"
                         value={days}
+                        min={0}
                         onChange={(e) => setDays(e.target.value)}
                         name="days"
                         id="days"
@@ -656,6 +672,7 @@ function Lend() {
                             color: "white",
                           },
                         }}
+                        style={{minWidth:"50%"}}
                       >
                         {tokenData.map((data, index) => (
                           <Option
@@ -687,6 +704,22 @@ function Lend() {
                 </div>
               </div>
             </div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
             <div className="col-md-4 col-sm-12 mt-2 ">
               <div className="card colorsa">
                 <div className="card-body">
@@ -707,6 +740,9 @@ function Lend() {
                             backgroundColor: "rgba(30,37,89,0.9)",
                             color: "white",
                           },
+                        }}
+                        style={{
+                          minWidth:"50%"
                         }}
                       >
                         {lenderList.length ? (
@@ -785,6 +821,10 @@ function Lend() {
                             color: "white",
                           },
                         }}
+                        style={{
+                          minWidth:"50%"
+                        }}
+
                       >
                         {lenderList.length ? (
                           // if all the items have isOpenToBorrow false then show this option
@@ -850,6 +890,28 @@ function Lend() {
                 </div>
               </div>
             </div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
             <div className="col-md-4 col-sm-12 mt-2 ">
               <div className="card colorsa">
                 <div className="card-body">
@@ -872,6 +934,10 @@ function Lend() {
                             color: "white",
                           },
                         }}
+                        style={{
+                          minWidth:"50%"
+                        }}
+
                       >
                         {borrowerIdsList.length ? (
                           borrowerIdsList.map((data, index) => (
@@ -909,6 +975,31 @@ function Lend() {
                 </div>
               </div>
             </div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
             <LendTable
               lenderList={lenderList}

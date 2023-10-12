@@ -40,7 +40,8 @@ function Swap() {
   };
 
   return (
-    <div className="my-5 px-md-5 px-2">
+    // <div className="my-5 px-md-5 px-2">
+    <div className=" px-md-5 px-2" style={{marginTop:"150px"}}>
       <h2>Swap</h2>
       <div className="row">
         <div className="col-md-5 mx-auto col-sm-12">

@@ -862,7 +862,7 @@ function Borrow() {
   // };
 
   return (
-    <div>
+    <div  style={{marginTop:"150px"}}>
       <div className="px-md-5 mt-2 mb-4 px-2">
         <h2>Borrow</h2>
         <p>Borrow your Assets</p>
@@ -881,9 +881,10 @@ function Borrow() {
                     <label> Amount</label>
                     <input
                       type="number"
-                      className="py-2 px-2"
+                      className="py-2 px-2 wd"
                       placeholder="Amount"
                       value={amount}
+                      min={0}
                       onChange={(e) => setAmount(e.target.value)}
                       name=""
                       id=""
@@ -899,7 +900,7 @@ function Borrow() {
                     <Select
                       value={selectedValue}
                       sx={{
-                        minWidth: 198,
+                        // minWidth: 198,
                         color: "white",
                         borderStyle: "none",
                         backgroundColor: "rgb(30,37,89)",
@@ -908,6 +909,7 @@ function Borrow() {
                           color: "white",
                         },
                       }}
+                      className="wd"
                     >
                       {tokenData.map((data, index) => (
                         <Option
@@ -958,7 +960,7 @@ function Borrow() {
                       value={loanID}
                       placeholder="Select Loan ID"
                       sx={{
-                        minWidth: 198,
+                        // minWidth: 198,
                         color: "white",
                         borderStyle: "none",
                         backgroundColor: "rgb(30,37,89)",
@@ -967,6 +969,7 @@ function Borrow() {
                           color: "white",
                         },
                       }}
+                      className="wd"
                     >
                       {borrowerList.length === 0 ? (
                         <Option>
@@ -1008,7 +1011,7 @@ function Borrow() {
                       value={selectedRequestToken.name}
                       placeholder="Select Asset"
                       sx={{
-                        minWidth: 198,
+                        // minWidth: 198,
                         color: "white",
                         borderStyle: "none",
                         backgroundColor: "rgb(30,37,89)",
@@ -1017,6 +1020,7 @@ function Borrow() {
                           color: "white",
                         },
                       }}
+                      className="wd"
                     >
                       {availableTokensList.length === 0 ? (
                         <Option>
@@ -1059,7 +1063,7 @@ function Borrow() {
                       value={selectedLendToken}
                       placeholder="Select Lend ID"
                       sx={{
-                        minWidth: 198,
+                        // minWidth: 198,
                         color: "white",
                         borderStyle: "none",
                         backgroundColor: "rgb(30,37,89)",
@@ -1068,6 +1072,8 @@ function Borrow() {
                           color: "white",
                         },
                       }}
+                      className="wd"
+
                     >
                       {lendsRequestList.length === 0 ? (
                         <Option>
@@ -1118,11 +1124,12 @@ function Borrow() {
                     <label>Duration Time</label>
                     <input
                       type="number"
-                      className="py-2 px-2"
+                      className="py-2 px-2 wd"
                       placeholder="Duration"
                       name=""
                       id=""
                       value={durationTime}
+                      min={0}
                       onChange={(e) => setDurationTime(e.target.value)}
                     />
                   </div>
@@ -1149,7 +1156,7 @@ function Borrow() {
                       value={redepositLoan_ID}
                       placeholder="Select Loan ID"
                       sx={{
-                        minWidth: 198,
+                        // minWidth: 198,
                         color: "white",
                         borderStyle: "none",
                         backgroundColor: "rgb(30,37,89)",
@@ -1158,6 +1165,7 @@ function Borrow() {
                           color: "white",
                         },
                       }}
+                      className="wd"
                     >
                       {borrowerList.length === 0 ? (
                         <Option>
@@ -1211,7 +1219,7 @@ function Borrow() {
                       value={loanID}
                       placeholder="Select Loan ID"
                       sx={{
-                        minWidth: 198,
+                        // minWidth: 198,
                         color: "white",
                         borderStyle: "none",
                         backgroundColor: "rgb(30,37,89)",
@@ -1220,6 +1228,7 @@ function Borrow() {
                           color: "white",
                         },
                       }}
+                      className="wd"
                     >
                       {borrowerList.length === 0 ? (
                         <Option>
@@ -1280,6 +1289,10 @@ function Borrow() {
                           color: "white",
                         },
                       }}
+                      style={{
+                        minWidth:"50%"
+                      }}
+
                     >
                       {borrowerList.length === 0 ? (
                         <Option>
@@ -1340,6 +1353,10 @@ function Borrow() {
                           color: "white",
                         },
                       }}
+                      style={{
+                        minWidth:"50%"
+                      }}
+
                     >
                       {borrowerList.length === 0 ? (
                         <Option>
@@ -1403,6 +1420,10 @@ function Borrow() {
                           color: "white",
                         },
                       }}
+                      style={{
+                        minWidth:"50%"
+                      }}
+
                     >
                       {borrowerList.length === 0 ? (
                         <Option>

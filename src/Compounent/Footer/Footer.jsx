@@ -8,7 +8,8 @@ import { BsDiscord } from "react-icons/bs";
 import "./footer.css";
 function Footer() {
   return (
-    <div className="color text-center mt-4 pt-3">
+    // <div className="color text-center mt-4 pt-3">
+    <div className="text-center mt-4 pt-3" style={{backgroundColor:"black"}}>
       <div className="w_25 mx-auto">
         <img src={logo} style={{ width: "140px " }} alt="" />
       </div>

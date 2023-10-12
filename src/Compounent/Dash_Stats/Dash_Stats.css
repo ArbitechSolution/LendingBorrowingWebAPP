@@ -7,3 +7,22 @@
   padding: 3px 4px 3px 4px;
   font-size: 16px !important;
 }
+.wd
+{
+  width: 62% !important;
+}
+
+@media only screen and (min-device-width:768px) and (max-device-width:1200px) {
+  .wd
+  {
+    width: 45% !important;
+  }
+}
+
+
+@media only screen and (min-device-width:320px) and (max-device-width:700px) {
+  .wd
+  {
+    width: 50% !important;
+  }
+}

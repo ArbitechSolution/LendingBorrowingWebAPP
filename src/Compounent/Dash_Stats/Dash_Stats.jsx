@@ -245,6 +245,9 @@ function Dash_Stats() {
     getAssetsBalance();
   }, [acc]);
 
+  console.log(data);
+  console.log(feeBalance);
+
   return (
     <div className="px-md-5 px-2 my-2">
       <h1>Dashboard</h1>
@@ -290,8 +293,9 @@ function Dash_Stats() {
                       <label>Amount</label>
                       <input
                         type="number"
-                        className="py-2 px-2"
+                        className="py-2 px-2 wd"
                         placeholder="Amount"
+                        min={0}
                         value={amount}
                         onChange={(e) => setAmount(e.target.value)}
                       />
@@ -303,7 +307,7 @@ function Dash_Stats() {
                       <Select
                         value={selectedCollateralToken.name}
                         sx={{
-                          minWidth: 198,
+                          // minWidth:198,
                           color: "white",
                           borderStyle: "none",
                           backgroundColor: "rgb(30,37,89)",
@@ -312,6 +316,7 @@ function Dash_Stats() {
                             color: "white",
                           },
                         }}
+                        className="wd"
                       >
                         {tokenData.map((data, index) => (
                           <Option
@@ -341,7 +346,7 @@ function Dash_Stats() {
                       <Select
                         value={selectedBorrowToken.name}
                         sx={{
-                          minWidth: 198,
+                          // minWidth: 198,
                           color: "white",
                           borderStyle: "none",
                           backgroundColor: "rgb(30,37,89)",
@@ -350,6 +355,7 @@ function Dash_Stats() {
                             color: "white",
                           },
                         }}
+                        className="wd"
                       >
                         {tokenData.map((data, index) => (
                           <Option
@@ -394,9 +400,13 @@ function Dash_Stats() {
             </div>
           </div>
         </div>
-        <div className="col-md-6 col-sm-12 mt-2">
+        <div className="col-md-6 col-sm-12 mt-2" >
           <div className="card color">
-            <div className="card-body">
+            <div className="card-body"
+                    //  style={{
+                    //   boxShadow:"100px -25px 270px skyblue",
+                    //   }}
+             >
               <h6>Assets Balance</h6>
               <hr />
               {tokenData.map((data, index) => (

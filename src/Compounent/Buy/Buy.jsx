@@ -3,7 +3,8 @@ import logo from "../image/logo.svg";
 import glp from "../image/glp.svg";
 function Buy() {
   return (
-    <div className="mt-5 px-md-5 px-2">
+    // <div className="mt-5 px-md-5 px-2" >
+    <div style={{marginTop:"150px"}} className="px-md-5 px-2">
       <h1>Buy AFT or GLP</h1>
       <div className="row " style={{ marginBottom: "152px" }}>
         <div className="col-md-6 col-sm-12 shadow">

@@ -4,7 +4,7 @@ import wallet from "../image/wallet.svg";
 import drop from "../image/drop.jpg";
 import "./Navbar.css";
 import { connectionAction, web3Actions } from "../../Redux/connection/actions";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { useSelector, useDispatch } from "react-redux";
 import Dropdown from "react-bootstrap/Dropdown";
 import Web3 from "web3";
@@ -21,13 +21,23 @@ function Navbar() {
     }
   };
 
+  // const navigate = useNavigate();
+
+  const handleLogOut = (e) =>
+  {
+    e.preventDefault();
+    // navigate("/");
+    window.location.href = "/";
+    localStorage.setItem("IsLogin" , false);
+  }
+
   return (
-    <div>
+    <div style={{position:"fixed" , zIndex:"3" , backgroundColor:"black" , width:"100%" , marginTop:"-150px"}}>
       <nav className="navbar navbar-expand-lg navbar-light text-white p-0">
         <div className="container-fluid py-2 px-2 px-md-5">
-          <a className="navbar-brand" href="#">
+          <Link className="navbar-brand" to="/LandingPage">
             <img src={logo} alt="" width={100} />
-          </a>
+          </Link>
           <button
             className="navbar-toggler bg-white"
             type="button"
@@ -51,6 +61,8 @@ function Navbar() {
                 </Link>
               </li>
 
+
+
               {/* <li className="nav-item">
                 <Link
                   className="nav-link active"
@@ -59,16 +71,20 @@ function Navbar() {
                 >
                   Swap
                 </Link>
-              </li> */}
+              </li>
 
-              {/* <li className="nav-item">
+              <li className="nav-item">
                 <Link className="nav-link " to="/Buy">
                   Buy
                 </Link>
               </li> */}
 
+
+
+
+
               <li className="nav-item">
-                <Link className="nav-link" to="/Stake">
+                <Link className="nav-link active" to="/Stake">
                   Stake
                 </Link>
               </li>
@@ -118,7 +134,7 @@ function Navbar() {
                       acc?.substring(acc.length - 4)
                   : null}
               </button>
-              {/* <Dropdown>
+              <Dropdown>
                 <Dropdown.Toggle
                   className="btn btnnn d-flex align-items-center"
                   type="button"
@@ -128,12 +144,12 @@ function Navbar() {
                     className=""
                     style={{ backgroundColor: "rgb(0, 6, 60)" }}
                   >
-                    <Dropdown.Item className="text-white" href="#/action-3">
-                      Setting
+                    <Dropdown.Item className="text-white tw" href="#/action-3" onClick={handleLogOut}>
+                      LogOut
                     </Dropdown.Item>
-                    <Dropdown.Item className="text-white" href="#/action-3">
+                    {/* <Dropdown.Item className="text-white" href="#/action-3">
                       Language
-                    </Dropdown.Item>
+                    </Dropdown.Item> */}
                   </Dropdown.Menu>
                   <img src={drop} alt="" className="me-1 drop" />
                   <span className="border-start ">
@@ -153,7 +169,7 @@ function Navbar() {
                     </svg>
                   </span>
                 </Dropdown.Toggle>
-              </Dropdown> */}
+              </Dropdown>
             </form>
           </div>
         </div>

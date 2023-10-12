@@ -66,7 +66,7 @@ const LoanTable = ({
   return (
     <div>
       <h2 className="mt-5 text-center">{title}</h2>
-      <div className="col-md-12 mx-auto col-sm-12 mt-2 ">
+      <div className="col-md-12 mx-auto col-sm-12 mt-2 table-responsive ">
         <div className="card colorsa">
           <div className="card-body">
             <table className="table text-white text-center ">
