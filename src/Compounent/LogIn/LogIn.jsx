@@ -1,128 +1,104 @@
-// import { useNavigate } from "react-router-dom";
+import React, { useState } from "react";
+import { Link, useNavigate } from "react-router-dom";
+import axios from "axios";
+import { toast } from "react-toastify";
+
 import "./LogIn.css";
-import logo from "../image/AFT.png";
-import React from 'react';
-import { useState , useEffect } from "react";
+// import LoginImg from '../../assets/images/login-image.jpg'
+import LoginImg from "../../assets/images/illustration1.png";
 
 function LogIn() {
-    // const navigate = useNavigate();
-    const [animate , setAnimate] = useState(false);
-    useEffect(()=>
-    {
-        setAnimate(true);
-    }, []);
-    const AuthenticatedUser = [
-        {email:"bilal@gmail.com",password:"1234"}
-    ];
-    const emptyFields = {
-        email : "",
-        password : ""
-    };
-    const [inputValues , setInputValues] = useState(emptyFields);
-    const handleInput = (e) =>
-    {
-        const {name , value} = e.target;
-        setInputValues((previous)=>
-        ({
-            ...previous,
-            [name] : value,
-        }));
-    };
-    const [error , setError] = useState('');
-    const CheckUserAndLogin = (e) =>
-    {   
-        e.preventDefault();
-        const authenticatedUser = AuthenticatedUser.find((user)=>
-        {
-           return user.email === inputValues.email && user.password === inputValues.password
-        });
-        if(authenticatedUser)
-        {
-            window.location.href = "/LandingPage";
-            localStorage.setItem("isLogin", true);
-        }else
-        {
-            const errMessage = "email or Password is incorrect.";
-            setError(errMessage);    
-        }
-    };
+  const toastConfig = {
+    position: "top-center",
+    autoClose: 1500,
+  };
 
-    const [registerUser , setRegisterUser] = useState(false);
-    const handleRegisterClick = (e) =>
-    {
-        e.preventDefault();
-        setRegisterUser(false);
-        setError(false);
-        AuthenticatedUser.push(registerationInputValues);
-    };
+  const navigate = useNavigate();
+  const [credentials, setCredentials] = useState({ email: "", password: "" });
 
-    const registerationFields = {
-        firstName:"",
-        lastName:"",
-        email:"",
-        password:""
+  const handleInputChange = (event) => {
+    const { name, value } = event.target;
+    setCredentials({ ...credentials, [name]: value });
+  };
+
+  const handleSubmit = async (event) => {
+    event.preventDefault();
+
+    if (credentials.email.trim() === "" || credentials.password.trim() === "") {
+      toast.error("Please enter email and password", toastConfig);
+      return;
     }
-    const [registerationInputValues , setRegisterationInputValues ] = useState(registerationFields);
-    const handleRegisterationValues = (e) =>
-    {
-        const {name , value} = e.target;
-        setRegisterationInputValues((previous)=>
-        ({
-            ...previous,
-            [name] : value,
-        }));
+
+    try {
+      // Check if the user exists in the database
+      let response = await axios.post(
+        "http://localhost:5000/api/v1/auth/login",
+        credentials,
+      );
+
+      if (response.status === 200) {
+        setCredentials({ email: "", password: "" });
+        localStorage.setItem("aftJwtToken", response.data.token);
+        // Redirect to the dashboard
+        toast.success("Logged in successfully", toastConfig);
+
+        navigate("/landingPage");
+      }
+    } catch (error) {
+      if (error.response.status === 401) {
+        toast.error("Invalid email or password", toastConfig);
+      } else {
+        toast.error("Something went wrong", toastConfig);
+      }
     }
+  };
+
   return (
-    <div className="loginDiv">
-        <div className={animate?"login":"loginBeforeAnimate"}>
-        {
-            registerUser ? 
-            (
-                <>
-                <h1>Register</h1>
-                <form className="loginForm">
-                    <label>FirstName:</label>
-                    <input placeholder="firstName" type="text" name="firstName" 
-                    onChange={handleRegisterationValues} value={registerationInputValues.firstName}/>
-                    <label>LastName:</label>
-                    <input placeholder="lastName" type="text" name="lastName" 
-                    onChange={handleRegisterationValues} value={registerationInputValues.lastName}/>
-                    <label>Email:</label>
-                    <input placeholder="email" type="email" name="email" 
-                    onChange={handleRegisterationValues} value={registerationInputValues.email} />
-                    <label>Password:</label>
-                    <input placeholder="password" type="password" name="password" 
-                    onChange={handleRegisterationValues} value={registerationInputValues.password} />
-                    <button className="loginButton" onClick={handleRegisterClick}>Register</button>
-                </form>
-                </>
-            )
-            :
-            (
-                <>
-                <h1>Login</h1>
-                <form className="loginForm">
-                    <label>Email:</label>
-                    <input placeholder="email" onChange={handleInput} name="email" value={inputValues.email} type="email" />
-                    <label>Password:</label>
-                    <input placeholder="password" onChange={handleInput} name="password" value={inputValues.password} type="password" />
-                    <p className={error?"error":""}>{error}</p>
-                    <button className="loginButton" onClick={CheckUserAndLogin}>Login</button>
-                    {
-                        error ? 
-                        <p className={error?"registeration":""}>You should <a className="register" onClick={()=>setRegisterUser(true)}>register</a> first.</p>
-                        :""
-                    }
-                </form>
-                </>
-            )
-        }
+    <div className="auth_layout">
+      <form onSubmit={handleSubmit} className="loginForm">
+        <h1>Log In</h1>
+        <div>
+          <input
+            type="email"
+            name="email"
+            placeholder="Email"
+            value={credentials.email}
+            onChange={handleInputChange}
+          />
         </div>
-        <div className={animate?"loginLogo":"loginLogoBeforeAnimate"}>
-            <img src={logo} alt="logo" />
+        <div>
+          <input
+            type="password"
+            name="password"
+            placeholder="Password"
+            value={credentials.password}
+            onChange={handleInputChange}
+          />
         </div>
+
+        <div className="forgot-password">
+          <a href="/">Forgot Password?</a>
+        </div>
+
+        <div className="checkbox-row">
+          <label htmlFor="remember">Remember me</label>
+          <input type="checkbox" name="remember" id="remember" />
+        </div>
+        <div className="button-row">
+          <button type="submit" className="loginButton">
+            Login
+          </button>
+        </div>
+        <div className="signup-row">
+          Don't have an account?
+          <Link to="/signup">Sign Up</Link>
+        </div>
+      </form>
+      <div className="image-container">
+        <img src={LoginImg} alt="" />
+      </div>
     </div>
-  )
+  );
 }
 
 export default LogIn;

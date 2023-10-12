@@ -1,235 +1,288 @@
-.loginDiv
-{
-    display:flex;
-    justify-content:space-around;
-    align-items:center;
-    height:500px;  
-    margin-top: 40px;  
+.auth_layout {
+    width: 100%;
+    min-height: 100vh;
+    max-height: auto;
+    display: flex;
+    align-items: center;
 }
 
-.login
-{
-    text-align:center;
-    height:100%; 
-    border:2px solid #38B6FF;
-    padding:50px;
-    border-radius:2%;
-    width: 35%;
-    margin-top: 0px;
-    transition: margin-top 2s ease;
-
+.image-container {
+    width: 50%;
 }
 
-.loginBeforeAnimate
-{
+.image-container img {
+    width: 80%;
+    height: 80%;
+    object-fit: cover;
+}
+
+.loginBeforeAnimate {
     margin-top: 900px;
     transition: all 2s ease;
 }
 
-.loginForm
-{
-    display:flex; 
-    flex-direction:column;
-    justify-content:space-around;
-    height:90%;
-    align-items:center;
-    width: 100%;
+form.loginForm {
+    width: 40%;
+    margin: 0 auto;
+    padding: 20px;
+    display: flex;
+    flex-direction: column;
+    gap: 2rem;
 }
 
-.loginForm input
-{
-    padding: 5px;
-    font-size: 13px;
-    width: 90% ;
-    height: 35px;
-}
-
-input[type="text"] {
-    width: 90% !important;
-    height: 35px;
-    background-color: white;
-    border: none !important;
-    border-radius: 3px;
-    color: black !important;
-}
-
-.loginForm input::placeholder
-{
+form.loginForm input {
+    padding: 12px;
+    width: 340px;
+    height: 40px;
+    background-color: #1B2155;
+    border: none;
+    outline: none;
+    text-align: left;
     font-size: 14px;
-}
-
-.loginButton
-{
-    border-radius:5px;
-    border:none;
-    padding:7px;
-    width:50%;
-    background-color:#1E2559;
+    border-radius: 2px;
+    border-bottom: 1.6px solid white;
     color: white;
-    transition:background-color 1s;
 }
 
-.loginButton:hover
-{
-    background-color: #38B6FF;
-    box-shadow: 3px 3px 40px #38B6FF;
-    transition: all 1s;
+form.loginForm .forgot-password {
+    width: 340px;
+    text-align: right;
+    margin: -20px 0;
 }
 
-.loginLogo
-{
+form.loginForm .forgot-password a {
+    font-size: 12px;
+    color: #0C6EFD;
+}
+
+form.loginForm .forgot-password a:hover {
+    color: rgb(227, 227, 227);
+}
+
+form.loginForm .checkbox-row {
+    display: flex;
+    align-items: center;
+    align-items: center;
+    gap: 10px;
+    font-size: 14px;
+    margin: -5px 0 -10px 0;
+}
+
+form.loginForm .checkbox-row input#remember {
+    width: 15px;
+    height: 15px;
+}
+
+form.loginForm .checkbox-row input#remember::before {
+    position: absolute;
+    content: "";
+    width: 15px;
+    height: 15px;
+    border-radius: 1px;
+    border: 1px solid #2e3890;
+    background-color: #1B2155;
+}
+
+form.loginForm .checkbox-row input#remember:checked::before {
+    background: transparent;
+    border: none;
+
+}
+
+.loginForm input::placeholder {
+    font-size: 14px;
+    color: rgb(212, 212, 212);
+    text-align: left;
+}
+
+.loginForm .button-row {
+    width: 340px;
+    text-align: right;
+}
+
+.loginButton {
+    overflow: hidden;
+    position: relative;
+    border: none;
+    width: 100%;
+    height: 40px;
+    background-color: #1B2155;
+    color: white;
+    z-index: 0;
+    will-change: transform;
+    outline: 1.5px solid #0C6EFD;
+    transition: 0.2s transform ease-in-out;
+}
+
+.loginButton::after {
+    background-color: #0C6EFD;
+    content: '';
+    display: block;
+    height: 100%;
+    width: 100%;
+    position: absolute;
+    left: 0;
+    top: 0;
+    transform: translate(-100%, 0) rotate(0deg);
+    transform-origin: top left;
+    transition: 0.2s transform ease-out;
+    will-change: transform;
+    z-index: -1;
+}
+
+.loginButton:hover::after {
+    transform: translate(0, 0);
+}
+
+.loginButton:hover {
+    transform: scale(1);
+    will-change: transform;
+}
+
+
+.loginForm .signup-row {
+    width: 340px;
+    text-align: left;
+    font-size: 13px;
+}
+
+.loginForm .signup-row a {
+    color: #0C6EFD;
+    margin-left: 5px;
+    font-weight: 600;
+}
+
+.loginLogo {
     padding-bottom: 0px;
     transition: all 2s ease;
 }
 
-.loginLogoBeforeAnimate
-{
+.loginLogoBeforeAnimate {
     padding-bottom: 900px;
     transition: all 2s ease;
 }
 
-.error
-{
+.error {
     color: rgb(171, 17, 17);
     margin-bottom: -8px;
     font-size: 11px;
     transition: all 1s;
 }
 
-.registeration
-{
+.registeration {
     font-size: 11px;
     transition: all 1s;
 }
 
-.register 
-{
-    color: #38B6FF;
+.register {
+    color: #0C6EFD;
 }
 
-@media only screen and (min-device-width:768px) and (max-device-width:1200px) {
+/* @media only screen and (max-width:768px) {
 
-    .loginDiv
-    {
+    .loginDiv {
         flex-direction: column;
         margin-top: 300px;
         height: 100%;
     }
 
-    .login
-    {
+    .login {
         width: 70%;
         height: 500px;
     }
 
-    .loginBeforeAnimate
-    {
+    .loginBeforeAnimate {
         margin-top: 900px;
         transition: all 2s ease;
     }
 
-    .loginLogo
-    {
+    .loginLogo {
         height: 30%;
         width: 30%;
         position: absolute;
         top: 60px;
     }
-    .loginLogo img
-    {
+
+    .loginLogo img {
         width: 100%;
     }
 
-    .loginLogoBeforeAnimate
-    {
+    .loginLogoBeforeAnimate {
         padding-bottom: 0px;
         transition: all 2s ease;
     }
 
-    .login h1
-    {
+    .login h1 {
         font-size: 45px;
     }
 
-    .loginForm label 
-    {
+    .loginForm label {
         font-size: 20px;
     }
 
-    .loginForm input 
-    {
+    .loginForm input {
         font-size: 16px;
     }
 
-    .loginButton
-    {
+    .loginButton {
         padding: 10px;
         width: 30%;
     }
 
-}
+} */
 
 
 
 
 
-@media only screen and (min-device-width:320px) and (max-device-width:480px) {
+/* @media only screen and (min-device-width:320px) and (max-device-width:480px) {
 
-    .loginDiv
-    {
+    .loginDiv {
         flex-direction: column;
         margin-top: 180px;
         height: 100%;
     }
 
-    .login
-    {
+    .login {
         width: 100%;
         height: 400px;
     }
 
-    .loginBeforeAnimate
-    {
+    .loginBeforeAnimate {
         margin-top: 900px;
         transition: all 2s ease;
     }
 
-    .loginLogo
-    {
+    .loginLogo {
         height: 30%;
         width: 40%;
         position: absolute;
         top: 40px;
     }
-    .loginLogo img
-    {
+
+    .loginLogo img {
         width: 100%;
     }
 
-    .loginLogoBeforeAnimate
-    {
+    .loginLogoBeforeAnimate {
         padding-bottom: 0px;
         transition: all 2s ease;
     }
 
-    .login h1
-    {
+    .login h1 {
         font-size: 35px;
     }
 
-    .loginForm label 
-    {
+    .loginForm label {
         font-size: 18px;
     }
 
-    .loginForm input 
-    {
+    .loginForm input {
         font-size: 12px;
         width: 100%;
     }
 
-    .loginButton
-    {
+    .loginButton {
         padding: 10px;
         width: 40%;
     }
@@ -237,6 +290,6 @@ input[type="text"] {
     input[type="text"] {
         width: 100% !important;
     }
-    
 
-}
+
+} */

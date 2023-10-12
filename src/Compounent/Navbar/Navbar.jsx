@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import logo from "../image/AFT.png";
 import wallet from "../image/wallet.svg";
 import drop from "../image/drop.jpg";
@@ -21,18 +21,38 @@ function Navbar() {
     }
   };
 
-  // const navigate = useNavigate();
+  const navigate = useNavigate();
 
-  const handleLogOut = (e) =>
-  {
+  const handleLogOut = (e) => {
     e.preventDefault();
-    // navigate("/");
-    window.location.href = "/";
-    localStorage.setItem("IsLogin" , false);
-  }
+    navigate("/Login");
+    localStorage.removeItem("aftJwtToken");
+  };
+
+  useEffect(() => {
+    // On path change, add "active" class to that pathname class
+    const pathname = window.location.pathname;
+    const path = pathname === "/" ? "LandingPage" : pathname.substring(1);
+
+    const navLinks = document.querySelectorAll(".nav-item");
+    navLinks.forEach((link) => {
+      link.classList.remove("active");
+      if (link.classList.contains(path)) {
+        link.classList.add("active");
+      }
+    });
+  }, []);
 
   return (
-    <div style={{position:"fixed" , zIndex:"3" , backgroundColor:"black" , width:"100%" , marginTop:"-150px"}}>
+    <div
+      style={{
+        position: "fixed",
+        top: "0",
+        zIndex: "99",
+        backgroundColor: "black",
+        width: "100%",
+      }}
+    >
       <nav className="navbar navbar-expand-lg navbar-light text-white p-0">
         <div className="container-fluid py-2 px-2 px-md-5">
           <Link className="navbar-brand" to="/LandingPage">
@@ -52,16 +72,10 @@ function Navbar() {
           <div className="collapse navbar-collapse" id="navbarSupportedContent">
             <ul className="navbar-nav me-auto mb-2 mb-lg-0">
               <li className="nav-item">
-                <Link
-                  className="nav-link active"
-                  aria-current="page"
-                  to="/Dashboard"
-                >
+                <Link className="nav-link" aria-current="page" to="/Dashboard">
                   Dashboard
                 </Link>
               </li>
-
-
 
               {/* <li className="nav-item">
                 <Link
@@ -79,31 +93,19 @@ function Navbar() {
                 </Link>
               </li> */}
 
-
-
-
-
               <li className="nav-item">
-                <Link className="nav-link active" to="/Stake">
+                <Link className="nav-link" to="/Stake">
                   Stake
                 </Link>
               </li>
 
               <li className="nav-item">
-                <Link
-                  className="nav-link active"
-                  aria-current="page"
-                  to="/Lend"
-                >
+                <Link className="nav-link" aria-current="page" to="/Lend">
                   Lending
                 </Link>
               </li>
               <li className="nav-item">
-                <Link
-                  className="nav-link active"
-                  aria-current="page"
-                  to="/Borrow"
-                >
+                <Link className="nav-link" aria-current="page" to="/Borrow">
                   Borrowing
                 </Link>
               </li>
@@ -144,7 +146,11 @@ function Navbar() {
                     className=""
                     style={{ backgroundColor: "rgb(0, 6, 60)" }}
                   >
-                    <Dropdown.Item className="text-white tw" href="#/action-3" onClick={handleLogOut}>
+                    <Dropdown.Item
+                      className="text-white tw"
+                      href="#/action-3"
+                      onClick={handleLogOut}
+                    >
                       LogOut
                     </Dropdown.Item>
                     {/* <Dropdown.Item className="text-white" href="#/action-3">

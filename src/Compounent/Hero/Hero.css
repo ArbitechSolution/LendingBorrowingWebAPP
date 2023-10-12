@@ -1,96 +1,93 @@
 @import url('https://fonts.googleapis.com/css2?family=Autour+One&family=Inter:wght@100;200;300;400;500;600;700;800;900&family=Montserrat:wght@300;400;800;900&family=Sora:wght@500;600&display=swap');
 
-.Hero
-{
-    margin-top:150px;
-    position:relative;
+.Hero {
+    width: 100%;
+
 }
 
-.VideoBg
-{
-    width:100%;
-    margin:-60px 0px -30px 0px;
+.HeroBg {
+    position: relative;
+    width: 100%;
+    height: 110vh;
+    overflow: hidden;
 }
 
-.videoOverLay
-{
-    position:absolute;
-    top:0px ;
-    text-align:center;
-    width:100%; 
-    height:125vh;
-    padding:200px 0px;
-    margin-top:-55px;
-    background-color:rgba(0,0,0,0.5);
+.VideoBg {
+    position: absolute;
+    inset: 0;
 }
 
-.videoContent
-{
+.videoOverLay {
+    position: absolute;
+    inset: 0;
+    text-align: center;
+    background-color: rgba(0, 0, 0, 0.5);
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+}
+
+.videoContent {
     width: 70%;
     transition: all 2s ease;
+
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
 }
 
-.videoContentRender
-{
+.videoContentRender {
     width: 100%;
     transition: all 2s ease;
 }
 
-.BoldText
-{
-    color:#38B6FF;
+.BoldText {
+    color: #38B6FF;
 }
 
-.HeroButton
-{
-    padding: 10px ;
-    width:20%;
-    border-radius:6px;
+.HeroButton {
+    padding: 10px;
+    width: 20%;
+    border-radius: 6px;
     border: none;
     color: white;
-    background-color:#1E2559;
-    transition: color , background-color 2s ease;
+    background-color: #1E2559;
+    transition: color, background-color 2s ease;
 }
 
-.HeroButton:hover
-{
+.HeroButton:hover {
     color: #1E2559;
-    background-color:#38B6FF;
+    background-color: #38B6FF;
     box-shadow: 6px 6px 40px #38B6FF;
     transition: all 1s;
 }
 
-.Info
-{
+.Info {
     width: 80%;
-    margin:80px auto;
+    margin: 80px auto;
     /* text-align: center; */
 }
 
-.Info h1
-{
+.Info h1 {
     margin: 60px auto;
     text-align: center;
 }
 
-.Info p
-{
+.Info p {
     font-size: 16px;
     font-family: 'Inter', sans-serif;
     letter-spacing: 2px;
     text-align: justify;
 }
 
-.InfoCards
-{
+.InfoCards {
     display: flex;
     width: 100%;
     height: 370px;
     justify-content: space-around;
 }
 
-.InfoCard
-{
+.InfoCard {
     width: 30%;
     height: 100%;
     text-align: center;
@@ -98,14 +95,12 @@
     transition: all 0.4s;
 }
 
-.InfoCard h2
-{
+.InfoCard h2 {
     font-size: 23px;
     height: 30%;
 }
 
-.InfoCard p
-{
+.InfoCard p {
     font-size: 14px;
     height: 60%;
     font-family: 'Inter', sans-serif;
@@ -115,135 +110,113 @@
 }
 
 
-.InfoCard:hover 
-{
+.InfoCard:hover {
     background-color: #38B6FF;
     border-radius: 6px;
 }
 
-@media only screen and (min-device-width: 768px) and (max-device-width: 1050px) 
-{
-    .VideoBg
-    {
+@media only screen and (min-device-width: 768px) and (max-device-width: 1050px) {
+    .VideoBg {
         height: 100vh;
         width: 100%;
-        margin:0px;
+        margin: 0px;
     }
 
-    .videoOverLay
-    {
-        height:52vh;
-        padding:250px 0px;
+    .videoOverLay {
+        height: 52vh;
+        padding: 250px 0px;
     }
 
-    .Info
-    {
+    .Info {
         width: 90%;
         line-height: 1cm;
         letter-spacing: 2px;
     }
 
-    .Info p 
-    {
+    .Info p {
         width: 90%;
         margin: 0px auto;
     }
-        
-    .InfoCards
-    {
+
+    .InfoCards {
         flex-direction: column;
         width: 100%;
         height: 800px;
     }
 
-    .InfoCard
-    {
+    .InfoCard {
         width: 80%;
-        background-color:#38B6FF;
+        background-color: #38B6FF;
         border-radius: 8px;
         margin: 30px auto;
     }
 
-    .InfoCard h2
-    {
+    .InfoCard h2 {
         font-size: 22px;
     }
 }
 
-@media only screen and (min-device-width: 320px) and (max-device-width: 900px) 
-{
-    .VideoBg
-    {
+@media only screen and (min-device-width: 320px) and (max-device-width: 900px) {
+    .VideoBg {
         height: 30vh;
-        margin:0px;
+        margin: 0px;
     }
 
-    .videoOverLay
-    {
+    .videoOverLay {
         height: 38vh;
-        padding:125px 0px;
+        padding: 125px 0px;
     }
 
-    .videoContentRender h1
-    {
+    .videoContentRender h1 {
         font-size: 23px;
     }
 
-    .videoContentRender p
-    {
+    .videoContentRender p {
         font-size: 13px;
     }
 
-    .HeroButton
-    {
-        padding: 5px ;
-        border-radius:5px;
+    .HeroButton {
+        padding: 5px;
+        border-radius: 5px;
         font-size: 13px;
     }
 
 
-    
-    .Info
-    {
+
+    .Info {
         width: 96%;
         line-height: 0.6cm;
         letter-spacing: 2px;
     }
 
-    .Info h1
-    {
+    .Info h1 {
         font-size: 26px;
     }
 
-    .Info p
-    {
+    .Info p {
         font-size: 13px;
     }
 
-        
-    .InfoCards
-    {
+
+    .InfoCards {
         flex-direction: column;
         width: 100%;
         height: 800px;
         margin: 60px 0px;
     }
 
-    .InfoCard
-    {
+    .InfoCard {
         width: 100%;
-        background-color:#38B6FF;
+        background-color: #38B6FF;
         border-radius: 8px;
         margin: 10px auto;
     }
 
-    .InfoCard h2
-    {
+    .InfoCard h2 {
         font-size: 20px;
     }
 
-    .InfoCard p
-    {
+    .InfoCard p {
         font-size: 13px;
     }
 

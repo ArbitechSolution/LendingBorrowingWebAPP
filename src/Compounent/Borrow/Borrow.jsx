@@ -54,7 +54,6 @@ function Borrow() {
   const BN = Web3.utils.BN;
   const [amount, setAmount] = useState(0);
   const [loanID, setLoanID] = useState(0);
-  const [reqID, setReqID] = useState(0);
   const [durationTime, setDurationTime] = useState(0);
   const [showItemIndex, setShowItemIndex] = useState(-1);
   const [selectedTokenAddress, setSelectedTokenAddress] = useState();
@@ -884,7 +883,6 @@ function Borrow() {
                       className="py-2 px-2 wd"
                       placeholder="Amount"
                       value={amount}
-                      min={0}
                       onChange={(e) => setAmount(e.target.value)}
                       name=""
                       id=""
@@ -1129,7 +1127,6 @@ function Borrow() {
                       name=""
                       id=""
                       value={durationTime}
-                      min={0}
                       onChange={(e) => setDurationTime(e.target.value)}
                     />
                   </div>

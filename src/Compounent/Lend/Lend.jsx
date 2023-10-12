@@ -186,6 +186,9 @@ function Lend() {
       const loanDetails = await Promise.all(loanDetailsPromises);
       setLoanList(loanDetails);
 
+      console.log("lenderDetails", lenderDetails);
+      console.log("loanDetails", loanDetails);
+
       // get all loanIDs of the lender
       const ids = [];
       loanDetails.forEach((item) => {
@@ -492,6 +495,15 @@ function Lend() {
         return;
       }
 
+      const checkLoanStatus = await lendingContract.methods
+        .checkLoansStatus(lend_ID)
+        .call();
+
+      if (checkLoanStatus.length > 0) {
+        toast.error("Loan is not closed on this Lend ID");
+        return;
+      }
+
       const withdrawAmount = await lendingContract.methods
         .withdrawLendAmount(lend_ID)
         .send({
@@ -575,26 +587,13 @@ function Lend() {
   }, [acc]);
 
   return (
-    <div style={{marginTop:"150px"}}>
+    <div style={{ marginTop: "150px" }}>
       <div>
         <div className="px-md-5 mt-2 mb-4 px-2">
           <h2>Lend</h2>
           <p>Lend your Assets </p>
 
           <div className="row pb-4">
-
-
-
-
-
-
-
-
-
-
-
-
-
             <div className="col-md-4 col-sm-12 mt-2 ">
               <div className="card colorsa">
                 <div className="card-body">
@@ -611,7 +610,6 @@ function Lend() {
                         className="py-2 px-2 w-50"
                         placeholder="Amount"
                         value={amount}
-                        min={0}
                         onChange={(e) => setAmount(e.target.value)}
                         name="amount"
                         id="amount"
@@ -631,7 +629,6 @@ function Lend() {
                         name="percentage"
                         id="percentage"
                         value={percentage}
-                        min={0}
                         onChange={(e) => setpercentage(e.target.value)}
                       />
                     </div>
@@ -647,7 +644,6 @@ function Lend() {
                         className="py-2 px-2 w-50"
                         placeholder="Days"
                         value={days}
-                        min={0}
                         onChange={(e) => setDays(e.target.value)}
                         name="days"
                         id="days"
@@ -672,7 +668,7 @@ function Lend() {
                             color: "white",
                           },
                         }}
-                        style={{minWidth:"50%"}}
+                        style={{ minWidth: "50%" }}
                       >
                         {tokenData.map((data, index) => (
                           <Option
@@ -705,21 +701,6 @@ function Lend() {
               </div>
             </div>
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
             <div className="col-md-4 col-sm-12 mt-2 ">
               <div className="card colorsa">
                 <div className="card-body">
@@ -742,7 +723,7 @@ function Lend() {
                           },
                         }}
                         style={{
-                          minWidth:"50%"
+                          minWidth: "50%",
                         }}
                       >
                         {lenderList.length ? (
@@ -822,9 +803,8 @@ function Lend() {
                           },
                         }}
                         style={{
-                          minWidth:"50%"
+                          minWidth: "50%",
                         }}
-
                       >
                         {lenderList.length ? (
                           // if all the items have isOpenToBorrow false then show this option
@@ -891,27 +871,6 @@ function Lend() {
               </div>
             </div>
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
             <div className="col-md-4 col-sm-12 mt-2 ">
               <div className="card colorsa">
                 <div className="card-body">
@@ -935,9 +894,8 @@ function Lend() {
                           },
                         }}
                         style={{
-                          minWidth:"50%"
+                          minWidth: "50%",
                         }}
-
                       >
                         {borrowerIdsList.length ? (
                           borrowerIdsList.map((data, index) => (
@@ -975,31 +933,6 @@ function Lend() {
                 </div>
               </div>
             </div>
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
             <LendTable
               lenderList={lenderList}

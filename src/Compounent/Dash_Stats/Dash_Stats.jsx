@@ -295,7 +295,6 @@ function Dash_Stats() {
                         type="number"
                         className="py-2 px-2 wd"
                         placeholder="Amount"
-                        min={0}
                         value={amount}
                         onChange={(e) => setAmount(e.target.value)}
                       />
