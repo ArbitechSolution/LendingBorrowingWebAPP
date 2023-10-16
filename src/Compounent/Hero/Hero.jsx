@@ -3,6 +3,7 @@ import React from "react";
 import video from "../../videos/video.mp4";
 import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
+import Footer from "../Footer/Footer";
 
 function Hero() {
   const [firstRender, setFirstRender] = useState(false);
@@ -83,6 +84,7 @@ function Hero() {
           </p>
         </div>
       </div>
+      <Footer />
     </div>
   );
 }

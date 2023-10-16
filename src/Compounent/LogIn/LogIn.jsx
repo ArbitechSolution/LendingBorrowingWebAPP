@@ -4,8 +4,8 @@ import axios from "axios";
 import { toast } from "react-toastify";
 
 import "./LogIn.css";
-// import LoginImg from '../../assets/images/login-image.jpg'
 import LoginImg from "../../assets/images/illustration1.png";
+import { FaEye, FaEyeSlash } from "react-icons/fa"; // Import eye icons
 
 function LogIn() {
   const toastConfig = {
@@ -14,11 +14,21 @@ function LogIn() {
   };
 
   const navigate = useNavigate();
+
   const [credentials, setCredentials] = useState({ email: "", password: "" });
+  const [showPassword, setShowPassword] = useState(false); // State for password visibility
 
   const handleInputChange = (event) => {
     const { name, value } = event.target;
     setCredentials({ ...credentials, [name]: value });
+  };
+
+  const handleForgetPass = async () => {
+    navigate("/forgetPassword?email=" + credentials.email, { replace: true });
+  };
+
+  const togglePasswordVisibility = () => {
+    setShowPassword(!showPassword);
   };
 
   const handleSubmit = async (event) => {
@@ -30,7 +40,6 @@ function LogIn() {
     }
 
     try {
-      // Check if the user exists in the database
       let response = await axios.post(
         "http://localhost:5000/api/v1/auth/login",
         credentials,
@@ -39,7 +48,6 @@ function LogIn() {
       if (response.status === 200) {
         setCredentials({ email: "", password: "" });
         localStorage.setItem("aftJwtToken", response.data.token);
-        // Redirect to the dashboard
         toast.success("Logged in successfully", toastConfig);
 
         navigate("/landingPage");
@@ -67,17 +75,31 @@ function LogIn() {
           />
         </div>
         <div>
-          <input
-            type="password"
-            name="password"
-            placeholder="Password"
-            value={credentials.password}
-            onChange={handleInputChange}
-          />
+          <div className="password-input-container">
+            <input
+              type={showPassword ? "text" : "password"}
+              name="password"
+              placeholder="Password"
+              value={credentials.password}
+              onChange={handleInputChange}
+            />
+            <span
+              className="password-toggle-icon"
+              onClick={togglePasswordVisibility}
+            >
+              {showPassword ? (
+                <FaEyeSlash title="Hide" />
+              ) : (
+                <FaEye title="Show" />
+              )}
+            </span>
+          </div>
         </div>
 
         <div className="forgot-password">
-          <a href="/">Forgot Password?</a>
+          <span className="forgot-password-text" onClick={handleForgetPass}>
+            Forgot Password?
+          </span>
         </div>
 
         <div className="checkbox-row">

@@ -30,6 +30,10 @@ form.loginForm {
     gap: 2rem;
 }
 
+form.loginForm .header p {
+    margin-top: 15px;
+}
+
 form.loginForm input {
     padding: 12px;
     width: 340px;
@@ -44,18 +48,53 @@ form.loginForm input {
     color: white;
 }
 
+form.loginForm .password-input-container {
+    padding: 12px;
+    width: 340px;
+    height: 40px;
+    background-color: #1B2155;
+    border: none;
+    outline: none;
+    text-align: left;
+    font-size: 14px;
+    border-radius: 2px;
+    border-bottom: 1.6px solid white;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+form.loginForm .password-input-container>input {
+    width: 290px !important;
+    height: 40px;
+    text-align: left;
+    padding: 0;
+    margin: 0;
+    background-color: transparent;
+    border: none;
+    outline: none;
+    color: white;
+}
+
+.password-toggle-icon {
+    cursor: pointer;
+    color: white;
+    font-size: 18px;
+}
+
 form.loginForm .forgot-password {
     width: 340px;
     text-align: right;
     margin: -20px 0;
 }
 
-form.loginForm .forgot-password a {
+form.loginForm .forgot-password span {
     font-size: 12px;
     color: #0C6EFD;
+    cursor: pointer;
 }
 
-form.loginForm .forgot-password a:hover {
+form.loginForm .forgot-password span:hover {
     color: rgb(227, 227, 227);
 }
 
@@ -176,6 +215,48 @@ form.loginForm .checkbox-row input#remember:checked::before {
 
 .register {
     color: #0C6EFD;
+}
+
+
+.forget-btn {
+    width: 160px;
+    height: 35px;
+    color: white;
+    background-color: #0C6EFD;
+    cursor: pointer;
+    border: none;
+    font-size: 14px;
+}
+
+.forget-btn:hover {
+    background-color: #0859d4;
+}
+
+.email-box {
+    width: 100%;
+    display: flex;
+    align-items: center;
+    background-color: #1B2155;
+    font-size: 13px;
+    border-radius: 7px;
+    border-left: 5px solid #0C6EFD;
+    color: white;
+    line-height: 2;
+    padding: 15px 10px 0px 10px;
+}
+
+.email-box .check-icon {
+    align-self: flex-start;
+    color: #0C6EFD;
+    font-size: 30px;
+    margin-right: 10px;
+}
+
+.spinner-position {
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
 }
 
 /* @media only screen and (max-width:768px) {

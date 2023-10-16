@@ -29,7 +29,6 @@ function Swap() {
 
   const [fromValue, setFromValue] = useState("Eric");
   const [toValue, setToValue] = useState("Smith");
-  const [wewe, setWewe] = useState("");
 
   // Function to handle the swap button click
   const handleSwap = () => {
@@ -41,7 +40,7 @@ function Swap() {
 
   return (
     // <div className="my-5 px-md-5 px-2">
-    <div className=" px-md-5 px-2" style={{marginTop:"150px"}}>
+    <div className="pb-5 px-md-5 px-2" style={{marginTop:"140px"}}>
       <h2>Swap</h2>
       <div className="row">
         <div className="col-md-5 mx-auto col-sm-12">
