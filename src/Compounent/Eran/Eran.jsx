@@ -1,12 +1,13 @@
-import React from 'react'
-import Stake from '../Stake/Stake'
+import React, { useEffect } from "react";
+import Stake from "../Stake/Stake";
 
 function Eran() {
+
   return (
-    <div>
-        <Stake/>
+    <div style={{marginTop:"150px"}}>
+      <Stake />
     </div>
-  )
+  );
 }
 
-export default Eran
+export default Eran;

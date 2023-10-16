@@ -1,25 +1,42 @@
-.nav-item a{
-    margin-left: 29px !important;
-    color: white !important;
+.nav-item a {
+  margin-left: 29px !important;
+  color: white !important;
 }
-.primary{
-    background-color: blue !important;
-    font-size: 15px !important;
-    height: 37px !important;
-    color: white !important;
+.primary {
+  background-color: blue !important;
+  font-size: 15px !important;
+  height: 37px !important;
+  color: white !important;
 }
-.btnnn{
-    font-size: 15px !important;
-    outline: 1px solid rgba(113, 113, 113, 0.572) !important;
-    height: 37px !important;
-    color: white !important;
+.btnnn {
+  font-size: 15px !important;
+  outline: 1px solid rgba(113, 113, 113, 0.572) !important;
+  height: 37px !important;
+  color: white !important;
 }
-.btnnn:hover{
-   background-color: rgba(252, 253, 253, 0.256) !important;
+.btnnn:hover {
+  background-color: rgba(252, 253, 253, 0.256) !important;
 }
 
-img.drop{
-    width: 25px;
-    height: 25px;
-    margin-right: 10px !important;
+img.drop {
+  width: 25px;
+  height: 25px;
+  margin-right: 10px !important;
+}
+
+.nav-item a:hover
+{
+  color: #38b6ff !important;
+  text-shadow: 14px 14px 40px #38b6ff;
+}
+
+.nav-item a.active
+{
+  color: #38b6ff !important;
+  text-shadow: 14px 14px 40px #38b6ff;
+}
+
+.tw:hover
+{
+  background-color: #38b6ff !important;
 }

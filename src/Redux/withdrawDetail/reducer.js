@@ -4,7 +4,7 @@ const INITIAL_STATE = {
   withdrawDetail: {},
 };
 
-const withdrawInfoReduce = (state = INITIAL_STATE, {type, payload}) => {
+const withdrawInfoReduce = (state = INITIAL_STATE, { type, payload }) => {
   switch (type) {
     case ActionTypes.WITHDRAW_INFO:
       return {

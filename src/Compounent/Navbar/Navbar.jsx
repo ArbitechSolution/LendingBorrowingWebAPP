@@ -1,10 +1,10 @@
-import React from "react";
-import logo from "../image/logo.svg";
+import React, { useEffect } from "react";
+import logo from "../image/AFT.png";
 import wallet from "../image/wallet.svg";
 import drop from "../image/drop.jpg";
 import "./Navbar.css";
 import { connectionAction, web3Actions } from "../../Redux/connection/actions";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { useSelector, useDispatch } from "react-redux";
 import Dropdown from "react-bootstrap/Dropdown";
 import Web3 from "web3";
@@ -15,20 +15,49 @@ function Navbar() {
 
   const connectWallet = async () => {
     dispatch(connectionAction());
-    console.log("eth", window.ethereum);
     if (window.ethereum) {
       const web3 = new Web3(window.ethereum);
       dispatch(web3Actions(web3)); // Pass the Web3 instance to Redux
     }
   };
 
+  const navigate = useNavigate();
+
+  const handleLogOut = (e) => {
+    e.preventDefault();
+    navigate("/Login");
+    localStorage.removeItem("aftJwtToken");
+  };
+
+  useEffect(() => {
+    // On path change, add "active" class to that pathname class
+    const pathname = window.location.pathname;
+    const path = pathname === "/" ? "LandingPage" : pathname.substring(1);
+
+    const navLinks = document.querySelectorAll(".nav-item");
+    navLinks.forEach((link) => {
+      link.classList.remove("active");
+      if (link.classList.contains(path)) {
+        link.classList.add("active");
+      }
+    });
+  }, []);
+
   return (
-    <div>
+    <div
+      style={{
+        position: "fixed",
+        top: "0",
+        zIndex: "99",
+        backgroundColor: "black",
+        width: "100%",
+      }}
+    >
       <nav className="navbar navbar-expand-lg navbar-light text-white p-0">
         <div className="container-fluid py-2 px-2 px-md-5">
-          <a className="navbar-brand" href="#">
-            <img src={logo} alt="" />
-          </a>
+          <Link className="navbar-brand" to="/LandingPage">
+            <img src={logo} alt="" width={100} />
+          </Link>
           <button
             className="navbar-toggler bg-white"
             type="button"
@@ -43,6 +72,12 @@ function Navbar() {
           <div className="collapse navbar-collapse" id="navbarSupportedContent">
             <ul className="navbar-nav me-auto mb-2 mb-lg-0">
               <li className="nav-item">
+                <Link className="nav-link" aria-current="page" to="/Dashboard">
+                  Dashboard
+                </Link>
+              </li>
+
+              {/* <li className="nav-item">
                 <Link
                   className="nav-link active"
                   aria-current="page"
@@ -56,7 +91,7 @@ function Navbar() {
                 <Link className="nav-link " to="/Buy">
                   Buy
                 </Link>
-              </li>
+              </li> */}
 
               <li className="nav-item">
                 <Link className="nav-link" to="/Stake">
@@ -65,21 +100,13 @@ function Navbar() {
               </li>
 
               <li className="nav-item">
-                <Link
-                  className="nav-link active"
-                  aria-current="page"
-                  to="/Lend"
-                >
-                  Lend
+                <Link className="nav-link" aria-current="page" to="/Lend">
+                  Lending
                 </Link>
               </li>
               <li className="nav-item">
-                <Link
-                  className="nav-link active"
-                  aria-current="page"
-                  to="/Borrow"
-                >
-                  Borrow
+                <Link className="nav-link" aria-current="page" to="/Borrow">
+                  Borrowing
                 </Link>
               </li>
               {/* <li className="nav-item">
@@ -119,19 +146,16 @@ function Navbar() {
                     className=""
                     style={{ backgroundColor: "rgb(0, 6, 60)" }}
                   >
-                    {/* <Dropdown.Item className="text-white" href="#/action-1">
-                      Arbitrum
+                    <Dropdown.Item
+                      className="text-white tw"
+                      href="#/action-3"
+                      onClick={handleLogOut}
+                    >
+                      LogOut
                     </Dropdown.Item>
-                    <Dropdown.Item className="text-white" href="#/action-2">
-                      Avalanche
-                    </Dropdown.Item>
-                    <hr className="text-white" /> */}
-                    <Dropdown.Item className="text-white" href="#/action-3">
-                      Setting
-                    </Dropdown.Item>
-                    <Dropdown.Item className="text-white" href="#/action-3">
+                    {/* <Dropdown.Item className="text-white" href="#/action-3">
                       Language
-                    </Dropdown.Item>
+                    </Dropdown.Item> */}
                   </Dropdown.Menu>
                   <img src={drop} alt="" className="me-1 drop" />
                   <span className="border-start ">

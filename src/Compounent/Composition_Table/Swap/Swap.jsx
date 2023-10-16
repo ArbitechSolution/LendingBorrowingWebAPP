@@ -1,15 +1,15 @@
 import React, { useState } from "react";
 import "./Swap.css";
 import svg from "../../image/swap_vert_black_24dp.svg";
-import Avatar from '@mui/joy/Avatar';
-import Box from '@mui/joy/Box';
-import Chip from '@mui/joy/Chip';
-import ListItemDecorator from '@mui/joy/ListItemDecorator';
-import Select from '@mui/joy/Select';
-import Option from '@mui/joy/Option';
-import Typography from '@mui/joy/Typography';
-import ListDivider from '@mui/joy/ListDivider';
-import KeyboardArrowDown from '@mui/icons-material/KeyboardArrowDown';
+import Avatar from "@mui/joy/Avatar";
+import Box from "@mui/joy/Box";
+import Chip from "@mui/joy/Chip";
+import ListItemDecorator from "@mui/joy/ListItemDecorator";
+import Select from "@mui/joy/Select";
+import Option from "@mui/joy/Option";
+import Typography from "@mui/joy/Typography";
+import ListDivider from "@mui/joy/ListDivider";
+import KeyboardArrowDown from "@mui/icons-material/KeyboardArrowDown";
 import drop from "../../image/drop.svg";
 import drop2 from "../../image/2.svg";
 import drop1 from "../../image/1.png";
@@ -19,12 +19,12 @@ import drop5 from "../../image/5.png";
 
 function Swap() {
   const people = [
-    { name: 'Eric', role: '0' ,img:drop },
-    { name: 'Smith', role: '0' ,img:drop1 },
-    { name: 'asss', role: '0' ,img:drop2 },
-    { name: 'errr', role: '0' ,img:drop3 },
-    { name: 'tttt', role: '0' ,img:drop4 },
-    { name: 'yyy', role: '0' ,img:drop5 },   
+    { name: "Eric", role: "0", img: drop },
+    { name: "Smith", role: "0", img: drop1 },
+    { name: "asss", role: "0", img: drop2 },
+    { name: "errr", role: "0", img: drop3 },
+    { name: "tttt", role: "0", img: drop4 },
+    { name: "yyy", role: "0", img: drop5 },
   ];
 
   const [fromValue, setFromValue] = useState("Eric");
@@ -40,7 +40,8 @@ function Swap() {
   };
 
   return (
-    <div className="my-5 px-md-5 px-2">
+    // <div className="my-5 px-md-5 px-2">
+    <div className=" px-md-5 px-2" style={{marginTop:"150px"}}>
       <h2>Swap</h2>
       <div className="row">
         <div className="col-md-5 mx-auto col-sm-12">
@@ -60,64 +61,64 @@ function Swap() {
                     slotProps={{
                       listbox: {
                         sx: {
-                          '--ListItemDecorator-size': '48px',
+                          "--ListItemDecorator-size": "48px",
                           minWidth: 340,
                           color: "white",
-                      backgroundColor: '#242060',
-                      boxShadow:"none",
-                      border:"1px solid rgb(0, 3, 48)",
-                      borderRadius:"8px",
-                    
+                          backgroundColor: "#242060",
+                          boxShadow: "none",
+                          border: "1px solid rgb(0, 3, 48)",
+                          borderRadius: "8px",
                         },
                       },
                     }}
                     sx={{
                       minWidth: 100,
                       color: "white",
-                      backgroundColor: 'rgba(89, 99, 145, 0.6)',
-                      '&:hover': {
-                        backgroundColor: 'rgba(89, 99, 145, 0.9)',
+                      backgroundColor: "rgba(89, 99, 145, 0.6)",
+                      "&:hover": {
+                        backgroundColor: "rgba(89, 99, 145, 0.9)",
                         color: "white",
-                      }
+                      },
                     }}
                     onChange={(e) => setFromValue(e.target.value)}
                   >
-                   
-                   
                     {people.map((data, index) => (
                       <Option
                         key={data.name}
                         value={data.name}
                         label={data.name}
                         sx={{
-                         
-                          '&:hover': {
-                            backgroundColor: 'rgba(89, 99, 145, 0.9)',
+                          "&:hover": {
+                            backgroundColor: "rgba(89, 99, 145, 0.9)",
                             color: "white",
                           },
-                          '&:focus': {
-                            backgroundColor: 'rgba(89, 99, 145, 0.9)',
+                          "&:focus": {
+                            backgroundColor: "rgba(89, 99, 145, 0.9)",
                             color: "white",
-                          }
+                          },
                         }}
                       >
                         <ListItemDecorator>
                           <Avatar size="sm" src={data.img} />
                         </ListItemDecorator>
-                        <Box component="span" sx={{ display: 'block' }}>
-                          <Typography component="span"  sx={{ color: 'white' }}>{data.name}</Typography>
-                          <Typography level="body4"  sx={{ color: 'white' }}>{data.status}</Typography>
+                        <Box component="span" sx={{ display: "block" }}>
+                          <Typography component="span" sx={{ color: "white" }}>
+                            {data.name}
+                          </Typography>
+                          <Typography level="body4" sx={{ color: "white" }}>
+                            {data.status}
+                          </Typography>
                         </Box>
                         <Chip
                           size="sm"
                           variant="outlined"
                           color="transparent"
                           sx={{
-                            ml: 'auto',
-                            borderRadius: '2px',
-                            minHeight: '20px',
-                            paddingInline: '4px',
-                            fontSize: 'xs',
+                            ml: "auto",
+                            borderRadius: "2px",
+                            minHeight: "20px",
+                            paddingInline: "4px",
+                            fontSize: "xs",
                           }}
                         >
                           {data.role}
@@ -157,7 +158,7 @@ function Swap() {
                     slotProps={{
                       listbox: {
                         sx: {
-                          '--ListItemDecorator-size': '48px',
+                          "--ListItemDecorator-size": "48px",
                           minWidth: 240,
                         },
                       },
@@ -165,11 +166,11 @@ function Swap() {
                     sx={{
                       minWidth: 100,
                       color: "white",
-                      backgroundColor: 'rgba(89, 99, 145, 0.6)',
-                      '&:hover': {
-                        backgroundColor: 'rgba(89, 99, 145, 0.9)',
+                      backgroundColor: "rgba(89, 99, 145, 0.6)",
+                      "&:hover": {
+                        backgroundColor: "rgba(89, 99, 145, 0.9)",
                         color: "white",
-                      }
+                      },
                     }}
                     onChange={(e) => setToValue(e.target.value)}
                   >
@@ -182,7 +183,7 @@ function Swap() {
                         <ListItemDecorator>
                           <Avatar size="sm" src={data.img} />
                         </ListItemDecorator>
-                        <Box component="span" sx={{ display: 'block' }}>
+                        <Box component="span" sx={{ display: "block" }}>
                           <Typography component="span">{data.name}</Typography>
                           <Typography level="body4">{data.status}</Typography>
                         </Box>
@@ -191,11 +192,11 @@ function Swap() {
                           variant="outlined"
                           color="transparent"
                           sx={{
-                            ml: 'auto',
-                            borderRadius: '2px',
-                            minHeight: '20px',
-                            paddingInline: '4px',
-                            fontSize: 'xs',
+                            ml: "auto",
+                            borderRadius: "2px",
+                            minHeight: "20px",
+                            paddingInline: "4px",
+                            fontSize: "xs",
                           }}
                         >
                           {data.role}

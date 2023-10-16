@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
 import "./Stake.css";
 import { useSelector, useDispatch } from "react-redux";
+import { toast } from "react-toastify";
 import {
   TokenAddress,
   TokenAbi,
@@ -8,15 +9,39 @@ import {
   StakingAbi,
   LendingAddress,
   LendingAbi,
+  redeemRewardAddress,
+  redeemRewardAbi,
 } from "../../utils/Contracts";
 function Stake() {
   let acc = useSelector((state) => state.connect?.connection);
   let web3 = useSelector((state) => state.connect?.web3);
   const [amount, setAmount] = useState(0);
   const [balance, setBalance] = useState(0);
+  const [stakedAmount, setStakedAmount] = useState(0);
+  const [withdrawableAmount, setWithdrawableAmount] = useState(0);
 
   const handleAmountChange = (e) => {
     setAmount(e.target.value);
+  };
+
+  const getStakedAmount = async () => {
+    try {
+      if (!web3) {
+        console.error("Web3 instance not available");
+        return;
+      }
+
+      const stakingContract = new web3.eth.Contract(StakingAbi, StakingAddress);
+      const userDetail = await stakingContract.methods
+        .checkUserDetail(acc)
+        .call();
+
+      let staked = web3.utils.fromWei(userDetail[0], "ether");
+
+      setStakedAmount(staked);
+    } catch (error) {
+      console.error(error);
+    }
   };
 
   useEffect(() => {
@@ -24,51 +49,140 @@ function Stake() {
       setBalance(0);
     } else {
       getBalance();
+      getStakedAmount();
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [acc]);
 
   const Stake = async () => {
-    if (acc === "Connect Wallet") {
-      return;
-    }
-
-    if (!web3) {
-      console.error("Web3 instance not available");
-      return;
-    }
-
-    const tokenContractOf = new web3.eth.Contract(TokenAbi, TokenAddress);
-    const stakingContractOf = new web3.eth.Contract(StakingAbi, StakingAddress);
-
-    const weiAmount = web3.utils.toWei(amount, "ether");
     try {
-      // Step 1: Approve
-      if (weiAmount > 0 && balance > 0) {
-        if (parseFloat(amount) > parseFloat(balance)) {
-          // Use parseFloat for comparisons
-          alert("Insufficient Balance");
-          return;
-        }
-        const gasEstimate = await tokenContractOf.methods
-          .approve(StakingAddress, weiAmount)
-          .estimateGas({ from: acc });
-        console.log("Gas estimate for approve transaction:", gasEstimate);
+      if (acc === "Connect Wallet") {
+        toast.error("Please Connect Wallet");
+        return;
+      }
 
-        // Request approval
-        await tokenContractOf.methods
-          .approve(StakingAddress, weiAmount)
-          .send({ from: acc });
+      if (amount < 10) {
+        toast.error("Minimum 10 AFT required");
+        return;
+      }
 
-        // // Step 2: Stake
-        // const stake = await stakingContractOf.methods
-        //   .stake(weiAmount)
-        //   .send({ from: acc });
+      if (balance <= 0) {
+        toast.error("Insufficient Balance");
+        return;
+      }
 
-        // console.log("stake", stake);
+      if (!web3) {
+        console.error("Web3 instance not available");
+        return;
+      }
+
+      const tokenContract = new web3.eth.Contract(TokenAbi, TokenAddress);
+      const stakingContract = new web3.eth.Contract(StakingAbi, StakingAddress);
+      const weiAmount = web3.utils.toWei(amount.toString(), "ether");
+
+      // Check if the user has already staked
+      const userDetail = await stakingContract.methods
+        .checkUserDetail(acc)
+        .call();
+
+      let staked = web3.utils.fromWei(userDetail[0], "ether");
+      setStakedAmount(staked);
+
+      if (userDetail[1] != false) {
+        toast.error("You have already staked");
+        return;
+      }
+
+      // Check if the user has sufficient balance for staking
+      if (parseFloat(amount) > parseFloat(balance)) {
+        toast.error("Insufficient Balance");
+        return;
+      }
+
+      // Request approval
+      const approveTx = await tokenContract.methods
+        .approve(StakingAddress, weiAmount)
+        .send({ from: acc });
+
+      if (!approveTx.status) {
+        toast.error("Approval failed");
+        return;
+      }
+
+      toast.success("Approved Successfully");
+      const stakeTx = await stakingContract.methods
+        .stake(weiAmount)
+        .send({ from: acc });
+
+      if (stakeTx.status) {
+        toast.success("Stake Successfully");
+        setAmount(0);
+        getBalance();
+        getStakedAmount();
+      } else {
+        toast.error("Stake failed");
       }
     } catch (error) {
       console.error(error);
+      toast.error("Something went wrong");
+    }
+  };
+
+  const Unstake = async () => {
+    try {
+      if (acc === "Connect Wallet") {
+        toast.error("Please Connect Wallet");
+        return;
+      }
+
+      if (!web3) {
+        console.error("Web3 instance not available");
+        return;
+      }
+
+      const stakingContract = new web3.eth.Contract(StakingAbi, StakingAddress);
+      // Check if the user has already staked
+      const userDetail = await stakingContract.methods
+        .checkUserDetail(acc)
+        .call();
+
+      // Check lennder status and borrowStatus
+
+      const lenderStatus = await stakingContract.methods
+        .lenderStatus(acc)
+        .call();
+      const borrowStatus = await stakingContract.methods
+        .borrowerStatus(acc)
+        .call();
+
+      if (lenderStatus === true) {
+        toast.error("You are a lender, you can't unstake");
+        return;
+      }
+
+      if (borrowStatus === true) {
+        toast.error("You are a borrower, you can't unstake");
+        return;
+      }
+
+      if (userDetail[1] === false) {
+        toast.error("You have not staked yet");
+        return;
+      }
+      const unstakeTx = await stakingContract.methods
+        .unStake()
+        .send({ from: acc });
+
+      if (unstakeTx.status) {
+        toast.success("Unstake Successfully");
+        getBalance();
+        setStakedAmount(0);
+      } else {
+        toast.error("Unstake failed");
+      }
+    } catch (error) {
+      console.error(error);
+      toast.error("Something went wrong");
     }
   };
 
@@ -84,8 +198,38 @@ function Stake() {
     setBalance(balanceInEther);
   };
 
+  const claimReward = async () => {
+    try {
+      if (acc === "Connect Wallet") {
+        toast.error("Please Connect Wallet");
+        return;
+      }
+
+      if (!web3) {
+        console.error("Web3 instance not available");
+        return;
+      }
+
+      const contract = new web3.eth.Contract( redeemRewardAbi, redeemRewardAddress);
+
+      const withdrawableAmount = await contract.methods
+        .getWithdrawableAmount(acc)
+        .call();
+      
+        setWithdrawableAmount(web3.utils.fromWei(withdrawableAmount, "ether"));
+
+      const claimRewardTx = await contract.methods.claimReward(
+        withdrawableAmount
+      ).send({ from: acc });
+
+
+    } catch (error) {
+      console.error(error);
+    }
+  };
+
   return (
-    <div className="px-md-5 my-5 px-2">
+    <div className="px-md-5 my-2 px-2">
       <h2>Stake</h2>
       <p>Stake AFT </p>
       {/* First table section  */}
@@ -97,11 +241,21 @@ function Stake() {
               <hr />
               <div className="row px-2">
                 <div className="col AUM">Wallet</div>
-                <div className="col text-end AUM">{balance}</div>
+                <div className="col text-end AUM">
+                  {balance} <span className="fw-bold">AFT</span>
+                </div>
               </div>
               <div className="row px-2">
                 <div className="col AUM">Staked</div>
-                <div className="col text-end AUM">$851,663,404</div>
+                <div className="col text-end AUM">
+                  {stakedAmount} <span className="fw-bold">AFT</span>
+                </div>
+              </div>
+              <div className="row px-2">
+                <div className="col AUM">Claimable Amount</div>
+                <div className="col text-end AUM">
+                  {withdrawableAmount} <span className="fw-bold">AFT</span>
+                </div>
               </div>
               <hr />
               <div className="row">
@@ -112,7 +266,7 @@ function Stake() {
                   <label>Token Amount</label>
                   <input
                     type="text"
-                    className=""
+                    className="px-2"
                     placeholder="Token Amounts"
                     value={amount}
                     onChange={handleAmountChange}
@@ -124,197 +278,17 @@ function Stake() {
                 <button className="btn batan" onClick={Stake}>
                   Stake AFT
                 </button>
-                <button className="btn batan">Unstake AFT</button>
+                <button className="btn batan" onClick={Unstake}>
+                  Unstake AFT
+                </button>
+                <button className="btn batan" onClick={claimReward}>
+                  Withdraw Reward
+                </button>
               </div>
             </div>
-          </div>
-        </div>
-        {/* <div className="col-md-6 col-sm-12 mt-2">
-          <div className="card colorsa">
-            <div className="card-body">
-              <h6>Total Rewards</h6>
-              <hr />
-              <div className="row">
-                <div className="col AUM">ETH (WETH)</div>
-                <div className="col text-end AUM">$851,663,404</div>
-              </div>
-              <div className="row">
-                <div className="col AUM">AFT</div>
-                <div className="col text-end AUM">$851,663,404</div>
-              </div>
-              <div className="row">
-                <div className="col AUM">Staked Amount</div>
-                <div className="col text-end AUM">$851,663,404</div>
-              </div>
-            
-              <div className="row">
-                <div className="col AUM">Total</div>
-                <div className="col text-end AUM">$851,663,404</div>
-              </div>
-             
-          <footer className="" > <hr className=""/>
-                <button className="btn batan">Unstake AFT</button>
-            </footer>
-            </div>
-            
-            
-          </div>
-        </div> */}
-      </div>
-      {/* second table section  */}
-      {/* <div className="row">
-        <div className="col-md-6 col-sm-12 mt-2 ">
-    
-          <div className="card color">
-            <div className="card-body">
-              <h6>GLP (Arbitrum)</h6>
-              <hr />
-              <div className="row">
-                <div className="col AUM">Price</div>
-                <div className="col text-end AUM">$851,663,404</div>
-              </div>
-              <div className="row">
-                <div className="col AUM">Wallet</div>
-                <div className="col text-end AUM">$851,663,404</div>
-              </div>
-              <div className="row">
-                <div className="col AUM">Staked</div>
-                <div className="col text-end AUM">$851,663,404</div>
-              </div>
-              <hr/>
-              <div className="row">
-                <div className="col AUM">APR</div>
-                <div className="col text-end AUM">$851,663,404</div>
-              </div>
-              <div className="row">
-                <div className="col AUM">Rewards</div>
-                <div className="col text-end AUM">$851,663,404</div>
-              </div><hr/>
-            
-            
-              <div className="row">
-                <div className="col AUM">Total Staked</div>
-                <div className="col text-end AUM">$851,663,404</div>
-              </div>
-              <div className="row">
-                <div className="col AUM">Total Supply</div>
-                <div className="col text-end AUM">$851,663,404</div>
-              </div>
-            
-              <hr/>
-              <footer className="d-flex "style={{gap:"10px "}}>
-              <button className="btn batan">Buy GLP</button>
-              <button className="btn batan">Sell GLP</button>
-              <button className="btn batan">Purchase Insurance</button>
-              </footer>
-            </div>
-          </div>
-        </div>
-        <div className="col-md-6 col-sm-12 mt-2">
-          <div className="card color">
-            <div className="card-body">
-              <h6>Escrowed AFT</h6>
-              <hr />
-              <div className="row">
-                <div className="col AUM">Price</div>
-                <div className="col text-end AUM">$851,663,404</div>
-              </div>
-              <div className="row">
-                <div className="col AUM">Wallet</div>
-                <div className="col text-end AUM">$851,663,404</div>
-              </div>
-              <div className="row">
-                <div className="col AUM">Staked</div>
-                <div className="col text-end AUM">$851,663,404</div>
-              </div>
-              <hr/>
-              <div className="row">
-                <div className="col AUM">APR</div>
-                <div className="col text-end AUM">$851,663,404</div>
-              </div>
-              <div className="row">
-                <div className="col AUM">Rewards</div>
-                <div className="col text-end AUM">$851,663,404</div>
-              </div><hr/>
-            
-            
-              <div className="row">
-                <div className="col AUM">Total Staked</div>
-                <div className="col text-end AUM">$851,663,404</div>
-              </div>
-              <div className="row">
-                <div className="col AUM">Total Supply</div>
-                <div className="col text-end AUM">$851,663,404</div>
-              </div>
-              <footer className=" " > <hr/>
-                <button className="btn batan">Connect Wallet</button>
-            </footer>
-              </div>
-            
-            
-          </div>
-        </div>
-      </div> */}
-      {/* third table section 
-      <div className="mt-5">
-      <h2>Vest</h2>
-      <p>Convert esAFT tokens to AFT tokens.<br/>
-Please read the vesting details before using the vaults.</p>
-      <div className="row">
-        <div className="col-md-6 col-sm-12 mt-2 ">
-    
-          <div className="card color">
-            <div className="card-body">
-              <h6>AFT</h6>
-              <hr />
-              <div className="row">
-                <div className="col AUM">Price</div>
-                <div className="col text-end AUM">$851,663,404</div>
-              </div>
-              <div className="row">
-                <div className="col AUM">Wallet</div>
-                <div className="col text-end AUM">$851,663,404</div>
-              </div>
-              <div className="row">
-                <div className="col AUM">Staked</div>
-                <div className="col text-end AUM">$851,663,404</div>
-              </div>
-              <hr/>
-              
-              <button className="btn batan">Connect Wallet</button>
-
-            </div>
-          </div>
-        </div>
-        <div className="col-md-6 col-sm-12 mt-2">
-          <div className="card color">
-            <div className="card-body">
-              <h6>Total Rewards</h6>
-              <hr />
-              <div className="row">
-                <div className="col AUM">ETH (WETH)</div>
-                <div className="col text-end AUM">$851,663,404</div>
-              </div>
-              <div className="row">
-                <div className="col AUM">AFT</div>
-                <div className="col text-end AUM">$851,663,404</div>
-              </div>
-              <div className="row">
-                <div className="col AUM">Escrowed AFT</div>
-                <div className="col text-end AUM">$851,663,404</div>
-              </div>
-            
-              <footer className="" > <hr />
-                <button className="btn batan">Connect Wallet</button>
-            </footer>
-          
-            </div>
-            
-           
           </div>
         </div>
       </div>
-      </div> */}
     </div>
   );
 }

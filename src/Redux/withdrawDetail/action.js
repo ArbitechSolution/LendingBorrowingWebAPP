@@ -9,7 +9,7 @@ export const withdrawInfo = (acc) => {
       const web3 = window.web3;
       let financeAppcontractOf = new web3.eth.Contract(
         financeAppContract_Abi,
-        financeAppContractAddress
+        financeAppContractAddress,
       );
       let obj = {};
       let reward_info = await financeAppcontractOf.methods
@@ -35,26 +35,26 @@ export const withdrawInfo = (acc) => {
       //   2
       // );
       obj["capitals"] = Number(
-        web3.utils.fromWei(reward_info?.directs)
+        web3.utils.fromWei(reward_info?.directs),
       ).toFixed(2);
       obj["diamond"] = Number(web3.utils.fromWei(reward_info?.diamond)).toFixed(
-        2
+        2,
       );
       obj["doubleDiamond"] = Number(
-        web3.utils.fromWei(reward_info?.doubleDiamond)
+        web3.utils.fromWei(reward_info?.doubleDiamond),
       ).toFixed(2);
       obj["directPool"] = Number(
-        web3.utils.fromWei(reward_info?.directPool)
+        web3.utils.fromWei(reward_info?.directPool),
       ).toFixed(2);
       obj["roi"] = Number(web3.utils.fromWei(roi)).toFixed(2);
       obj["level1ROIIncome"] = Number(
-        web3.utils.fromWei(reward_info?.level1ROIIncome)
+        web3.utils.fromWei(reward_info?.level1ROIIncome),
       ).toFixed(2);
       obj["level4ROIIncome"] = Number(
-        web3.utils.fromWei(reward_info?.level4ROIIncome)
+        web3.utils.fromWei(reward_info?.level4ROIIncome),
       ).toFixed(2);
       obj["level5ROIIncome"] = Number(
-        web3.utils.fromWei(reward_info?.level5ROIIncome)
+        web3.utils.fromWei(reward_info?.level5ROIIncome),
       ).toFixed(2);
       obj["split"] = Number(web3.utils.fromWei(reward_info?.split)).toFixed(2);
 

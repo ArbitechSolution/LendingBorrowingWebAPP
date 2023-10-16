@@ -1,5 +1,4 @@
-export const TokenAddress = "0xAFB32f12f50EA061134a5535CD4B4E04214F1340";
-
+export const TokenAddress = "0xA913aB2A43a832a8BdDa2Bf5b07405F0F971EfF5";
 export const TokenAbi = [
   { inputs: [], stateMutability: "nonpayable", type: "constructor" },
   {
@@ -33,6 +32,44 @@ export const TokenAbi = [
       {
         indexed: true,
         internalType: "address",
+        name: "account",
+        type: "address",
+      },
+      {
+        indexed: false,
+        internalType: "bool",
+        name: "isExcluded",
+        type: "bool",
+      },
+    ],
+    name: "ExcludeFromFees",
+    type: "event",
+  },
+  {
+    anonymous: false,
+    inputs: [
+      {
+        indexed: false,
+        internalType: "address[]",
+        name: "accounts",
+        type: "address[]",
+      },
+      {
+        indexed: false,
+        internalType: "bool",
+        name: "isExcluded",
+        type: "bool",
+      },
+    ],
+    name: "ExcludeMultipleAccountsFromFees",
+    type: "event",
+  },
+  {
+    anonymous: false,
+    inputs: [
+      {
+        indexed: true,
+        internalType: "address",
         name: "previousOwner",
         type: "address",
       },
@@ -44,6 +81,270 @@ export const TokenAbi = [
       },
     ],
     name: "OwnershipTransferred",
+    type: "event",
+  },
+  {
+    anonymous: false,
+    inputs: [
+      {
+        indexed: false,
+        internalType: "uint256",
+        name: "tokensSwapped",
+        type: "uint256",
+      },
+      {
+        indexed: false,
+        internalType: "uint256",
+        name: "amount",
+        type: "uint256",
+      },
+    ],
+    name: "SendDividendsToMarketing",
+    type: "event",
+  },
+  {
+    anonymous: false,
+    inputs: [
+      { indexed: true, internalType: "address", name: "pair", type: "address" },
+      { indexed: true, internalType: "bool", name: "value", type: "bool" },
+    ],
+    name: "SetAutomatedMarketMakerPair",
+    type: "event",
+  },
+  {
+    anonymous: false,
+    inputs: [
+      { indexed: true, internalType: "address", name: "from", type: "address" },
+      { indexed: true, internalType: "address", name: "to", type: "address" },
+      {
+        indexed: false,
+        internalType: "uint256",
+        name: "value",
+        type: "uint256",
+      },
+    ],
+    name: "Transfer",
+    type: "event",
+  },
+  {
+    inputs: [
+      { internalType: "address", name: "owner", type: "address" },
+      { internalType: "address", name: "spender", type: "address" },
+    ],
+    name: "allowance",
+    outputs: [{ internalType: "uint256", name: "", type: "uint256" }],
+    stateMutability: "view",
+    type: "function",
+  },
+  {
+    inputs: [
+      { internalType: "address", name: "spender", type: "address" },
+      { internalType: "uint256", name: "amount", type: "uint256" },
+    ],
+    name: "approve",
+    outputs: [{ internalType: "bool", name: "", type: "bool" }],
+    stateMutability: "nonpayable",
+    type: "function",
+  },
+  {
+    inputs: [{ internalType: "address", name: "", type: "address" }],
+    name: "automatedMarketMakerPairs",
+    outputs: [{ internalType: "bool", name: "", type: "bool" }],
+    stateMutability: "view",
+    type: "function",
+  },
+  {
+    inputs: [{ internalType: "address", name: "account", type: "address" }],
+    name: "balanceOf",
+    outputs: [{ internalType: "uint256", name: "", type: "uint256" }],
+    stateMutability: "view",
+    type: "function",
+  },
+  {
+    inputs: [],
+    name: "decimals",
+    outputs: [{ internalType: "uint8", name: "", type: "uint8" }],
+    stateMutability: "view",
+    type: "function",
+  },
+  {
+    inputs: [
+      { internalType: "address", name: "spender", type: "address" },
+      { internalType: "uint256", name: "subtractedValue", type: "uint256" },
+    ],
+    name: "decreaseAllowance",
+    outputs: [{ internalType: "bool", name: "", type: "bool" }],
+    stateMutability: "nonpayable",
+    type: "function",
+  },
+  {
+    inputs: [
+      { internalType: "address", name: "account", type: "address" },
+      { internalType: "bool", name: "excluded", type: "bool" },
+    ],
+    name: "excludeFromFees",
+    outputs: [],
+    stateMutability: "nonpayable",
+    type: "function",
+  },
+  {
+    inputs: [
+      { internalType: "address[]", name: "accounts", type: "address[]" },
+      { internalType: "bool", name: "excluded", type: "bool" },
+    ],
+    name: "excludeMultipleAccountsFromFees",
+    outputs: [],
+    stateMutability: "nonpayable",
+    type: "function",
+  },
+  {
+    inputs: [
+      { internalType: "address", name: "spender", type: "address" },
+      { internalType: "uint256", name: "addedValue", type: "uint256" },
+    ],
+    name: "increaseAllowance",
+    outputs: [{ internalType: "bool", name: "", type: "bool" }],
+    stateMutability: "nonpayable",
+    type: "function",
+  },
+  {
+    inputs: [{ internalType: "address", name: "account", type: "address" }],
+    name: "isExcludedFromFees",
+    outputs: [{ internalType: "bool", name: "", type: "bool" }],
+    stateMutability: "view",
+    type: "function",
+  },
+  {
+    inputs: [],
+    name: "name",
+    outputs: [{ internalType: "string", name: "", type: "string" }],
+    stateMutability: "view",
+    type: "function",
+  },
+  {
+    inputs: [],
+    name: "owner",
+    outputs: [{ internalType: "address", name: "", type: "address" }],
+    stateMutability: "view",
+    type: "function",
+  },
+  {
+    inputs: [],
+    name: "renounceOwnership",
+    outputs: [],
+    stateMutability: "nonpayable",
+    type: "function",
+  },
+  {
+    inputs: [
+      { internalType: "address", name: "pair", type: "address" },
+      { internalType: "bool", name: "value", type: "bool" },
+    ],
+    name: "setAutomatedMarketMakerPair",
+    outputs: [],
+    stateMutability: "nonpayable",
+    type: "function",
+  },
+  {
+    inputs: [],
+    name: "symbol",
+    outputs: [{ internalType: "string", name: "", type: "string" }],
+    stateMutability: "view",
+    type: "function",
+  },
+  {
+    inputs: [],
+    name: "taxFee",
+    outputs: [{ internalType: "uint256", name: "", type: "uint256" }],
+    stateMutability: "view",
+    type: "function",
+  },
+  {
+    inputs: [],
+    name: "totalSupply",
+    outputs: [{ internalType: "uint256", name: "", type: "uint256" }],
+    stateMutability: "view",
+    type: "function",
+  },
+  {
+    inputs: [
+      { internalType: "address", name: "recipient", type: "address" },
+      { internalType: "uint256", name: "amount", type: "uint256" },
+    ],
+    name: "transfer",
+    outputs: [{ internalType: "bool", name: "", type: "bool" }],
+    stateMutability: "nonpayable",
+    type: "function",
+  },
+  {
+    inputs: [
+      { internalType: "address", name: "sender", type: "address" },
+      { internalType: "address", name: "recipient", type: "address" },
+      { internalType: "uint256", name: "amount", type: "uint256" },
+    ],
+    name: "transferFrom",
+    outputs: [{ internalType: "bool", name: "", type: "bool" }],
+    stateMutability: "nonpayable",
+    type: "function",
+  },
+  {
+    inputs: [{ internalType: "address", name: "newOwner", type: "address" }],
+    name: "transferOwnership",
+    outputs: [],
+    stateMutability: "nonpayable",
+    type: "function",
+  },
+  {
+    inputs: [],
+    name: "uniswapV2Pair",
+    outputs: [{ internalType: "address", name: "", type: "address" }],
+    stateMutability: "view",
+    type: "function",
+  },
+  {
+    inputs: [
+      { internalType: "address", name: "_pairAddress", type: "address" },
+    ],
+    name: "updatePairAddress",
+    outputs: [],
+    stateMutability: "nonpayable",
+    type: "function",
+  },
+  {
+    inputs: [{ internalType: "uint256", name: "taxfee", type: "uint256" }],
+    name: "updateTaxFee",
+    outputs: [],
+    stateMutability: "nonpayable",
+    type: "function",
+  },
+];
+
+export const BUSDTokenAddress = "0xaB1a4d4f1D656d2450692D237fdD6C7f9146e814";
+export const BUSDTokenAbi = [
+  { inputs: [], stateMutability: "nonpayable", type: "constructor" },
+  {
+    anonymous: false,
+    inputs: [
+      {
+        indexed: true,
+        internalType: "address",
+        name: "owner",
+        type: "address",
+      },
+      {
+        indexed: true,
+        internalType: "address",
+        name: "spender",
+        type: "address",
+      },
+      {
+        indexed: false,
+        internalType: "uint256",
+        name: "value",
+        type: "uint256",
+      },
+    ],
+    name: "Approval",
     type: "event",
   },
   {
@@ -89,16 +390,9 @@ export const TokenAbi = [
     type: "function",
   },
   {
-    inputs: [{ internalType: "uint256", name: "amount", type: "uint256" }],
-    name: "burn",
-    outputs: [],
-    stateMutability: "nonpayable",
-    type: "function",
-  },
-  {
     inputs: [
-      { internalType: "address", name: "account", type: "address" },
-      { internalType: "uint256", name: "amount", type: "uint256" },
+      { internalType: "address", name: "_to", type: "address" },
+      { internalType: "uint256", name: "_amount", type: "uint256" },
     ],
     name: "burnFrom",
     outputs: [],
@@ -109,7 +403,7 @@ export const TokenAbi = [
     inputs: [],
     name: "decimals",
     outputs: [{ internalType: "uint8", name: "", type: "uint8" }],
-    stateMutability: "view",
+    stateMutability: "pure",
     type: "function",
   },
   {
@@ -134,8 +428,8 @@ export const TokenAbi = [
   },
   {
     inputs: [
-      { internalType: "address", name: "to", type: "address" },
-      { internalType: "uint256", name: "amount", type: "uint256" },
+      { internalType: "address", name: "_to", type: "address" },
+      { internalType: "uint256", name: "_amount", type: "uint256" },
     ],
     name: "mint",
     outputs: [],
@@ -147,20 +441,6 @@ export const TokenAbi = [
     name: "name",
     outputs: [{ internalType: "string", name: "", type: "string" }],
     stateMutability: "view",
-    type: "function",
-  },
-  {
-    inputs: [],
-    name: "owner",
-    outputs: [{ internalType: "address", name: "", type: "address" }],
-    stateMutability: "view",
-    type: "function",
-  },
-  {
-    inputs: [],
-    name: "renounceOwnership",
-    outputs: [],
-    stateMutability: "nonpayable",
     type: "function",
   },
   {
@@ -198,25 +478,12 @@ export const TokenAbi = [
     stateMutability: "nonpayable",
     type: "function",
   },
-  {
-    inputs: [{ internalType: "address", name: "newOwner", type: "address" }],
-    name: "transferOwnership",
-    outputs: [],
-    stateMutability: "nonpayable",
-    type: "function",
-  },
 ];
 
-export const StakingAddress = "0xf9A629Eb12Ed0fFcdc8EFd02bDE7979cc838836f";
+export const StakingAddress = "0x3b613B6515b37a26F82b07B6276A6b7A0F04D326";
 export const StakingAbi = [
   {
-    inputs: [
-      {
-        internalType: "contract IERC20",
-        name: "tokenAddress",
-        type: "address",
-      },
-    ],
+    inputs: [{ internalType: "address", name: "_token", type: "address" }],
     stateMutability: "nonpayable",
     type: "constructor",
   },
@@ -353,7 +620,7 @@ export const StakingAbi = [
   },
 ];
 
-export const LendingAddress = "0x5a0BA97fcD54bB89d52cb06F5A6C7E170d848EEB";
+export const LendingAddress = "0x5254d81D710Ae6FFDD7CC91be6039C86fC3e301E";
 export const LendingAbi = [
   {
     inputs: [
@@ -363,6 +630,13 @@ export const LendingAbi = [
         name: "_priceFeedAddresses",
         type: "address[]",
       },
+      {
+        internalType: "address",
+        name: "_archefiTokenAddress",
+        type: "address",
+      },
+      { internalType: "address", name: "_feeContract", type: "address" },
+      { internalType: "address", name: "_stakingContract", type: "address" },
     ],
     stateMutability: "nonpayable",
     type: "constructor",
@@ -690,6 +964,41 @@ export const LendingAbi = [
     type: "event",
   },
   {
+    inputs: [],
+    name: "FEE_PERCENTAGE",
+    outputs: [{ internalType: "uint256", name: "", type: "uint256" }],
+    stateMutability: "view",
+    type: "function",
+  },
+  {
+    inputs: [],
+    name: "TRADEING_DURATION_THRESHOLD",
+    outputs: [{ internalType: "uint256", name: "", type: "uint256" }],
+    stateMutability: "view",
+    type: "function",
+  },
+  {
+    inputs: [],
+    name: "TRADE_AMOUNT_THRESHOLD",
+    outputs: [{ internalType: "uint256", name: "", type: "uint256" }],
+    stateMutability: "view",
+    type: "function",
+  },
+  {
+    inputs: [{ internalType: "uint256", name: "", type: "uint256" }],
+    name: "activeLendRequests",
+    outputs: [{ internalType: "uint256", name: "", type: "uint256" }],
+    stateMutability: "view",
+    type: "function",
+  },
+  {
+    inputs: [],
+    name: "archefiTokenAddress",
+    outputs: [{ internalType: "contract IERC20", name: "", type: "address" }],
+    stateMutability: "view",
+    type: "function",
+  },
+  {
     inputs: [
       { internalType: "uint256", name: "_loanID", type: "uint256" },
       { internalType: "uint256", name: "_lendRequestID", type: "uint256" },
@@ -709,6 +1018,27 @@ export const LendingAbi = [
     name: "calculateBorrowableAmount",
     outputs: [{ internalType: "uint256", name: "", type: "uint256" }],
     stateMutability: "view",
+    type: "function",
+  },
+  {
+    inputs: [
+      { internalType: "uint256", name: "tradeAmount", type: "uint256" },
+      { internalType: "uint256", name: "tradeDuration", type: "uint256" },
+    ],
+    name: "calculateFeeOnTrading",
+    outputs: [{ internalType: "uint256", name: "", type: "uint256" }],
+    stateMutability: "pure",
+    type: "function",
+  },
+  {
+    inputs: [
+      { internalType: "uint256", name: "amountInWei", type: "uint256" },
+      { internalType: "uint256", name: "annualInterestRate", type: "uint256" },
+      { internalType: "uint256", name: "durationInDays", type: "uint256" },
+    ],
+    name: "calculateInterestAmount",
+    outputs: [{ internalType: "uint256", name: "", type: "uint256" }],
+    stateMutability: "pure",
     type: "function",
   },
   {
@@ -739,6 +1069,23 @@ export const LendingAbi = [
     ],
     name: "calculateRemainingTime",
     outputs: [{ internalType: "uint256", name: "", type: "uint256" }],
+    stateMutability: "view",
+    type: "function",
+  },
+  {
+    inputs: [],
+    name: "calculateTotalContractBalanceOfEachToken",
+    outputs: [
+      { internalType: "address[]", name: "tokens", type: "address[]" },
+      { internalType: "uint256[]", name: "amounts", type: "uint256[]" },
+    ],
+    stateMutability: "view",
+    type: "function",
+  },
+  {
+    inputs: [{ internalType: "uint256", name: "requestId", type: "uint256" }],
+    name: "checkLoansStatus",
+    outputs: [{ internalType: "uint256[]", name: "", type: "uint256[]" }],
     stateMutability: "view",
     type: "function",
   },
@@ -775,6 +1122,132 @@ export const LendingAbi = [
     type: "function",
   },
   {
+    inputs: [{ internalType: "address", name: "_token", type: "address" }],
+    name: "emergencyWithdrawToken",
+    outputs: [],
+    stateMutability: "nonpayable",
+    type: "function",
+  },
+  {
+    inputs: [],
+    name: "feeContract",
+    outputs: [{ internalType: "address", name: "", type: "address" }],
+    stateMutability: "view",
+    type: "function",
+  },
+  {
+    inputs: [],
+    name: "getAllActiveLendRequests",
+    outputs: [
+      {
+        components: [
+          { internalType: "uint256", name: "requestID", type: "uint256" },
+          { internalType: "address", name: "lenderAddress", type: "address" },
+          { internalType: "address", name: "tokenAddress", type: "address" },
+          { internalType: "uint256", name: "lendAmount", type: "uint256" },
+          { internalType: "uint256", name: "interestRate", type: "uint256" },
+          { internalType: "uint256", name: "startTime", type: "uint256" },
+          { internalType: "uint256", name: "lendingDuration", type: "uint256" },
+          { internalType: "uint256", name: "earnedInterest", type: "uint256" },
+          {
+            internalType: "uint256",
+            name: "remainingLendAmount",
+            type: "uint256",
+          },
+          { internalType: "bool", name: "isOpenToBorrow", type: "bool" },
+        ],
+        internalType: "struct P2PLendingBorrowing.LendDetails[]",
+        name: "",
+        type: "tuple[]",
+      },
+    ],
+    stateMutability: "view",
+    type: "function",
+  },
+  {
+    inputs: [],
+    name: "getAllBorrowerInfo",
+    outputs: [
+      {
+        components: [
+          { internalType: "uint256", name: "loanID", type: "uint256" },
+          { internalType: "uint256", name: "lendRequestID", type: "uint256" },
+          { internalType: "address", name: "borrowerAddress", type: "address" },
+          { internalType: "address", name: "lenderAddress", type: "address" },
+          { internalType: "address", name: "collateralToken", type: "address" },
+          {
+            internalType: "uint256",
+            name: "collateralAmount",
+            type: "uint256",
+          },
+          {
+            internalType: "uint256",
+            name: "collateralLivePrice",
+            type: "uint256",
+          },
+          { internalType: "address", name: "lendToken", type: "address" },
+          { internalType: "uint256", name: "lendAmount", type: "uint256" },
+          { internalType: "uint256", name: "loanStartTime", type: "uint256" },
+          { internalType: "uint256", name: "repaymentTime", type: "uint256" },
+          {
+            internalType: "enum P2PLendingBorrowing.LoanStatus",
+            name: "status",
+            type: "uint8",
+          },
+          {
+            components: [
+              {
+                internalType: "uint256",
+                name: "interestRate",
+                type: "uint256",
+              },
+              {
+                internalType: "uint256",
+                name: "repaidAmount",
+                type: "uint256",
+              },
+              {
+                internalType: "uint256",
+                name: "remainingLoanAmount",
+                type: "uint256",
+              },
+              {
+                internalType: "uint256",
+                name: "loanPlusInterest",
+                type: "uint256",
+              },
+              { internalType: "bool", name: "isDefaulted", type: "bool" },
+              { internalType: "bool", name: "isClosed", type: "bool" },
+              { internalType: "bool", name: "isRedeposit", type: "bool" },
+            ],
+            internalType: "struct P2PLendingBorrowing.PaymentDetails",
+            name: "payment",
+            type: "tuple",
+          },
+        ],
+        internalType: "struct P2PLendingBorrowing.Borrower[]",
+        name: "",
+        type: "tuple[]",
+      },
+    ],
+    stateMutability: "view",
+    type: "function",
+  },
+  {
+    inputs: [],
+    name: "getAllTokenAddresses",
+    outputs: [{ internalType: "address[]", name: "", type: "address[]" }],
+    stateMutability: "view",
+    type: "function",
+  },
+  {
+    inputs: [],
+    name: "getFeeContract",
+    outputs: [{ internalType: "address", name: "", type: "address" }],
+    stateMutability: "view",
+    type: "function",
+  },
+  {
     inputs: [
       { internalType: "address", name: "_tokenAddress", type: "address" },
     ],
@@ -794,6 +1267,7 @@ export const LendingAbi = [
           { internalType: "address", name: "tokenAddress", type: "address" },
           { internalType: "uint256", name: "lendAmount", type: "uint256" },
           { internalType: "uint256", name: "interestRate", type: "uint256" },
+          { internalType: "uint256", name: "startTime", type: "uint256" },
           { internalType: "uint256", name: "lendingDuration", type: "uint256" },
           { internalType: "uint256", name: "earnedInterest", type: "uint256" },
           {
@@ -855,9 +1329,11 @@ export const LendingAbi = [
     ],
     name: "getLoanInfo",
     outputs: [
+      { internalType: "bool", name: "success", type: "bool" },
       { internalType: "uint256[]", name: "indexes", type: "uint256[]" },
       {
         components: [
+          { internalType: "uint256", name: "lendID", type: "uint256" },
           { internalType: "uint256", name: "loanID", type: "uint256" },
           { internalType: "address", name: "collateralToken", type: "address" },
           { internalType: "address", name: "borrower", type: "address" },
@@ -896,6 +1372,11 @@ export const LendingAbi = [
           { internalType: "uint256", name: "lendAmount", type: "uint256" },
           { internalType: "uint256", name: "loanStartTime", type: "uint256" },
           { internalType: "uint256", name: "repaymentTime", type: "uint256" },
+          {
+            internalType: "enum P2PLendingBorrowing.LoanStatus",
+            name: "status",
+            type: "uint8",
+          },
           {
             components: [
               {
@@ -1010,7 +1491,7 @@ export const LendingAbi = [
   },
   {
     inputs: [],
-    name: "stakigContract",
+    name: "stakingContract",
     outputs: [{ internalType: "contract IStaking", name: "", type: "address" }],
     stateMutability: "view",
     type: "function",
@@ -1025,6 +1506,13 @@ export const LendingAbi = [
   {
     inputs: [{ internalType: "address", name: "newOwner", type: "address" }],
     name: "transferOwnership",
+    outputs: [],
+    stateMutability: "nonpayable",
+    type: "function",
+  },
+  {
+    inputs: [{ internalType: "address", name: "_contract", type: "address" }],
+    name: "updateFeeContract",
     outputs: [],
     stateMutability: "nonpayable",
     type: "function",
@@ -1060,6 +1548,264 @@ export const LendingAbi = [
   {
     inputs: [{ internalType: "uint256", name: "requestId", type: "uint256" }],
     name: "withdrawLendAmount",
+    outputs: [],
+    stateMutability: "nonpayable",
+    type: "function",
+  },
+  { stateMutability: "payable", type: "receive" },
+];
+
+export const redeemRewardAddress = "0x47ae437f9c4756C9Be87b4D83B8CDCF80f009a91";
+export const redeemRewardAbi = [
+  {
+    inputs: [
+      { internalType: "address", name: "_tokenAddress", type: "address" },
+      { internalType: "address", name: "_signer", type: "address" },
+      { internalType: "address", name: "_stakingContract", type: "address" },
+    ],
+    stateMutability: "nonpayable",
+    type: "constructor",
+  },
+  {
+    anonymous: false,
+    inputs: [
+      {
+        indexed: true,
+        internalType: "address",
+        name: "previousOwner",
+        type: "address",
+      },
+      {
+        indexed: true,
+        internalType: "address",
+        name: "newOwner",
+        type: "address",
+      },
+    ],
+    name: "OwnershipTransferred",
+    type: "event",
+  },
+  {
+    anonymous: false,
+    inputs: [
+      {
+        indexed: false,
+        internalType: "address",
+        name: "account",
+        type: "address",
+      },
+    ],
+    name: "Paused",
+    type: "event",
+  },
+  {
+    anonymous: false,
+    inputs: [
+      { indexed: true, internalType: "address", name: "user", type: "address" },
+      {
+        indexed: false,
+        internalType: "uint256",
+        name: "amount",
+        type: "uint256",
+      },
+    ],
+    name: "TokensClaimed",
+    type: "event",
+  },
+  {
+    anonymous: false,
+    inputs: [
+      {
+        indexed: false,
+        internalType: "address",
+        name: "account",
+        type: "address",
+      },
+    ],
+    name: "Unpaused",
+    type: "event",
+  },
+  {
+    inputs: [
+      { internalType: "uint256", name: "amount", type: "uint256" },
+      { internalType: "bytes", name: "signature", type: "bytes" },
+    ],
+    name: "claimTokens",
+    outputs: [],
+    stateMutability: "nonpayable",
+    type: "function",
+  },
+  {
+    inputs: [],
+    name: "contractFeeBalance",
+    outputs: [{ internalType: "uint256", name: "", type: "uint256" }],
+    stateMutability: "view",
+    type: "function",
+  },
+  {
+    inputs: [],
+    name: "distributeFees",
+    outputs: [],
+    stateMutability: "nonpayable",
+    type: "function",
+  },
+  {
+    inputs: [],
+    name: "distributedAmountPerStakeUnit",
+    outputs: [{ internalType: "uint256", name: "", type: "uint256" }],
+    stateMutability: "view",
+    type: "function",
+  },
+  {
+    inputs: [],
+    name: "distributionTime",
+    outputs: [{ internalType: "uint256", name: "", type: "uint256" }],
+    stateMutability: "view",
+    type: "function",
+  },
+  {
+    inputs: [{ internalType: "address", name: "user", type: "address" }],
+    name: "getWithdrawableAmount",
+    outputs: [{ internalType: "uint256", name: "", type: "uint256" }],
+    stateMutability: "view",
+    type: "function",
+  },
+  {
+    inputs: [],
+    name: "lastDistributionTime",
+    outputs: [{ internalType: "uint256", name: "", type: "uint256" }],
+    stateMutability: "view",
+    type: "function",
+  },
+  {
+    inputs: [{ internalType: "address", name: "", type: "address" }],
+    name: "lastUserReward",
+    outputs: [{ internalType: "uint256", name: "", type: "uint256" }],
+    stateMutability: "view",
+    type: "function",
+  },
+  {
+    inputs: [{ internalType: "address", name: "", type: "address" }],
+    name: "nonces",
+    outputs: [{ internalType: "uint256", name: "", type: "uint256" }],
+    stateMutability: "view",
+    type: "function",
+  },
+  {
+    inputs: [],
+    name: "owner",
+    outputs: [{ internalType: "address", name: "", type: "address" }],
+    stateMutability: "view",
+    type: "function",
+  },
+  {
+    inputs: [],
+    name: "pause",
+    outputs: [],
+    stateMutability: "nonpayable",
+    type: "function",
+  },
+  {
+    inputs: [],
+    name: "paused",
+    outputs: [{ internalType: "bool", name: "", type: "bool" }],
+    stateMutability: "view",
+    type: "function",
+  },
+  {
+    inputs: [{ internalType: "address", name: "", type: "address" }],
+    name: "processedAirdrops",
+    outputs: [{ internalType: "bool", name: "", type: "bool" }],
+    stateMutability: "view",
+    type: "function",
+  },
+  {
+    inputs: [],
+    name: "renounceOwnership",
+    outputs: [],
+    stateMutability: "nonpayable",
+    type: "function",
+  },
+  {
+    inputs: [{ internalType: "uint256", name: "_time", type: "uint256" }],
+    name: "setDistributeTime",
+    outputs: [],
+    stateMutability: "nonpayable",
+    type: "function",
+  },
+  {
+    inputs: [{ internalType: "address", name: "_signer", type: "address" }],
+    name: "setSigner",
+    outputs: [],
+    stateMutability: "nonpayable",
+    type: "function",
+  },
+  {
+    inputs: [
+      { internalType: "address", name: "_contractAddress", type: "address" },
+    ],
+    name: "setStakingContract",
+    outputs: [],
+    stateMutability: "nonpayable",
+    type: "function",
+  },
+  {
+    inputs: [
+      { internalType: "address", name: "_tokenAddress", type: "address" },
+    ],
+    name: "setTokenAddress",
+    outputs: [],
+    stateMutability: "nonpayable",
+    type: "function",
+  },
+  {
+    inputs: [],
+    name: "signer",
+    outputs: [{ internalType: "address", name: "", type: "address" }],
+    stateMutability: "view",
+    type: "function",
+  },
+  {
+    inputs: [],
+    name: "stakingContract",
+    outputs: [{ internalType: "contract Istaking", name: "", type: "address" }],
+    stateMutability: "view",
+    type: "function",
+  },
+  {
+    inputs: [],
+    name: "token",
+    outputs: [{ internalType: "contract IERC20", name: "", type: "address" }],
+    stateMutability: "view",
+    type: "function",
+  },
+  {
+    inputs: [{ internalType: "address", name: "newOwner", type: "address" }],
+    name: "transferOwnership",
+    outputs: [],
+    stateMutability: "nonpayable",
+    type: "function",
+  },
+  {
+    inputs: [],
+    name: "unpause",
+    outputs: [],
+    stateMutability: "nonpayable",
+    type: "function",
+  },
+  {
+    inputs: [{ internalType: "address", name: "", type: "address" }],
+    name: "userLastDistribution",
+    outputs: [{ internalType: "uint256", name: "", type: "uint256" }],
+    stateMutability: "view",
+    type: "function",
+  },
+  {
+    inputs: [
+      { internalType: "address", name: "to", type: "address" },
+      { internalType: "uint256", name: "amount", type: "uint256" },
+    ],
+    name: "withdrawTokens",
     outputs: [],
     stateMutability: "nonpayable",
     type: "function",
