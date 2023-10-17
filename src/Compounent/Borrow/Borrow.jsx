@@ -128,6 +128,19 @@ function Borrow() {
     setCurrentPage(selectedPage.selected);
   };
 
+  const handleInputChange = (newValue, setFunc) => {
+    if (newValue < 0) {
+      // Do not set the state if the value is less than 0
+      return;
+    }
+
+    if (newValue.startsWith("0") && newValue.length > 1) {
+      newValue = newValue.replace(/^0+/, "");
+    }
+
+    setFunc(newValue);
+  };
+
   useEffect(() => {
     const indexOfLastItem = (currentPage + 1) * itemsPerPage;
     const indexOfFirstItem = indexOfLastItem - itemsPerPage;
@@ -366,7 +379,61 @@ function Borrow() {
     }
   };
 
+  const checkBalanceToPayFee = async () => {
+    try {
+      const lendingContract = new web3.eth.Contract(LendingAbi, LendingAddress);
+      const tokenContract = new web3.eth.Contract(TokenAbi, TokenAddress);
+      const BUSDContractOf = new web3.eth.Contract(
+        BUSDTokenAbi,
+        BUSDTokenAddress,
+      );
+
+      const AftBalance = await tokenContract.methods
+        .balanceOf(acc)
+        .call({ from: acc });
+
+      // find this loan ID in borrower list
+      const isBorrower = borrowerList.find((item) => item.loanID === loanID);
+
+      const calculateFees = await lendingContract.methods
+        .calculateFeeOnTrading(isBorrower.collateralAmount, durationTime)
+        .call();
+
+      console.log("FEes", calculateFees);
+
+      if (parseFloat(calculateFees) > parseFloat(AftBalance)) {
+        toast.error("Insufficient balance to pay fees");
+        return false;
+      }
+
+      if (parseInt(isBorrower.collateralAmount) < 10000) {
+        return "skip";
+      }
+
+      if (parseInt(durationTime) < 31) {
+        return "skip";
+      }
+
+      const isApproved = await tokenContract.methods
+        .approve(LendingAddress, calculateFees)
+        .send({ from: acc });
+
+      if (!isApproved.status) {
+        toast.error("AFT Approval Failed");
+        return false;
+      }
+
+      toast.success("AFT approved Successfully");
+
+      return true;
+    } catch (error) {
+      console.error("An error occurred:", error);
+      return false;
+    }
+  };
+
   const AvailLoan = async () => {
+    checkBalanceToPayFee();
     try {
       if (acc === "Connect Wallet") {
         toast.error("Please Connect Wallet");
@@ -397,52 +464,13 @@ function Borrow() {
         .getAllActiveLendRequests()
         .call();
 
-      // console.log("lender requests", lenderRequests);
+      console.log("Avail --- Lender Requests", lenderRequests);
 
-      // const lenderDetailsPromises = lenderRequests[0].map(async (item, i) => {
-      //   return await lendingContract.methods.getLenderDetails(item).call();
-      // });
-      // const lenderDetails = await Promise.all(lenderDetailsPromises);
-
-      // console.log("lender details",lenderDetails);
-
-      // const lender = lenderDetails.find((item) => item.requestID === reqID);
-
-      // if (!lender) {
-      //   toast.error("Invalid request ID");
-      //   return;
-      // }
-
-      // let timeInSecs = durationTime * 60;
-      // if (parseInt(lender.lendingDuration) < parseInt(timeInSecs)) {
-      //   toast.error("Invalid duration time");
-      //   return;
-      // }
-
-      // const availLoan = await lendingContract.methods
-      //   .availLoan(loanID, reqID, durationTime)
-      //   .send({ from: acc });
-
-      // if (availLoan.status) {
-      //   toast.success("Loan Availed Successfully");
-
-      //   setTimeout(() => {
-      //     getLoanIDs();
-      //   }, 1000);
-      // }
-      // if (
-      //   durationTime >
-      //   lendsRequestList[requestIdIndex].lendingDuration / 60
-      // ) {
-      //   toast.error("Time Exceded");
-      // }
-      // console.log(
-      //   lendsRequestList[requestIdIndex].lendingDuration / 60,
-      //   selectedLendToken,
-      //   durationTime,
-      // );
-      // console.log(loanID, selectedLendToken, durationTime);
       if (durationTime <= time / 60) {
+        const isBalanceCheckPassed = await checkBalanceToPayFee();
+        if (!isBalanceCheckPassed) {
+          return;
+        }
         const availLoan = await lendingContract.methods
           .availLoan(loanID, selectedLendToken, durationTime)
           .send({ from: acc });
@@ -454,7 +482,7 @@ function Borrow() {
           }, 1000);
         }
       } else {
-        toast.error("Time Exceded");
+        toast.error("Invalid duration time");
       }
     } catch (err) {
       console.log(err);
@@ -662,6 +690,9 @@ function Borrow() {
           toast.error("Loan is not redeposited");
           return;
         }
+      } else {
+        toast.error("No additional loan available");
+        return;
       }
       // check for this loan ID in borrower list
     } catch (error) {
@@ -709,6 +740,7 @@ function Borrow() {
         toast.error("Loan is already redeposited");
         return;
       }
+
       if (returnValue.additionalDepositRequired > 0) {
         // check if loan is repaid
         const calculate = await lendingContract.methods
@@ -758,6 +790,9 @@ function Borrow() {
             }
           }
         }
+      } else {
+        toast.error("No additional redeposit required");
+        return;
       }
     } catch (error) {
       console.log(error);
@@ -861,7 +896,7 @@ function Borrow() {
   // };
 
   return (
-    <div  style={{marginTop:"150px"}}>
+    <div style={{ marginTop: "150px" }}>
       <div className="px-md-5 mt-2 mb-4 px-2">
         <h2>Borrow</h2>
         <p>Borrow your Assets</p>
@@ -882,8 +917,10 @@ function Borrow() {
                       type="number"
                       className="py-2 px-2 wd"
                       placeholder="Amount"
-                      value={amount}
-                      onChange={(e) => setAmount(e.target.value)}
+                      value={amount || 0}
+                      onChange={(e) =>
+                        handleInputChange(e.target.value, setAmount)
+                      }
                       name=""
                       id=""
                     />
@@ -1071,7 +1108,6 @@ function Borrow() {
                         },
                       }}
                       className="wd"
-
                     >
                       {lendsRequestList.length === 0 ? (
                         <Option>
@@ -1126,8 +1162,10 @@ function Borrow() {
                       placeholder="Duration"
                       name=""
                       id=""
-                      value={durationTime}
-                      onChange={(e) => setDurationTime(e.target.value)}
+                      value={durationTime || 0}
+                      onChange={(e) =>
+                        handleInputChange(e.target.value, setDurationTime)
+                      }
                     />
                   </div>
                 </div>
@@ -1287,9 +1325,8 @@ function Borrow() {
                         },
                       }}
                       style={{
-                        minWidth:"50%"
+                        minWidth: "50%",
                       }}
-
                     >
                       {borrowerList.length === 0 ? (
                         <Option>
@@ -1351,9 +1388,8 @@ function Borrow() {
                         },
                       }}
                       style={{
-                        minWidth:"50%"
+                        minWidth: "50%",
                       }}
-
                     >
                       {borrowerList.length === 0 ? (
                         <Option>
@@ -1418,9 +1454,8 @@ function Borrow() {
                         },
                       }}
                       style={{
-                        minWidth:"50%"
+                        minWidth: "50%",
                       }}
-
                     >
                       {borrowerList.length === 0 ? (
                         <Option>
@@ -1639,10 +1674,10 @@ function Borrow() {
           </div>
         </div>
         <div className="mt-3">
-        <Pagination
-          pageCount={Math.ceil(borrowerList.length / itemsPerPage)}
-          onPageChange={handlePageChange}
-        />
+          <Pagination
+            pageCount={Math.ceil(borrowerList.length / itemsPerPage)}
+            onPageChange={handlePageChange}
+          />
         </div>
       </div>
     </div>

@@ -104,10 +104,13 @@ exports.getMe = asyncHandler(async (req, res, next) => {
   }
 
   // send response
-  res.status(200).json({ success: true, data: {
-    name: user.name,
-    email: user.email,
-  } });
+  res.status(200).json({
+    success: true,
+    data: {
+      name: user.name,
+      email: user.email,
+    },
+  });
 });
 
 // description       Forget password
@@ -126,17 +129,15 @@ exports.forgetPassword = asyncHandler(async (req, res, next) => {
   // save user
   await user.save({ validateBeforeSave: false });
 
-  // email details
-  const resetUrl = `${req.protocol}://${req.get(
-    "host"
-  )}/api/v1/auth/resetpassword/${resetToken}`;
-  const message = `You are receiving this email because you has requested the reset of a password. Please make a PUT request to: \n\n ${resetUrl}`;
+  // URl for the resetPassword route of my client side
+  const resetUrl = `${process.env.CLIENT_URI}/resetPassword/${resetToken}`;
+  const message = `Click ${resetUrl} this link to reset your password.\nThis link will expire in 10 minutes.`;
 
   // send email
   try {
     await sendEmail({
       email: user.email,
-      subject: "Password reset token",
+      subject: "Password reset",
       message,
     });
 
@@ -154,6 +155,9 @@ exports.forgetPassword = asyncHandler(async (req, res, next) => {
 // @route             PUT  api/v1/auth/resetpassword/:resettoken
 // @access            Public
 exports.resetPassword = asyncHandler(async (req, res, next) => {
+
+
+  console.log(req.params.resettoken);
   // get hashed token
   const resetPasswordToken = crypto
     .createHash("sha256")
@@ -195,9 +199,7 @@ exports.logout = asyncHandler(async (req, res, next) => {
 
   // send response
   res.status(200).json({ success: true, data: {} });
-
 });
-
 
 const sendTokenResponse = (user, statusCode, res) => {
   // create token
@@ -206,7 +208,7 @@ const sendTokenResponse = (user, statusCode, res) => {
   // set cookie options
   const options = {
     expires: new Date(
-      Date.now() + process.env.JWT_COOKIE_EXPIRE * 24 * 60 * 60 * 1000
+      Date.now() + process.env.JWT_COOKIE_EXPIRE * 24 * 60 * 60 * 1000,
     ), // convert to milliseconds
     httpOnly: true, // cookie cannot be accessed by the browser
   };

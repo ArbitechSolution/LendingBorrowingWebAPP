@@ -273,7 +273,7 @@ function Lend() {
 
       const isApproved = await tokenContract.methods
         // add 1 ether in calculateFees
-        .approve(redeemRewardAddress, calculateFees)
+        .approve(LendingAddress, calculateFees)
         .send({ from: acc });
 
       if (!isApproved.status) {
@@ -580,6 +580,19 @@ function Lend() {
     }
   };
 
+  const handleInputChange = (newValue, setFunc) => {
+    if (newValue < 0) {
+      // Do not set the state if the value is less than 0
+      return;
+    }
+
+    if (newValue.startsWith("0") && newValue.length > 1) {
+      newValue = newValue.replace(/^0+/, "");
+    }
+
+    setFunc(newValue);
+  };
+
   useEffect(() => {
     if (acc === "Connect Wallet") return;
     getAllTokenAddress();
@@ -609,8 +622,10 @@ function Lend() {
                         type="number"
                         className="py-2 px-2 w-50"
                         placeholder="Amount"
-                        value={amount}
-                        onChange={(e) => setAmount(e.target.value)}
+                        value={amount || 0}
+                        onChange={(e) =>
+                          handleInputChange(e.target.value, setAmount)
+                        }
                         name="amount"
                         id="amount"
                       />
@@ -628,8 +643,10 @@ function Lend() {
                         placeholder="percentage"
                         name="percentage"
                         id="percentage"
-                        value={percentage}
-                        onChange={(e) => setpercentage(e.target.value)}
+                        value={percentage || 0}
+                        onChange={(e) =>
+                          handleInputChange(e.target.value, setpercentage)
+                        }
                       />
                     </div>
                   </div>
@@ -643,8 +660,10 @@ function Lend() {
                         type="number"
                         className="py-2 px-2 w-50"
                         placeholder="Days"
-                        value={days}
-                        onChange={(e) => setDays(e.target.value)}
+                        value={days || 0}
+                        onChange={(e) =>
+                          handleInputChange(e.target.value, setDays)
+                        }
                         name="days"
                         id="days"
                       />

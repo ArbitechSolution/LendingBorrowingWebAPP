@@ -3,6 +3,7 @@ import React, { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import axios from "axios";
 import { toast } from "react-toastify";
+import { FaEye, FaEyeSlash } from "react-icons/fa"; // Import eye icons
 
 // import LoginImg from '../../assets/images/login-image.jpg'
 import LoginImg from "../../assets/images/illustration1.png";
@@ -21,10 +22,15 @@ function Signup() {
     password: "",
     confirmPassword: "",
   });
+  const [showPassword, setShowPassword] = useState(false); // State for password visibility
 
   const handleInputChange = (event) => {
     const { name, value } = event.target;
     setCredentials({ ...credentials, [name]: value });
+  };
+
+  const togglePasswordVisibility = () => {
+    setShowPassword(!showPassword);
   };
 
   const handleSubmit = async (event) => {
@@ -102,23 +108,48 @@ function Signup() {
           />
         </div>
         <div>
-          <input
-            type="password"
-            name="password"
-            placeholder="Password"
-            value={credentials.password}
-            onChange={handleInputChange}
-          />
+          <div className="password-input-container">
+            <input
+              type={showPassword ? "text" : "password"}
+              name="password"
+              placeholder="Password"
+              value={credentials.password}
+              onChange={handleInputChange}
+            />
+            <span
+              className="password-toggle-icon"
+              onClick={togglePasswordVisibility}
+            >
+              {showPassword ? (
+                <FaEyeSlash title="Hide" />
+              ) : (
+                <FaEye title="Show" />
+              )}
+            </span>
+          </div>
         </div>
 
         <div>
-          <input
-            type="password"
-            name="confirmPassword"
-            placeholder="Confirm Password"
-            value={credentials.confirmPassword}
-            onChange={handleInputChange}
-          />
+          <div className="password-input-container">
+            <input
+              type={showPassword ? "text" : "password"}
+              name="confirmPassword"
+              placeholder="Confirm Password"
+              value={credentials.confirmPassword}
+              onChange={handleInputChange}
+            />
+
+            <span
+              className="password-toggle-icon"
+              onClick={togglePasswordVisibility}
+            >
+              {showPassword ? (
+                <FaEyeSlash title="Hide" />
+              ) : (
+                <FaEye title="Show" />
+              )}
+            </span>
+          </div>
         </div>
 
         {/* <div className="forgot-password">

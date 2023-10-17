@@ -73,6 +73,19 @@ function Dash_Stats() {
     },
   ]);
 
+  const handleInputChange = (newValue, setFunc) => {
+    if (newValue < 0) {
+      // Do not set the state if the value is less than 0
+      return;
+    }
+
+    if (newValue.startsWith("0") && newValue.length > 1) {
+      newValue = newValue.replace(/^0+/, "");
+    }
+
+    setFunc(newValue);
+  };
+
   const [selectedCollateralToken, setSelectedCollateralToken] = useState({
     name: "BNB",
     img: "url_to_bnb_image_1",
@@ -231,7 +244,6 @@ function Dash_Stats() {
           return { ...item, price: prices[index] };
         });
       });
-
     } catch (error) {
       console.log(error);
     }
@@ -295,8 +307,10 @@ function Dash_Stats() {
                         type="number"
                         className="py-2 px-2 wd"
                         placeholder="Amount"
-                        value={amount}
-                        onChange={(e) => setAmount(e.target.value)}
+                        value={amount || 0}
+                        onChange={(e) =>
+                          handleInputChange(e.target.value, setAmount)
+                        }
                       />
                     </div>
                   </div>
@@ -399,13 +413,14 @@ function Dash_Stats() {
             </div>
           </div>
         </div>
-        <div className="col-md-6 col-sm-12 mt-2" >
+        <div className="col-md-6 col-sm-12 mt-2">
           <div className="card color">
-            <div className="card-body"
-                    //  style={{
-                    //   boxShadow:"100px -25px 270px skyblue",
-                    //   }}
-             >
+            <div
+              className="card-body"
+              //  style={{
+              //   boxShadow:"100px -25px 270px skyblue",
+              //   }}
+            >
               <h6>Assets Balance</h6>
               <hr />
               {tokenData.map((data, index) => (

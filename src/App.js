@@ -15,6 +15,8 @@ import Hero from "./Compounent/Hero/Hero";
 import LogIn from "./Compounent/LogIn/LogIn";
 import Signup from "./Compounent/Signup/Signup";
 import ProtectedRoute from "./Compounent/ProtectedRoutes/ProtectedRoute";
+import ForgetPassword from "./Compounent/ForgetPassword/ForgetPassword";
+import ResetPassword from "./Compounent/ResetPassword/ResetPassword";
 
 function App() {
   return (
@@ -30,13 +32,17 @@ function App() {
           <Route path="/login" element={<LogIn />} />
           <Route path="/Signup" element={<Signup />} />
 
+          {/* i want to naviagte to "/forgetPassword?email=" + credentials.email */}
+          <Route path="/forgetPassword" element={<ForgetPassword />} />
+          <Route
+            path="/resetPassword/:resetToken"
+            element={<ResetPassword />}
+          />
           <Route path="/" element={<ProtectedRoute element={<Hero />} />} />
-
           <Route
             path="/LandingPage"
             element={<ProtectedRoute element={<Hero />} />}
           />
-
           <Route
             path="/Dashboard"
             element={<ProtectedRoute element={<Dashbord />} />}

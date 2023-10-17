@@ -77,16 +77,13 @@ function Navbar() {
                 </Link>
               </li>
 
-              {/* <li className="nav-item">
-                <Link
-                  className="nav-link active"
-                  aria-current="page"
-                  to="/Swap"
-                >
+              <li className="nav-item">
+                <Link className="nav-link" aria-current="page" to="/Swap">
                   Swap
                 </Link>
               </li>
 
+              {/*
               <li className="nav-item">
                 <Link className="nav-link " to="/Buy">
                   Buy
@@ -138,24 +135,26 @@ function Navbar() {
               </button>
               <Dropdown>
                 <Dropdown.Toggle
-                  className="btn btnnn d-flex align-items-center"
+                  className="btn dp-toogle d-flex align-items-center"
                   type="button"
-                  // id="dropdown-basic"
                 >
                   <Dropdown.Menu
-                    className=""
+                    className="dp-menu"
                     style={{ backgroundColor: "rgb(0, 6, 60)" }}
                   >
                     <Dropdown.Item
-                      className="text-white tw"
+                      className="text-white dp-item"
+                      href="#/action-3"
+                    >
+                      Profile
+                    </Dropdown.Item>
+                    <Dropdown.Item
+                      className="text-white dp-item"
                       href="#/action-3"
                       onClick={handleLogOut}
                     >
                       LogOut
                     </Dropdown.Item>
-                    {/* <Dropdown.Item className="text-white" href="#/action-3">
-                      Language
-                    </Dropdown.Item> */}
                   </Dropdown.Menu>
                   <img src={drop} alt="" className="me-1 drop" />
                   <span className="border-start ">

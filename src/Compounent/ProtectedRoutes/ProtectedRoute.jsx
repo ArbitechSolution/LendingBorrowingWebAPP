@@ -10,7 +10,6 @@ const ProtectedRoute = ({ element: Component, ...rest }) => {
     <>
       <Navbar />
       {Component}
-      <Footer />
     </>
   ) : (
     <Navigate to="/Login" replace state={{ from: rest.location }} />

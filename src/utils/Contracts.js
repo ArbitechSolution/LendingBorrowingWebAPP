@@ -1,4 +1,4 @@
-export const TokenAddress = "0xA913aB2A43a832a8BdDa2Bf5b07405F0F971EfF5";
+export const TokenAddress = "0xe471EbD8859862DC14DD5dEA489F8743019Be014";
 export const TokenAbi = [
   { inputs: [], stateMutability: "nonpayable", type: "constructor" },
   {
@@ -480,7 +480,7 @@ export const BUSDTokenAbi = [
   },
 ];
 
-export const StakingAddress = "0x3b613B6515b37a26F82b07B6276A6b7A0F04D326";
+export const StakingAddress = "0x4dB869e534f2848EBA5485e5f34f1C77dB26d7A5";
 export const StakingAbi = [
   {
     inputs: [{ internalType: "address", name: "_token", type: "address" }],
@@ -507,19 +507,19 @@ export const StakingAbi = [
     type: "event",
   },
   {
-    inputs: [{ internalType: "address", name: "", type: "address" }],
-    name: "UserInfo",
-    outputs: [
-      { internalType: "uint256", name: "StakeAmount", type: "uint256" },
-      { internalType: "bool", name: "isStaked", type: "bool" },
-    ],
+    inputs: [{ internalType: "address", name: "borrower", type: "address" }],
+    name: "borrowerStatus",
+    outputs: [{ internalType: "bool", name: "", type: "bool" }],
     stateMutability: "view",
     type: "function",
   },
   {
-    inputs: [{ internalType: "address", name: "borrower", type: "address" }],
-    name: "borrowerStatus",
-    outputs: [{ internalType: "bool", name: "", type: "bool" }],
+    inputs: [],
+    name: "checkContractData",
+    outputs: [
+      { internalType: "uint256", name: "", type: "uint256" },
+      { internalType: "uint256", name: "", type: "uint256" },
+    ],
     stateMutability: "view",
     type: "function",
   },
@@ -620,7 +620,7 @@ export const StakingAbi = [
   },
 ];
 
-export const LendingAddress = "0x5254d81D710Ae6FFDD7CC91be6039C86fC3e301E";
+export const LendingAddress = "0x62cFB6Ed6A8802C9f8914e3E4E1419dF83C57c91";
 export const LendingAbi = [
   {
     inputs: [
@@ -1555,7 +1555,7 @@ export const LendingAbi = [
   { stateMutability: "payable", type: "receive" },
 ];
 
-export const redeemRewardAddress = "0x47ae437f9c4756C9Be87b4D83B8CDCF80f009a91";
+export const redeemRewardAddress = "0x63a66232FA657B0Ef789c7b7141480495f237264";
 export const redeemRewardAbi = [
   {
     inputs: [
@@ -1565,6 +1565,17 @@ export const redeemRewardAbi = [
     ],
     stateMutability: "nonpayable",
     type: "constructor",
+  },
+  { inputs: [], name: "ECDSAInvalidSignature", type: "error" },
+  {
+    inputs: [{ internalType: "uint256", name: "length", type: "uint256" }],
+    name: "ECDSAInvalidSignatureLength",
+    type: "error",
+  },
+  {
+    inputs: [{ internalType: "bytes32", name: "s", type: "bytes32" }],
+    name: "ECDSAInvalidSignatureS",
+    type: "error",
   },
   {
     anonymous: false,

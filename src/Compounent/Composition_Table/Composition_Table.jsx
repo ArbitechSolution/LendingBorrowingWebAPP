@@ -6,7 +6,6 @@ function Composition_Table({ title, table_data, tokenData, itemsPerPage }) {
   let web3 = useSelector((state) => state.connect?.web3);
   let url = "https://testnet.bscscan.com/address/";
 
-
   const [currentPage, setCurrentPage] = useState(0);
 
   const handlePageChange = (selectedPage) => {
@@ -78,7 +77,9 @@ function Composition_Table({ title, table_data, tokenData, itemsPerPage }) {
                       //   items.tokenAddress?.slice(-4)
                     }
                   </td>
-                  <td>{web3.utils.fromWei(items?.lendAmount)}</td>
+                  <td>
+                    {Number(web3.utils.fromWei(items?.lendAmount)).toFixed(2)}
+                  </td>
                   <td>
                     {web3.utils.fromWei(items.remainingLendAmount)?.slice(0, 6)}
                   </td>
@@ -91,10 +92,10 @@ function Composition_Table({ title, table_data, tokenData, itemsPerPage }) {
         </div>
       </div>
       <div className="mt-2">
-      <Pagination 
-        pageCount={Math.ceil(table_data.length / itemsPerPage)}
-        onPageChange={handlePageChange}
-      />
+        <Pagination
+          pageCount={Math.ceil(table_data.length / itemsPerPage)}
+          onPageChange={handlePageChange}
+        />
       </div>
     </div>
   );
