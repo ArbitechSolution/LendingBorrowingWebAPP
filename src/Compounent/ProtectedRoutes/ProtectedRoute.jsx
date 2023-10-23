@@ -1,7 +1,6 @@
 import React from "react";
 import Navbar from "../Navbar/Navbar";
 import { Navigate } from "react-router-dom";
-import Footer from "../Footer/Footer";
 
 const ProtectedRoute = ({ element: Component, ...rest }) => {
   const token = localStorage.getItem("aftJwtToken");

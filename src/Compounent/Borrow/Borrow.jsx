@@ -22,29 +22,7 @@ import {
   BUSDTokenAbi,
   BUSDTokenAddress,
 } from "../../utils/Contracts";
-import { red } from "@mui/material/colors";
 import Pagination from "../Pagination/Pagination";
-
-const array = [
-  {
-    LoanID: "12",
-    ReqID: "12",
-    LenderAddress: "12",
-    CollateralToken: "12",
-    CollateralAmount: "12",
-    CollateralPrice: "12",
-    BorrowToken: "12",
-    BorrowAmount: "12",
-    StartTime: "12",
-    RepaymentTime: "12",
-    InterestRate: "12",
-    RepaidAmount: "12",
-    RemainingAmount: "12",
-    TotalInterest: "12",
-    DefaultStatus: "12",
-    CloseStatus: "12",
-  },
-];
 
 function Borrow() {
   let acc = useSelector((state) => state.connect?.connection);
@@ -760,7 +738,7 @@ function Borrow() {
             (item) => item.address === isBorrower.collateralToken,
           ).name;
 
-          if (token === "BNB" || token === "MATIC" || token === "ETH") {
+          if (token === "BNB") {
             const redeposit = await lendingContract.methods
               .redepositCollateral(redepositLoan_Amount, redepositLoan_ID)
               .send({

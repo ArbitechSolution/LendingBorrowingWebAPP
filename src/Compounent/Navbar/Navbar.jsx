@@ -44,17 +44,9 @@ function Navbar() {
   }, []);
 
   return (
-    <div
-      style={{
-        position: "fixed",
-        top: "0",
-        zIndex: "99",
-        backgroundColor: "black",
-        width: "100%",
-      }}
-    >
+    <div className="navbar-container">
       <nav className="navbar navbar-expand-lg navbar-light text-white p-0">
-        <div className="container-fluid py-2 px-2 px-md-5">
+        <div className="container-fluid px-2 px-md-5">
           <Link className="navbar-brand" to="/LandingPage">
             <img src={logo} alt="" width={100} />
           </Link>
@@ -144,7 +136,7 @@ function Navbar() {
                   >
                     <Dropdown.Item
                       className="text-white dp-item"
-                      href="#/action-3"
+                      onClick={() => navigate("/Profile")}
                     >
                       Profile
                     </Dropdown.Item>

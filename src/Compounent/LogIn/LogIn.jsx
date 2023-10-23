@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import axios from "axios";
 import { toast } from "react-toastify";
+import logo from "../../Compounent/image/AFT.png";
 
 import "./LogIn.css";
 import LoginImg from "../../assets/images/illustration1.png";
@@ -64,7 +65,10 @@ function LogIn() {
   return (
     <div className="auth_layout">
       <form onSubmit={handleSubmit} className="loginForm">
-        <h1>Log In</h1>
+        <div className="logo_container">
+          {/* <img src={logo} alt="logo" /> */}
+          <h1>Log In</h1>
+        </div>
         <div>
           <input
             type="email"
