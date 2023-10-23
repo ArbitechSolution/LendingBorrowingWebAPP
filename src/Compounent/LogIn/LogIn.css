@@ -10,6 +10,18 @@
     width: 50%;
 }
 
+.logo_container{
+    width: 340px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
+.logo_container img{
+    width: 120px;
+}
+
 .image-container img {
     width: 80%;
     height: 80%;
@@ -57,7 +69,6 @@ form.loginForm .password-input-container {
     outline: none;
     text-align: left;
     font-size: 14px;
-    border-radius: 2px;
     border-bottom: 1.6px solid white;
     display: flex;
     justify-content: space-between;

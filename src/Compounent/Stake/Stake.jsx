@@ -210,19 +210,20 @@ function Stake() {
         return;
       }
 
-      const contract = new web3.eth.Contract( redeemRewardAbi, redeemRewardAddress);
+      const contract = new web3.eth.Contract(
+        redeemRewardAbi,
+        redeemRewardAddress,
+      );
 
       const withdrawableAmount = await contract.methods
         .getWithdrawableAmount(acc)
         .call();
-      
-        setWithdrawableAmount(web3.utils.fromWei(withdrawableAmount, "ether"));
 
-      const claimRewardTx = await contract.methods.claimReward(
-        withdrawableAmount
-      ).send({ from: acc });
+      setWithdrawableAmount(web3.utils.fromWei(withdrawableAmount, "ether"));
 
-
+      const claimRewardTx = await contract.methods
+        .claimReward(withdrawableAmount)
+        .send({ from: acc });
     } catch (error) {
       console.error(error);
     }
@@ -242,7 +243,7 @@ function Stake() {
               <div className="row px-2">
                 <div className="col AUM">Wallet</div>
                 <div className="col text-end AUM">
-                  {balance} <span className="fw-bold">AFT</span>
+                  {parseFloat(balance).toFixed(4)} <span className="fw-bold">AFT</span>
                 </div>
               </div>
               <div className="row px-2">

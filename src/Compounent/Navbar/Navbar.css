@@ -1,12 +1,14 @@
-.nav-item a {
-  margin-left: 29px !important;
-  color: white !important;
+.navbar-container {
+  position: fixed;
+  top: 0;
+  z-index: 99;
+  background-color: #1E2559;
+  width: 100%;
+  padding: 0px;
 }
 
-.primary {
-  background-color: blue !important;
-  font-size: 15px !important;
-  height: 37px !important;
+.nav-item a {
+  margin-left: 29px !important;
   color: white !important;
 }
 
@@ -16,6 +18,7 @@
   height: 37px !important;
   color: white !important;
   background-color: #1E2559;
+  border: 1px solid white;
 }
 
 .btnnn:hover {
@@ -37,6 +40,7 @@ img.drop {
   font-size: 15px;
   padding: 0;
   overflow: hidden;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
 }
 
 .dp-menu .dp-item {
@@ -54,12 +58,12 @@ img.drop {
 
 .nav-item a:hover {
   color: #38b6ff !important;
-  text-shadow: 14px 14px 40px #38b6ff;
+  text-shadow: 2px 2px 15px #38b6ff;
 }
 
 .nav-item a.active {
   color: #38b6ff !important;
-  text-shadow: 14px 14px 40px #38b6ff;
+  text-shadow: 2px 2px 15px #38b6ff;
 }
 
 .tw:hover {

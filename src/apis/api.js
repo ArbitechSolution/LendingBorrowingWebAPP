@@ -13,43 +13,52 @@ const networks = {
     rpcUrls: ["https://data-seed-prebsc-1-s3.binance.org"],
     blockExplorerUrls: ["https://testnet.bscscan.com"],
   },
+  // bscBuildBear: {
+  //   chainId: "11840",
+  //   chainName: "BuildBear Basic Quarsh Panaka",
+  //   nativeCurrency: {
+  //     name: "BB",
+  //     symbol: "BB ETH",
+  //     decimals: 18, // Corrected the decimals to 18 (the standard for BSC)
+  //   },
+  //   rpcUrls: ["https://rpc.buildbear.io/basic-quarsh-panaka-9a3497fb"],
+  //   blockExplorerUrls: [
+  //     "https://explorer.buildbear.io/basic-quarsh-panaka-9a3497fb",
+  //   ],
+  // },
 };
 
 let isItConnected = false;
 let accounts;
 
-// Function to switch the network in MetaMask
-const changeNetwork = async ({ networkName }) => {
+const changeNetwork = async (networkName) => {
   try {
+    if (!networks[networkName]) {
+      console.log("Network not defined in code");
+      return "Wrong network";
+    }
     if (!window.ethereum) throw new Error("No crypto wallet found");
     await window.ethereum.request({
       method: "wallet_addEthereumChain",
-      params: [
-        {
-          ...networks[networkName],
-        },
-      ],
+      params: [networks[networkName]],
     });
   } catch (err) {
     console.log("Error while changing network: ", err);
   }
 };
 
-// Function to handle the network switch
-const handleNetworkSwitch = async (networkName) => {
-  await changeNetwork({ networkName });
-};
-
-// Function to get accounts from MetaMask
 const getAccounts = async () => {
-  const web3 = window.web3;
+  const web3 = new Web3(window.ethereum);
   try {
-    accounts = await web3.eth.getAccounts();
-    return accounts;
+    return await web3.eth.getAccounts();
   } catch (error) {
     console.log("Error while fetching accounts: ", error);
     return null;
   }
+};
+// Function to handle the network switch
+const handleNetworkSwitch = async (networkName) => {
+  await changeNetwork({ networkName });
 };
 
 // Function to disconnect the wallet
@@ -69,43 +78,31 @@ export const disconnectWallet = async () => {
 // Function to load Web3 and connect with MetaMask
 export const loadWeb3 = async () => {
   try {
-    // Check if MetaMask is available
-    if (window.ethereum) {
-      // Create Web3 instance
-      window.web3 = new Web3(window.ethereum);
+    if (!window.ethereum) {
+      console.log("No crypto wallet found");
+      return "No Wallet";
+    }
 
-      // Request account access (this is now the recommended way to request accounts)
-      await window.ethereum.request({ method: "eth_requestAccounts" });
+    window.web3 = new Web3(window.ethereum);
+    await window.ethereum.request({ method: "eth_requestAccounts" });
+    const netId = await window.web3.eth.net.getId();
 
-      // Get the network ID
-      const netId = await window.web3.eth.net.getId();
-
-      // Check if connected to the desired network (BSC Testnet in this case)
-      switch (netId.toString()) {
-        case "97":
-          isItConnected = true;
-          break;
-        default:
-          // If not connected to the desired network, switch the network
-          handleNetworkSwitch("bsc");
-          isItConnected = false;
-      }
-
-      if (isItConnected) {
-        // If connected to the desired network, get accounts and return the first account
-        let accounts = await getAccounts();
-        return accounts[0];
-      } else {
-        let res = "Wrong network"; // Corrected the typo here
-        return res;
-      }
+    if (netId.toString() === networks.bsc.chainId) {
+      isItConnected = true;
+    } else if (netId.toString() === networks.bscBuildBear.chainId) {
+      isItConnected = true;
     } else {
-      let res = "No Wallet";
-      return res;
+      isItConnected = false;
+    }
+
+    if (isItConnected) {
+      return (await getAccounts())[0];
+    } else {
+      await handleNetworkSwitch("bsc"); // Change this line as per your desired default network
+      return "Wrong network";
     }
   } catch (error) {
     console.log("Error while loading Web3: ", error);
-    let res = "No Wallet";
-    return res;
+    return "No Wallet";
   }
 };

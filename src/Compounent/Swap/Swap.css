@@ -1,0 +1,232 @@
+.wd-select {
+  width: 100% !important;
+}
+
+.position_absolute {
+  gap: 10px;
+  position: absolute;
+  right: 6px;
+  top: 9px;
+  height: 40px;
+}
+
+Option {
+  width: 50% !important;
+}
+
+input::-webkit-outer-spin-button,
+input::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+
+input[type="number"] {
+  background-color: #293269b8;
+
+  border: none !important;
+  outline: none !important;
+  color: white !important;
+}
+
+.css-1pulbyy-JoyAvatar-root {
+  width: var(--Avatar-size, 25px) !important;
+  height: var(--Avatar-size, 25px) !important;
+  font-size: calc(var(--Avatar-size, 2rem) * 0.4375);
+  -webkit-margin-start: var(--Avatar-marginInlineStart);
+  margin-inline-start: var(--Avatar-marginInlineStart);
+  box-shadow: var(--Avatar-ring);
+  font-family: var(--joy-fontFamily-body,
+      "Public Sans",
+      var(--joy-fontFamily-fallback,
+        -apple-system,
+        BlinkMacSystemFont,
+        "Segoe UI",
+        Roboto,
+        Helvetica,
+        Arial,
+        sans-serif,
+        "Apple Color Emoji",
+        "Segoe UI Emoji",
+        "Segoe UI Symbol"
+      ));
+  font-weight: var(--joy-fontWeight-md, 500);
+  position: relative;
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-align-items: center;
+  -webkit-box-align: center;
+  -ms-flex-align: center;
+  align-items: center;
+  -webkit-box-pack: center;
+  -ms-flex-pack: center;
+  -webkit-justify-content: center;
+  justify-content: center;
+  -webkit-flex-shrink: 0;
+  -ms-flex-negative: 0;
+  flex-shrink: 0;
+  line-height: 1;
+  overflow: hidden;
+  border-radius: var(--Avatar-radius, 50%);
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+  --variant-borderWidth: 0px;
+  color: var(--joy-palette-neutral-softColor,
+      var(--joy-palette-neutral-800, #25252d));
+  background-color: var(--joy-palette-neutral-softBg,
+      var(--joy-palette-neutral-100, #ebebef));
+}
+
+.hana {
+  border-radius: 12px !important;
+}
+
+/* CSS for the <select> element */
+select {
+  /* Change the background color */
+  background-color: #26328b9d;
+
+  /* Change the text color */
+  color: #ffffff;
+
+  /* Add rounded corners */
+  border-radius: 7px;
+  cursor: pointer !important;
+  /* Add padding to make it look better */
+  padding: 8px;
+
+  /* Optional: Add a border for more visual appeal */
+  border: 1px solid #ccc;
+
+  /* Optional: Add a box-shadow for a slight 3D effect */
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+
+  /* Set the width of the select element */
+}
+
+
+.selection {
+  background-color: #3a4780 !important;
+  border: none !important;
+  color: white !important;
+  border-radius: 5px !important;
+  padding: 3px 10px !important;
+  font-family: inherit !important;
+  margin: 0px !important
+}
+
+.max {
+  padding: 3px 8px !important;
+  font-size: 12px !important;
+  border: 1.5px solid #0C6EFD !important;
+  font-weight: 500;
+  background-color: transparent !important;
+  color: #0C6EFD !important;
+  border-radius: 5px;
+}
+
+.max.active {
+  color: white !important;
+  background-color: #0C6EFD !important;
+}
+
+.max:hover {
+  opacity: 0.9;
+}
+
+
+.selection:hover {
+  background-color: #303b6c !important;
+  opacity: 0.8;
+}
+
+.options {
+  width: 270px !important;
+  background-color: #1E2559 !important;
+  color: white !important;
+  margin: 0 !important;
+}
+
+.options:hover {
+  background-color: #303b6c !important;
+}
+
+.chip {
+  padding: 1px 5px !important;
+  border-radius: 3px;
+  margin-left: auto;
+  background-color: #3a4780 !important;
+  color: white !important;
+}
+
+.swap-btn {
+  background-color: #1E2559;
+  color: white;
+  border-radius: 5px;
+  border: none;
+  padding: 5px 10px;
+  display: block;
+  margin: 25px auto 15px auto;
+  cursor: pointer;
+  position: relative;
+  transition: transform 1s linear;
+}
+
+.swap-icon {
+  transform: rotate(90deg);
+}
+
+.swap-icon:hover {
+  transform: rotate(90deg) scale(1.1);
+}
+
+.swap-btn.spin .swap-icon {
+  animation: spin 0.5s linear;
+  animation-fill-mode: forwards;
+}
+
+@keyframes spin {
+  0% {
+    transform: rotate(90deg);
+  }
+
+  100% {
+    transform: rotate(270deg);
+  }
+}
+
+.w-balance {
+  font-size: 14px;
+
+}
+
+.swap-button {
+  background-color: #0C6EFD;
+  color: white;
+  border-radius: 5px;
+  border: none;
+  padding: 10px;
+  cursor: pointer;
+  position: relative;
+  transition: transform 1s linear;
+}
+
+.btn-disabled{
+  background-color: #0C6EFD !important;
+  color: white !important;
+  opacity: 0.5 !important;
+  cursor: not-allowed !important;
+}
+
+.swap-button:hover {
+  background-color: #0760e5;
+}
+
+.spinner-border {
+  width: 1rem;
+  height: 1rem;
+  border-width: 0.2em;
+}

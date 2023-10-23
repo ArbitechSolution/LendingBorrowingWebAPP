@@ -222,26 +222,31 @@ function Dash_Stats() {
         .calculateTotalContractBalanceOfEachToken()
         .call({ from: acc });
 
-      // loop over assetsBalance[1] and set balance in tokenData state
-      setTokenData((prev) => {
+
+        
+        // loop over assetsBalance[1] and set balance in tokenData state
+        setTokenData((prev) => {
         return prev.map((item, index) => {
           return { ...item, balance: assetsBalance[1][index] };
         });
       });
-
-      let prices = [];
-      // loop over tokenData and get live price of each token
+      
+      let promises = [];
+      // Create an array of promises to fetch live prices concurrently
       for (let i = 0; i < assetsBalance[0].length; i++) {
-        const price = await lendingContract.methods
-          .getLivePrice(assetsBalance[0][i])
-          .call({ from: acc });
-        prices.push(price);
+        promises.push(
+          lendingContract.methods.getLivePrice(assetsBalance[0][i]).call()
+        );
       }
+      
+      // Use Promise.all to await all promises
+      const results = await Promise.all(promises);
+      console.log(results)
 
       // loop over tokenData and set live price of each token
       setTokenData((prev) => {
         return prev.map((item, index) => {
-          return { ...item, price: prices[index] };
+          return { ...item, price: results[index] };
         });
       });
     } catch (error) {

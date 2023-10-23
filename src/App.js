@@ -2,13 +2,11 @@ import "./App.css";
 import "react-toastify/dist/ReactToastify.css";
 import { BrowserRouter, Route, Routes } from "react-router-dom";
 import { ToastContainer } from "react-toastify";
-import Footer from "./Compounent/Footer/Footer";
-import Navbar from "./Compounent/Navbar/Navbar";
 import Dashbord from "./Compounent/Dashbord/Dashbord";
 import Eran from "./Compounent/Eran/Eran";
 import Buy from "./Compounent/Buy/Buy";
 import Referrals from "./Compounent/Referrals/Referrals";
-import Swap from "./Compounent/Composition_Table/Swap/Swap";
+import Swap from "./Compounent/Swap/Swap";
 import Lend from "./Compounent/Lend/Lend";
 import Borrow from "./Compounent/Borrow/Borrow";
 import Hero from "./Compounent/Hero/Hero";
@@ -17,6 +15,7 @@ import Signup from "./Compounent/Signup/Signup";
 import ProtectedRoute from "./Compounent/ProtectedRoutes/ProtectedRoute";
 import ForgetPassword from "./Compounent/ForgetPassword/ForgetPassword";
 import ResetPassword from "./Compounent/ResetPassword/ResetPassword";
+import Profile from "./Compounent/UserProfile/Profile";
 
 function App() {
   return (
@@ -32,7 +31,6 @@ function App() {
           <Route path="/login" element={<LogIn />} />
           <Route path="/Signup" element={<Signup />} />
 
-          {/* i want to naviagte to "/forgetPassword?email=" + credentials.email */}
           <Route path="/forgetPassword" element={<ForgetPassword />} />
           <Route
             path="/resetPassword/:resetToken"
@@ -62,6 +60,12 @@ function App() {
             path="/Borrow"
             element={<ProtectedRoute element={<Borrow />} />}
           />
+
+          <Route
+            path="/Profile"
+            element={<ProtectedRoute element={<Profile />} />}
+          />
+          
         </Routes>
       </BrowserRouter>
     </div>
