@@ -11,5 +11,15 @@
         "src": "/(.*)",
         "dest": "/server.js"
       }
-    ]
+    ],
+    "env": {
+      "MONGO_URI": "mongodb+srv://landing:landing1122@cluster0.tian6z7.mongodb.net/",
+      "NODE_ENV": "production",
+      "CLIENT_URI" : "https://radiant-cocada-e2ceed.netlify.app",
+      "JWT_SECRET" :"lendingAFTBorrowing11Stacking22",
+      "JWT_EXPIRE" :"30d",
+      "JWT_COOKIE_EXPIRE" :"30",
+      "EMAIL_USER":"no-reply@satoshiair.xyz",
+      "EMAIL_PASSWORD":"6S#1W45^32!"
+    }
   }
