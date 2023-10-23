@@ -34,7 +34,7 @@ const ResetPassword = () => {
     try {
       // have to send
       let response = await axios.put(
-        `http://localhost:5000/api/v1/auth/resetPassword/${resetToken}`,
+        `${process.env.REACT_APP_SERVER_URI}/api/v1/auth/resetPassword/${resetToken}`,
         { password: creds.password }
       );
 
