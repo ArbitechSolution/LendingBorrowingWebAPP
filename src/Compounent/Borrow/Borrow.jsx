@@ -1547,9 +1547,9 @@ function Borrow() {
                   <th scope="col" className="wi_th">
                     Remaining Amount
                   </th>
-                  <th scope="col" className="wi_th">
+                  {/* <th scope="col" className="wi_th">
                     Total Interest
-                  </th>
+                  </th> */}
                   <th scope="col" className="wi_th">
                     Default Loan{" "}
                   </th>
@@ -1627,16 +1627,39 @@ function Borrow() {
                       </td>
                       <td>{item.payment["interestRate"] + "%"}</td>
                       <td>
-                        {web3.utils.fromWei(item.payment["repaidAmount"])}
+                        {item.payment["repaidAmount"].split(".") === "0" &&
+                        parseFloat(
+                          item.payment["repaidAmount"].split(".")[1],
+                        ) >= 0
+                          ? parseFloat(
+                              web3.utils.fromWei(item.payment["repaidAmount"]),
+                            ).toFixed(4)
+                          : web3.utils.fromWei(item.payment["repaidAmount"])}
                       </td>
                       <td>
-                        {web3.utils.fromWei(
-                          item.payment["remainingLoanAmount"],
-                        )}
+                        {/* {parseFloat(
+                          web3.utils.fromWei(
+                            item.payment["remainingLoanAmount"],
+                          ),
+                        ).toFixed(4)} */}
+                        {item.payment["remainingLoanAmount"].split(".")[0] ===
+                          "0" &&
+                        parseFloat(
+                          item.payment["remainingLoanAmount"].split(".")[1],
+                        ) >= 0
+                          ? 
+                            parseFloat(
+                              web3.utils.fromWei(
+                                item.payment["remainingLoanAmount"],
+                              ),
+                            ).toFixed(2)
+                          : web3.utils.fromWei(
+                              item.payment["remainingLoanAmount"],
+                            )}
                       </td>
-                      <td>
+                      {/* <td>
                         {web3.utils.fromWei(item.payment["loanPlusInterest"])}
-                      </td>
+                      </td> */}
                       <td>{item.payment["isDefaulted"] ? "Yes" : "No"}</td>
                       <td>{item.payment["isClosed"] ? "Yes" : "No"}</td>
                     </tr>

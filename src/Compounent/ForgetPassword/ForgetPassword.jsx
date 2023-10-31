@@ -23,10 +23,15 @@ const ForgetPassword = () => {
   const handleResetPassword = async (e) => {
     e.preventDefault();
 
+    if (!email) {
+      toast.error("Email is required", toastConfig);
+      return;
+    }
+
     try {
       setIsLoading(true);
       const response = await axios.post(
-        "http://localhost:5000/api/v1/auth/forgetPassword",
+        `${process.env.REACT_APP_SERVER_URI}/api/v1/auth/forgetPassword`,
         { email },
       );
 

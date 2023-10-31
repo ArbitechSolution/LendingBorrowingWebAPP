@@ -4,6 +4,7 @@ import { Link, useNavigate } from "react-router-dom";
 import axios from "axios";
 import { toast } from "react-toastify";
 import { FaEye, FaEyeSlash } from "react-icons/fa"; // Import eye icons
+import logo from "../../Compounent/image/AFT.png";
 
 // import LoginImg from '../../assets/images/login-image.jpg'
 import LoginImg from "../../assets/images/illustration1.png";
@@ -54,7 +55,7 @@ function Signup() {
 
     try {
       const response = await axios.post(
-        "http://localhost:5000/api/v1/auth/register",
+        `${process.env.REACT_APP_SERVER_URI}/api/v1/auth/register`,
         {
           name: credentials.username,
           email: credentials.email,
@@ -87,93 +88,96 @@ function Signup() {
   };
 
   return (
-    <div className="auth_layout">
-      <form onSubmit={handleSubmit} className="loginForm">
-        <h1>Sign Up</h1>
-        <div>
-          <input
-            name="username"
-            placeholder="Username"
-            value={credentials.username}
-            onChange={handleInputChange}
-          />
-        </div>
-        <div>
-          <input
-            type="email"
-            name="email"
-            placeholder="Email"
-            value={credentials.email}
-            onChange={handleInputChange}
-          />
-        </div>
-        <div>
-          <div className="password-input-container">
+    <>
+      <img src={logo} className="logo" alt="logo" />
+      <div className="auth_layout">
+        <form onSubmit={handleSubmit} className="loginForm">
+          <h1>Sign Up</h1>
+          <div>
             <input
-              type={showPassword ? "text" : "password"}
-              name="password"
-              placeholder="Password"
-              value={credentials.password}
+              name="username"
+              placeholder="Username"
+              value={credentials.username}
               onChange={handleInputChange}
             />
-            <span
-              className="password-toggle-icon"
-              onClick={togglePasswordVisibility}
-            >
-              {showPassword ? (
-                <FaEyeSlash title="Hide" />
-              ) : (
-                <FaEye title="Show" />
-              )}
-            </span>
           </div>
-        </div>
-
-        <div>
-          <div className="password-input-container">
+          <div>
             <input
-              type={showPassword ? "text" : "password"}
-              name="confirmPassword"
-              placeholder="Confirm Password"
-              value={credentials.confirmPassword}
+              type="email"
+              name="email"
+              placeholder="Email"
+              value={credentials.email}
               onChange={handleInputChange}
             />
-
-            <span
-              className="password-toggle-icon"
-              onClick={togglePasswordVisibility}
-            >
-              {showPassword ? (
-                <FaEyeSlash title="Hide" />
-              ) : (
-                <FaEye title="Show" />
-              )}
-            </span>
           </div>
-        </div>
+          <div>
+            <div className="password-input-container">
+              <input
+                type={showPassword ? "text" : "password"}
+                name="password"
+                placeholder="Password"
+                value={credentials.password}
+                onChange={handleInputChange}
+              />
+              <span
+                className="password-toggle-icon"
+                onClick={togglePasswordVisibility}
+              >
+                {showPassword ? (
+                  <FaEyeSlash title="Hide" />
+                ) : (
+                  <FaEye title="Show" />
+                )}
+              </span>
+            </div>
+          </div>
 
-        {/* <div className="forgot-password">
+          <div>
+            <div className="password-input-container">
+              <input
+                type={showPassword ? "text" : "password"}
+                name="confirmPassword"
+                placeholder="Confirm Password"
+                value={credentials.confirmPassword}
+                onChange={handleInputChange}
+              />
+
+              <span
+                className="password-toggle-icon"
+                onClick={togglePasswordVisibility}
+              >
+                {showPassword ? (
+                  <FaEyeSlash title="Hide" />
+                ) : (
+                  <FaEye title="Show" />
+                )}
+              </span>
+            </div>
+          </div>
+
+          {/* <div className="forgot-password">
           <a href="/">Forgot Password?</a>
         </div> */}
 
-        {/* <div className="checkbox-row">
+          {/* <div className="checkbox-row">
           <label htmlFor="remember">Remember me</label>
           <input type="checkbox" name="remember" id="remember" />
         </div> */}
-        <div className="button-row">
-          <button type="submit" className="loginButton">
-            Sign up
-          </button>
+          <div className="button-row">
+            <button type="submit" className="loginButton">
+              Sign up
+            </button>
+          </div>
+          <div className="signup-row">
+            Already have an account?
+            <Link to="/login">Log In</Link>
+          </div>
+        </form>
+        <div className="image-container">
+          <img src={LoginImg} alt="" />
         </div>
-        <div className="signup-row">
-          Already have an account?
-          <Link to="/login">Log In</Link>
-        </div>
-      </form>
-      <div className="image-container">
-        <img src={LoginImg} alt="" />
       </div>
-    </div>
+    </>
   );
 }
 
