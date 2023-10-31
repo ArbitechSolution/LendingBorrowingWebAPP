@@ -23,6 +23,11 @@ const ForgetPassword = () => {
   const handleResetPassword = async (e) => {
     e.preventDefault();
 
+    if (!email) {
+      toast.error("Email is required", toastConfig);
+      return;
+    }
+
     try {
       setIsLoading(true);
       const response = await axios.post(

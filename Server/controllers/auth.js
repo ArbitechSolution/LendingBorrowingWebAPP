@@ -56,7 +56,11 @@ exports.updateDetails = asyncHandler(async (req, res, next) => {
   // get user from database
   const fieldsToUpdate = {
     name: req.body.name,
-    email: req.body.email,
+    address: req.body.address,
+    city: req.body.city,
+    country: req.body.country,
+    phone: req.body.phone,
+    zipcode: req.body.zipcode,
   };
 
   // update user
@@ -155,8 +159,6 @@ exports.forgetPassword = asyncHandler(async (req, res, next) => {
 // @route             PUT  api/v1/auth/resetpassword/:resettoken
 // @access            Public
 exports.resetPassword = asyncHandler(async (req, res, next) => {
-
-
   console.log(req.params.resettoken);
   // get hashed token
   const resetPasswordToken = crypto

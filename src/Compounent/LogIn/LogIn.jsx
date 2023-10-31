@@ -63,10 +63,12 @@ function LogIn() {
   };
 
   return (
+    <>
+    <img src={logo} className="logo" alt="logo" />
     <div className="auth_layout">
       <form onSubmit={handleSubmit} className="loginForm">
         <div className="logo_container">
-          {/* <img src={logo} alt="logo" /> */}
+          {/* <img src={logo} className="logo" alt="logo" /> */}
           <h1>Log In</h1>
         </div>
         <div>
@@ -124,6 +126,7 @@ function LogIn() {
         <img src={LoginImg} alt="" />
       </div>
     </div>
+    </>
   );
 }
 

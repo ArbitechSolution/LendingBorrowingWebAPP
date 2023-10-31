@@ -279,19 +279,19 @@ function Dash_Stats() {
                   <div className="row px-2">
                     <div className="col AUM">Total Fees</div>
                     <div className="col text-end AUM">
-                      {feeBalance ? web3.utils.fromWei(feeBalance) : "-"}
+                      {feeBalance ? `${web3.utils.fromWei(feeBalance)} AFT` : "-"}
                     </div>
                   </div>
                   <div className="row px-2">
                     <div className="col AUM">Total Staked</div>
                     <div className="col text-end AUM">
-                      {data[1] ? web3.utils.fromWei(data[1]) : "-"}
+                      {data[1] ? `${web3.utils.fromWei(data[1])} AFT` : "-"}
                     </div>
                   </div>
                   <div className="row px-2">
                     <div className="col AUM">Total Users</div>
                     <div className="col text-end AUM">
-                      {data[0] ? data[0] : "-"}
+                      {data[0] ? `${data[0]} users` : "-"}
                     </div>
                   </div>
                 </div>
@@ -399,7 +399,7 @@ function Dash_Stats() {
                     <div className="d-flex align-items-center justify-content-between">
                       <label>Calculated Value</label>
                       <div>
-                        {calculatedValue ? calculatedValue : "No Result"}
+                        {calculatedValue ? parseFloat(calculatedValue).toFixed(4) : "No Result"}
                       </div>
                     </div>
                   </div>

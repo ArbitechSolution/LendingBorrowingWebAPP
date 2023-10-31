@@ -1,16 +1,30 @@
 import React, { useState, useEffect } from "react";
 import "./Lend.css";
 import {
-  TokenAddress,
-  TokenAbi,
-  StakingAddress,
-  StakingAbi,
-  LendingAddress,
   LendingAbi,
-  BUSDTokenAddress,
+  LendingAddress,
   BUSDTokenAbi,
-  redeemRewardAbi,
-  redeemRewardAddress,
+  BUSDTokenAddress,
+  TokenAddress,
+  UsdcAddress,
+  UsdcAbi,
+  MaticAddress,
+  MaticAbi,
+  XrpAddress,
+  XrpAbi,
+  EthAddress,
+  EthAbi,
+  AdaAddress,
+  AdaAbi,
+  TronAddress,
+  TronAbi,
+  UsdtAddress,
+  UsdtAbi,
+  DogeAddress,
+  DogeAbi,
+  TokenAbi,
+  StakingAbi,
+  StakingAddress,
 } from "../../utils/Contracts";
 import {
   Select,
@@ -21,7 +35,7 @@ import {
   Typography,
 } from "@mui/joy";
 
-import { useSelector, useDispatch } from "react-redux";
+import { useSelector } from "react-redux";
 import { toast } from "react-toastify";
 import LendTable from "./LendTable";
 import LoanTable from "./LoanTable";
@@ -238,17 +252,67 @@ function Lend() {
         BUSDTokenAbi,
         BUSDTokenAddress,
       );
+      const USDTContractOf = new web3.eth.Contract(UsdtAbi, UsdtAddress);
+      const ETHContractOf = new web3.eth.Contract(EthAbi, EthAddress);
+      const USDCContractOf = new web3.eth.Contract(UsdcAbi, UsdcAddress);
+      const XRPContractOf = new web3.eth.Contract(XrpAbi, XrpAddress);
+      const ADAContractOf = new web3.eth.Contract(AdaAbi, AdaAddress);
+      const DOGEContractOf = new web3.eth.Contract(DogeAbi, DogeAddress);
+      const MATICContractOf = new web3.eth.Contract(MaticAbi, MaticAddress);
+      const TRXContractOf = new web3.eth.Contract(TronAbi, TronAddress);
 
       const AftBalance = await tokenContract.methods
         .balanceOf(acc)
         .call({ from: acc });
 
-      const BusdBalance = await BUSDContractOf.methods
-        .balanceOf(acc)
-        .call({ from: acc });
+      let balance = 0;
 
-      if (parseFloat(BusdBalance) < parseFloat(amount)) {
-        toast.error("Insufficient BUSD balance");
+      if (selectedValue === "BNB") {
+        balance = await web3.eth.getBalance(acc);
+      } else if (selectedValue === "BUSD") {
+        balance = await BUSDContractOf.methods
+          .balanceOf(acc)
+          .call({ from: acc });
+      } else if (selectedValue === "USDT") {
+        balance = await USDTContractOf.methods
+          .balanceOf(acc)
+          .call({ from: acc });
+      } else if (selectedValue === "ETH") {
+        balance = await ETHContractOf.methods
+          .balanceOf(acc)
+          .call({ from: acc });
+      } else if (selectedValue === "USDC") {
+        balance = await USDCContractOf.methods
+          .balanceOf(acc)
+          .call({ from: acc });
+      } else if (selectedValue === "XRP") {
+        balance = await XRPContractOf.methods
+          .balanceOf(acc)
+          .call({ from: acc });
+      } else if (selectedValue === "ADA") {
+        balance = await ADAContractOf.methods
+          .balanceOf(acc)
+          .call({ from: acc });
+      } else if (selectedValue === "DOGE") {
+        balance = await DOGEContractOf.methods
+          .balanceOf(acc)
+          .call({ from: acc });
+      } else if (selectedValue === "MATIC") {
+        balance = await MATICContractOf.methods
+          .balanceOf(acc)
+          .call({ from: acc });
+      } else if (selectedValue === "TRX") {
+        balance = await TRXContractOf.methods
+          .balanceOf(acc)
+          .call({ from: acc });
+      } else {
+        balance = await web3.eth.getBalance(acc);
+      }
+
+      // fromWei sy check krna hai
+
+      if (parseFloat(web3.utils.fromWei(balance)) < parseFloat(amount)) {
+        toast.error(`Insufficient ${selectedValue} balance`);
         return false;
       }
 
@@ -263,7 +327,7 @@ function Lend() {
         return false;
       }
 
-      if (parseInt(amount) < 10000) {
+      if (parseFloat(amount) < 10000) {
         return "skip";
       }
 
@@ -324,22 +388,15 @@ function Lend() {
         return;
       }
 
-      if (
-        selectedValue === "BNB" ||
-        selectedValue === "MATIC" ||
-        selectedValue === "ETH" ||
-        selectedValue === "TRX" ||
-        selectedValue === "XRP" ||
-        selectedValue === "ADA"
-      ) {
-        const balance = await web3.eth.getBalance(acc);
-        // balance to ether
-        const balanceInEther = web3.utils.fromWei(balance, "ether");
+      if (selectedValue === "BNB") {
+        // const balance = await web3.eth.getBalance(acc);
+        // // balance to ether
+        // const balanceInEther = web3.utils.fromWei(balance, "ether");
 
-        if (balanceInEther < amount) {
-          toast.error("Insufficient BNB balance");
-          return;
-        }
+        // if (parseFloat(balanceInEther) < amount) {
+        //   toast.error("Insufficient BNB balance");
+        //   return;
+        // }
 
         const isBalanceCheckPassed = await checkBalanceToPayFee();
         if (!isBalanceCheckPassed) {
@@ -607,7 +664,7 @@ function Lend() {
           <p>Lend your Assets </p>
 
           <div className="row pb-4">
-            <div className="col-md-4 col-sm-12 mt-2 ">
+            <div className="offset-md-3 col-md-6 col-sm-12 mt-2 ">
               <div className="card colorsa">
                 <div className="card-body">
                   <h6>Lend</h6>
@@ -720,234 +777,181 @@ function Lend() {
               </div>
             </div>
 
-            <div className="col-md-4 col-sm-12 mt-2 ">
-              <div className="card colorsa">
-                <div className="card-body">
-                  <h6>Update Status and Withdraw</h6>
-                  <hr />
-                  <div className="row my-4">
-                    <div className="d-flex align-items-center justify-content-between">
-                      <label>Lend ID</label>
-                      <Select
-                        value={lendID}
-                        placeholder="Select Lend ID"
-                        sx={{
-                          minWidth: 198,
-                          color: "white",
-                          borderStyle: "none",
-                          backgroundColor: "rgb(30,37,89)",
-                          "&:hover": {
-                            backgroundColor: "rgba(30,37,89,0.9)",
+            <h2 className="mt-5">Lender Details</h2>
+
+            <div className="row pb-4">
+              <div className="offset-md-3 col-md-6 col-sm-12 mt-2 ">
+                <div className="card colorsa">
+                  <div className="card-body">
+                    <h6>Update Status and Withdraw</h6>
+                    <hr />
+                    <div className="row my-4">
+                      <div className="d-flex align-items-center justify-content-between">
+                        <label>Lend ID</label>
+                        <Select
+                          value={lendID}
+                          placeholder="Select Lend ID"
+                          sx={{
+                            minWidth: 198,
                             color: "white",
-                          },
-                        }}
-                        style={{
-                          minWidth: "50%",
-                        }}
-                      >
-                        {lenderList.length ? (
-                          lenderList.every(
-                            (item) => item.isOpenToBorrow === false,
-                          ) ? (
+                            borderStyle: "none",
+                            backgroundColor: "rgb(30,37,89)",
+                            "&:hover": {
+                              backgroundColor: "rgba(30,37,89,0.9)",
+                              color: "white",
+                            },
+                          }}
+                          style={{
+                            minWidth: "50%",
+                          }}
+                        >
+                          {lenderList.length ? (
+                            lenderList.every(
+                              (item) => item.isOpenToBorrow === false,
+                            ) ? (
+                              <Option
+                                style={{ cursor: "pointer", padding: "0 10px" }}
+                              >
+                                <Box component="span" sx={{ display: "block" }}>
+                                  <Typography component="span" fontSize={14}>
+                                    No Lend ID to Update
+                                  </Typography>
+                                </Box>
+                              </Option>
+                            ) : (
+                              lenderList.map(
+                                (data, index) =>
+                                  // if isOpenToBorrow is true then show option otherwise not
+                                  data.isOpenToBorrow === true && (
+                                    <Option
+                                      key={data.requestID}
+                                      value={data.requestID}
+                                      label={data.requestID}
+                                      onClick={() => setLendID(data.requestID)}
+                                      style={{
+                                        cursor: "pointer",
+                                        padding: "0 10px",
+                                      }}
+                                    >
+                                      <Box
+                                        component="span"
+                                        sx={{ display: "block" }}
+                                      >
+                                        <Typography component="span">
+                                          {data.requestID}
+                                        </Typography>
+                                      </Box>
+                                    </Option>
+                                  ),
+                              )
+                            )
+                          ) : (
                             <Option
                               style={{ cursor: "pointer", padding: "0 10px" }}
                             >
                               <Box component="span" sx={{ display: "block" }}>
                                 <Typography component="span" fontSize={14}>
-                                  No Lend ID to Update
+                                  No Lend ID Available
                                 </Typography>
                               </Box>
                             </Option>
-                          ) : (
-                            lenderList.map(
-                              (data, index) =>
-                                // if isOpenToBorrow is true then show option otherwise not
-                                data.isOpenToBorrow === true && (
-                                  <Option
-                                    key={data.requestID}
-                                    value={data.requestID}
-                                    label={data.requestID}
-                                    onClick={() => setLendID(data.requestID)}
-                                    style={{
-                                      cursor: "pointer",
-                                      padding: "0 10px",
-                                    }}
-                                  >
-                                    <Box
-                                      component="span"
-                                      sx={{ display: "block" }}
-                                    >
-                                      <Typography component="span">
-                                        {data.requestID}
-                                      </Typography>
-                                    </Box>
-                                  </Option>
-                                ),
-                            )
-                          )
-                        ) : (
-                          <Option
-                            style={{ cursor: "pointer", padding: "0 10px" }}
-                          >
-                            <Box component="span" sx={{ display: "block" }}>
-                              <Typography component="span" fontSize={14}>
-                                No Lend ID Available
-                              </Typography>
-                            </Box>
-                          </Option>
-                        )}
-                      </Select>
+                          )}
+                        </Select>
+                      </div>
                     </div>
-                  </div>
-                  <div className="d-flex justify-content-start mt-3">
-                    <button className="btn batan" onClick={updateLendIDStatus}>
-                      Update ID Status
-                    </button>
-                  </div>
-                  <hr />
-                  <div className="row my-4">
-                    <div className="d-flex align-items-center justify-content-between">
-                      <label>Lend ID</label>
-                      <Select
-                        value={lend_ID}
-                        placeholder="Select Lend ID"
-                        sx={{
-                          minWidth: 198,
-                          color: "white",
-                          borderStyle: "none",
-                          backgroundColor: "rgb(30,37,89)",
-                          "&:hover": {
-                            backgroundColor: "rgba(30,37,89,0.9)",
-                            color: "white",
-                          },
-                        }}
-                        style={{
-                          minWidth: "50%",
-                        }}
+                    <div className="d-flex justify-content-start mt-3">
+                      <button
+                        className="btn batan"
+                        onClick={updateLendIDStatus}
                       >
-                        {lenderList.length ? (
-                          // if all the items have isOpenToBorrow false then show this option
-                          lenderList.every(
-                            (item) => item.isOpenToBorrow === true,
-                          ) ? (
+                        Update ID Status
+                      </button>
+                    </div>
+                    <hr />
+                    <div className="row my-4">
+                      <div className="d-flex align-items-center justify-content-between">
+                        <label>Lend ID</label>
+                        <Select
+                          value={lend_ID}
+                          placeholder="Select Lend ID"
+                          sx={{
+                            minWidth: 198,
+                            color: "white",
+                            borderStyle: "none",
+                            backgroundColor: "rgb(30,37,89)",
+                            "&:hover": {
+                              backgroundColor: "rgba(30,37,89,0.9)",
+                              color: "white",
+                            },
+                          }}
+                          style={{
+                            minWidth: "50%",
+                          }}
+                        >
+                          {lenderList.length ? (
+                            // if all the items have isOpenToBorrow false then show this option
+                            lenderList.every(
+                              (item) => item.isOpenToBorrow === true,
+                            ) ? (
+                              <Option
+                                key={1000}
+                                style={{ cursor: "pointer", padding: "0 5px" }}
+                              >
+                                <Box component="span" sx={{ display: "block" }}>
+                                  <Typography component="span" fontSize={14}>
+                                    No Lend ID to Withdraw
+                                  </Typography>
+                                </Box>
+                              </Option>
+                            ) : (
+                              lenderList.map(
+                                (data, index) =>
+                                  data.isOpenToBorrow === false && (
+                                    <Option
+                                      key={data.requestID}
+                                      value={data.requestID}
+                                      label={data.requestID}
+                                      onClick={() => setLend_ID(data.requestID)}
+                                      style={{
+                                        cursor: "pointer",
+                                        padding: "0 10px",
+                                      }}
+                                    >
+                                      <Box
+                                        component="span"
+                                        sx={{ display: "block" }}
+                                      >
+                                        <Typography component="span">
+                                          {data.requestID}
+                                        </Typography>
+                                      </Box>
+                                    </Option>
+                                  ),
+                              )
+                            )
+                          ) : (
                             <Option
-                              key={1000}
-                              style={{ cursor: "pointer", padding: "0 5px" }}
+                              style={{ cursor: "pointer", padding: "0 10px" }}
                             >
                               <Box component="span" sx={{ display: "block" }}>
                                 <Typography component="span" fontSize={14}>
-                                  No Lend ID to Withdraw
+                                  No Lend ID Available
                                 </Typography>
                               </Box>
                             </Option>
-                          ) : (
-                            lenderList.map(
-                              (data, index) =>
-                                data.isOpenToBorrow === false && (
-                                  <Option
-                                    key={data.requestID}
-                                    value={data.requestID}
-                                    label={data.requestID}
-                                    onClick={() => setLend_ID(data.requestID)}
-                                    style={{
-                                      cursor: "pointer",
-                                      padding: "0 10px",
-                                    }}
-                                  >
-                                    <Box
-                                      component="span"
-                                      sx={{ display: "block" }}
-                                    >
-                                      <Typography component="span">
-                                        {data.requestID}
-                                      </Typography>
-                                    </Box>
-                                  </Option>
-                                ),
-                            )
-                          )
-                        ) : (
-                          <Option
-                            style={{ cursor: "pointer", padding: "0 10px" }}
-                          >
-                            <Box component="span" sx={{ display: "block" }}>
-                              <Typography component="span" fontSize={14}>
-                                No Lend ID Available
-                              </Typography>
-                            </Box>
-                          </Option>
-                        )}
-                      </Select>
+                          )}
+                        </Select>
+                      </div>
                     </div>
-                  </div>
-                  {/* ssa */}
-                  <div className="d-flex justify-content-start mt-3">
-                    <button className="btn batan" onClick={withdrawLendAmount}>
-                      Withdraw Lend Amount
-                    </button>
-                  </div>
-                </div>
-              </div>
-            </div>
-
-            <div className="col-md-4 col-sm-12 mt-2 ">
-              <div className="card colorsa">
-                <div className="card-body">
-                  <h6>Default Loan</h6>
-                  <hr />
-                  <div className="row my-1">
-                    <div className="d-flex align-items-center justify-content-between mt-2 py-2">
-                      <label>Loan ID</label>
-
-                      <Select
-                        value={selectedLoanID}
-                        placeholder="Select Loan ID"
-                        sx={{
-                          minWidth: 198,
-                          color: "white",
-                          borderStyle: "none",
-                          backgroundColor: "rgb(30,37,89)",
-                          "&:hover": {
-                            backgroundColor: "rgba(30,37,89,0.9)",
-                            color: "white",
-                          },
-                        }}
-                        style={{
-                          minWidth: "50%",
-                        }}
+                    {/* ssa */}
+                    <div className="d-flex justify-content-start mt-3">
+                      <button
+                        className="btn batan"
+                        onClick={withdrawLendAmount}
                       >
-                        {borrowerIdsList.length ? (
-                          borrowerIdsList.map((data, index) => (
-                            <Option
-                              key={data}
-                              value={data}
-                              label={data}
-                              onClick={() => setSelectedLoanID(data)}
-                            >
-                              <Box component="span" sx={{ display: "block" }}>
-                                <Typography component="span">{data}</Typography>
-                              </Box>
-                            </Option>
-                          ))
-                        ) : (
-                          <Option
-                            style={{ cursor: "pointer", padding: "0 10px" }}
-                          >
-                            <Box component="span" sx={{ display: "block" }}>
-                              <Typography component="span" fontSize={14}>
-                                No Loan ID Available
-                              </Typography>
-                            </Box>
-                          </Option>
-                        )}
-                      </Select>
+                        Withdraw Lend Amount
+                      </button>
                     </div>
-                  </div>
-                  <hr />
-                  <div className="d-flex">
-                    <button className="btn batan mt-2" onClick={defaultLoan}>
-                      Default Loan
-                    </button>
                   </div>
                 </div>
               </div>
@@ -961,6 +965,74 @@ function Lend() {
               url={url}
               web3={web3}
             />
+
+            <h2 className="mt-5">Loan Details</h2>
+            <div className="row pb-4">
+              <div className="offset-md-3 col-md-6 col-sm-12 mt-2 ">
+                <div className="card colorsa">
+                  <div className="card-body">
+                    <h6>Default Loan</h6>
+                    <hr />
+                    <div className="row my-1">
+                      <div className="d-flex align-items-center justify-content-between mt-2 py-2">
+                        <label>Loan ID</label>
+
+                        <Select
+                          value={selectedLoanID}
+                          placeholder="Select Loan ID"
+                          sx={{
+                            minWidth: 198,
+                            color: "white",
+                            borderStyle: "none",
+                            backgroundColor: "rgb(30,37,89)",
+                            "&:hover": {
+                              backgroundColor: "rgba(30,37,89,0.9)",
+                              color: "white",
+                            },
+                          }}
+                          style={{
+                            minWidth: "50%",
+                          }}
+                        >
+                          {borrowerIdsList.length ? (
+                            borrowerIdsList.map((data, index) => (
+                              <Option
+                                key={data}
+                                value={data}
+                                label={data}
+                                onClick={() => setSelectedLoanID(data)}
+                              >
+                                <Box component="span" sx={{ display: "block" }}>
+                                  <Typography component="span">
+                                    {data}
+                                  </Typography>
+                                </Box>
+                              </Option>
+                            ))
+                          ) : (
+                            <Option
+                              style={{ cursor: "pointer", padding: "0 10px" }}
+                            >
+                              <Box component="span" sx={{ display: "block" }}>
+                                <Typography component="span" fontSize={14}>
+                                  No Loan ID Available
+                                </Typography>
+                              </Box>
+                            </Option>
+                          )}
+                        </Select>
+                      </div>
+                    </div>
+                    <hr />
+                    <div className="d-flex">
+                      <button className="btn batan mt-2" onClick={defaultLoan}>
+                        Default Loan
+                      </button>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
 
             <LoanTable
               loanList={loanList}

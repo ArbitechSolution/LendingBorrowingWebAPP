@@ -23,6 +23,21 @@ const UserSchema = new mongoose.Schema({
     minlength: 8,
     select: false, // when we get a user from the database, we don't want to return the password
   },
+  address: {
+    type: String,
+  },
+  city: {
+    type: String,
+  },
+  country: {
+    type: String,
+  },
+  phone: {
+    type: String,
+  },
+  zipcode: {
+    type: String,
+  },
 
   resetPasswordToken: String,
   resetPasswordExpire: Date,

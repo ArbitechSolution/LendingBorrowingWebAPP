@@ -2,33 +2,30 @@ import React, { useState, useMemo } from "react";
 import countryList from "react-select-country-list";
 import { Select, Option } from "@mui/joy";
 
-function CountrySelector({ country }) {
+function CountrySelector({ country, handleChange }) {
   const option = {
     value: "Select",
     label: "Select Country",
   };
-
   const [value, setValue] = useState(country || option.label);
 
   const options = useMemo(() => countryList().getData(), []);
-
-  const changeHandler = (value) => {
-    setValue(value);
-  };
 
   return (
     <Select
       className="selection"
       color="neutral"
       variant="solid"
-      onChange={(e, value) => changeHandler(value)}
-      defaultValue={value}
+      name="country"
       sx={{
+        width: "100% !important",
         backgroundColor: "#1B2155 !important",
+        fontSize: "14px !important",
         "&:hover": {
           backgroundColor: "#1B2155 !important",
         },
       }}
+      value={value || option.label}
     >
       <Option
         key={option.value}
@@ -45,7 +42,11 @@ function CountrySelector({ country }) {
           value={data.label}
           label={data.label}
           className="options"
-          sx={{ width: "100% !important" }}
+          sx={{ width: "100% !important", borderBottom: "1px solid #1B3160" }}
+          onClick={() => {
+            handleChange("country", data.label);
+            setValue(data.label);
+          }}
         >
           {data.label}
         </Option>

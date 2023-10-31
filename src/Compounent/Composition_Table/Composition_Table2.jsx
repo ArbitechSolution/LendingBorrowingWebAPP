@@ -31,8 +31,8 @@ function Composition_Table({ title, table_data, tokenData, itemsPerPage }) {
                 <th scope="col">Lender Address</th>
                 <th scope="col">Borrower Address</th>
                 <th scope="col">Collateral Token</th>
-                <th scope="col">Borrow Token</th>
                 <th scope="col">Collateral Amount</th>
+                <th scope="col">Borrow Token</th>
                 <th scope="col">Borrow Amount</th>
                 <th scope="col">Status</th>
               </tr>
@@ -82,6 +82,7 @@ function Composition_Table({ title, table_data, tokenData, itemsPerPage }) {
                       </a>
                     }
                   </td>
+                  <td>{web3.utils.fromWei(items.collateralAmount, "ether")}</td>
                   <td>
                     {
                       <a
@@ -97,7 +98,7 @@ function Composition_Table({ title, table_data, tokenData, itemsPerPage }) {
                       </a>
                     }
                   </td>
-                  <td>{web3.utils.fromWei(items.collateralAmount, "ether")}</td>
+                 
                   <td>
                     {web3.utils.fromWei(items.lendAmount, "ether")?.slice(0, 6)}
                   </td>

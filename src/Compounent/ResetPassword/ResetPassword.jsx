@@ -2,8 +2,15 @@ import axios from "axios";
 import React, { useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import { toast } from "react-toastify";
+import { FaEye, FaEyeSlash } from "react-icons/fa";
 
 const ResetPassword = () => {
+  const [showPassword, setShowPassword] = useState(false);
+
+  const togglePasswordVisibility = () => {
+    setShowPassword(!showPassword);
+  };
+
   const navigate = useNavigate();
   const toastConfig = {
     position: "top-center",
@@ -35,7 +42,7 @@ const ResetPassword = () => {
       // have to send
       let response = await axios.put(
         `${process.env.REACT_APP_SERVER_URI}/api/v1/auth/resetPassword/${resetToken}`,
-        { password: creds.password }
+        { password: creds.password },
       );
 
       if (response.status === 200) {
@@ -59,20 +66,50 @@ const ResetPassword = () => {
           <h1>Create a new password</h1>
           <p>Enter a new password for your account.</p>
         </div>
-        <input
-          type="password"
-          name="password"
-          placeholder="New Password"
-          value={creds.password}
-          onChange={handlePasswordChange}
-        />
-        <input
-          type="password"
-          name="confirmPassword"
-          placeholder="Confirm Password"
-          value={creds.confirmPassword}
-          onChange={handlePasswordChange}
-        />
+
+        <div>
+          <div className="password-input-container">
+            <input
+              type={showPassword ? "text" : "password"}
+              name="password"
+              placeholder="New Password"
+              value={creds.password}
+              onChange={handlePasswordChange}
+            />
+            <span
+              className="password-toggle-icon"
+              onClick={togglePasswordVisibility}
+            >
+              {showPassword ? (
+                <FaEyeSlash title="Hide" />
+              ) : (
+                <FaEye title="Show" />
+              )}
+            </span>
+          </div>
+        </div>
+
+        <div>
+          <div className="password-input-container">
+            <input
+              type={showPassword ? "text" : "password"}
+              name="confirmPassword"
+              placeholder="Confirm Password"
+              value={creds.confirmPassword}
+              onChange={handlePasswordChange}
+            />
+            <span
+              className="password-toggle-icon"
+              onClick={togglePasswordVisibility}
+            >
+              {showPassword ? (
+                <FaEyeSlash title="Hide" />
+              ) : (
+                <FaEye title="Show" />
+              )}
+            </span>
+          </div>
+        </div>
         <button type="submit" className="forget-btn">
           Reset Password
         </button>
