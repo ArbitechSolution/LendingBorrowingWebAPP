@@ -26,6 +26,10 @@ const UserSchema = new mongoose.Schema({
   address: {
     type: String,
   },
+  wallet : {
+    type: String,
+    required: [true, "Please add a wallet."],
+  },
   city: {
     type: String,
   },
