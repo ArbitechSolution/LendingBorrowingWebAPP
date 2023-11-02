@@ -22,6 +22,7 @@ function Signup() {
     email: "",
     password: "",
     confirmPassword: "",
+    wallet: "",
   });
   const [showPassword, setShowPassword] = useState(false); // State for password visibility
 
@@ -41,9 +42,17 @@ function Signup() {
       credentials.username.trim() === "" ||
       credentials.email.trim() === "" ||
       credentials.password.trim() === "" ||
-      credentials.confirmPassword.trim() === ""
+      credentials.confirmPassword.trim() === "" ||
+      credentials.wallet.trim() === ""
     ) {
       toast.error("Please enter all the fields", toastConfig);
+      return;
+    }
+
+    // regex to wallet address
+    const regex = /^0x[a-fA-F0-9]{40}$/;
+    if (!regex.test(credentials.wallet)) {
+      toast.error("Invalid wallet address", toastConfig);
       return;
     }
 
@@ -60,6 +69,7 @@ function Signup() {
           name: credentials.username,
           email: credentials.email,
           password: credentials.password,
+          wallet: credentials.wallet,
         },
       );
 
@@ -70,6 +80,7 @@ function Signup() {
           email: "",
           password: "",
           confirmPassword: "",
+          wallet: "",
         });
 
         // save token to local storage
@@ -155,14 +166,15 @@ function Signup() {
             </div>
           </div>
 
-          {/* <div className="forgot-password">
-          <a href="/">Forgot Password?</a>
-        </div> */}
+          <div className="wallet-input-container">
+            <input
+              name="wallet"
+              placeholder="Wallet Address"
+              value={credentials.wallet}
+              onChange={handleInputChange}
+            />
+          </div>
 
-          {/* <div className="checkbox-row">
-          <label htmlFor="remember">Remember me</label>
-          <input type="checkbox" name="remember" id="remember" />
-        </div> */}
           <div className="button-row">
             <button type="submit" className="loginButton">
               Sign up

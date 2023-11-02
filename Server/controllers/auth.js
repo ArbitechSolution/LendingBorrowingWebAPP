@@ -9,11 +9,12 @@ const crypto = require("crypto");
 // @access            Public
 exports.register = asyncHandler(async (req, res, next) => {
   // create user
-  const { name, email, password } = req.body;
+  const { name, email, password, wallet } = req.body;
   const user = await User.create({
     name,
     email,
     password,
+    wallet,
   });
 
   // send token response
@@ -110,10 +111,7 @@ exports.getMe = asyncHandler(async (req, res, next) => {
   // send response
   res.status(200).json({
     success: true,
-    data: {
-      name: user.name,
-      email: user.email,
-    },
+    data: user,
   });
 });
 
