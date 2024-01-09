@@ -24,22 +24,6 @@ import {
   factoryAbi,
   factoryAddress,
   TokenAddress,
-  UsdcAddress,
-  UsdcAbi,
-  MaticAddress,
-  MaticAbi,
-  XrpAddress,
-  XrpAbi,
-  EthAddress,
-  EthAbi,
-  AdaAddress,
-  AdaAbi,
-  TronAddress,
-  TronAbi,
-  UsdtAddress,
-  UsdtAbi,
-  DogeAddress,
-  DogeAbi,
   TokenAbi,
 } from "../../utils/Contracts";
 
@@ -67,51 +51,6 @@ function Swap() {
       img: "https://assets.pancakeswap.finance/web/native/97.png",
       balance: undefined,
     },
-    // {
-    //   name: "BUSD",
-    //   img: "https://tokens.pancakeswap.finance/images/symbol/busd.png",
-    //   balance: undefined,
-    // },
-    // {
-    //   name: "USDT",
-    //   img: "https://tokens.pancakeswap.finance/images/symbol/usdt.png",
-    //   balance: undefined,
-    // },
-    // {
-    //   name: "ETH",
-    //   img: "https://pancakeswap.finance/images/tokens/0x2170Ed0880ac9A755fd29B2688956BD959F933F8.png",
-    //   balance: undefined,
-    // },
-    // {
-    //   name: "USDC",
-    //   img: "https://tokens.pancakeswap.finance/images/0x8AC76a51cc950d9822D68b83fE1Ad97B32Cd580d.png",
-    //   balance: undefined,
-    // },
-    // {
-    //   name: "XRP",
-    //   img: "https://tokens.pancakeswap.finance/images/0x1D2F0da169ceB9fC7B3144628dB156f3F6c60dBE.png",
-    //   balance: undefined,
-    // },
-    // {
-    //   name: "ADA",
-    //   img: "https://tokens.pancakeswap.finance/images/0x3EE2200Efb3400fAbB9AacF31297cBdD1d435D47.png",
-    //   balance: undefined,
-    // },
-    // {
-    //   name: "DOGE",
-    //   img: "https://tokens.pancakeswap.finance/images/0xbA2aE424d960c26247Dd6c32edC70B295c744C43.png",
-    //   balance: undefined,
-    // },
-    // {
-    //   name: "MATIC",
-    //   img: "https://assets.coingecko.com/coins/images/4713/thumb/matic-token-icon.png?1624446912",
-    //   balance: undefined,
-    // },
-    // {
-    //   name: "TRX",
-    //   img: "https://assets.coingecko.com/coins/images/15468/thumb/NxLfA-LK_400x400.png?1620915726",
-    //   balance: undefined,
-    // },
     {
       name: "AFT",
       img: "https://placeimg.com/60/60/any",
@@ -149,14 +88,6 @@ function Swap() {
       //   BUSDTokenAddress,
       // );
 
-      // const USDTContractOf = new web3.eth.Contract(UsdtAbi, UsdtAddress);
-      // const ETHContractOf = new web3.eth.Contract(EthAbi, EthAddress);
-      // const USDCContractOf = new web3.eth.Contract(UsdcAbi, UsdcAddress);
-      // const XRPContractOf = new web3.eth.Contract(XrpAbi, XrpAddress);
-      // const ADAContractOf = new web3.eth.Contract(AdaAbi, AdaAddress);
-      // const DOGEContractOf = new web3.eth.Contract(DogeAbi, DogeAddress);
-      // const MATICContractOf = new web3.eth.Contract(MaticAbi, MaticAddress);
-      // const TRXContractOf = new web3.eth.Contract(TronAbi, TronAddress);
       const AFTContractOf = new web3.eth.Contract(TokenAbi, TokenAddress);
 
       const addressList = await lendingContract.methods
@@ -174,14 +105,7 @@ function Swap() {
       // balance of BNB
       const bnbBalance = await web3.eth.getBalance(acc);
       // const busdBalance = await BUSDContractOf.methods.balanceOf(acc).call();
-      // const usdtBalance = await USDTContractOf.methods.balanceOf(acc).call();
-      // const ethBalance = await ETHContractOf.methods.balanceOf(acc).call();
-      // const usdcBalance = await USDCContractOf.methods.balanceOf(acc).call();
-      // const xrpBalance = await XRPContractOf.methods.balanceOf(acc).call();
-      // const adaBalance = await ADAContractOf.methods.balanceOf(acc).call();
-      // const dogeBalance = await DOGEContractOf.methods.balanceOf(acc).call();
-      // const maticBalance = await MATICContractOf.methods.balanceOf(acc).call();
-      // const trxBalance = await TRXContractOf.methods.balanceOf(acc).call();
+
       const aftBalance = await AFTContractOf.methods.balanceOf(acc).call();
 
       // set balance in tokenData state
@@ -194,21 +118,6 @@ function Swap() {
           //   return { ...item, balance: web3.utils.fromWei(busdBalance) };
           // } else if (item.name === "USDT") {
           //   return { ...item, balance: web3.utils.fromWei(usdtBalance) };
-          // } else if (item.name === "ETH") {
-          //   return { ...item, balance: web3.utils.fromWei(ethBalance) };
-          // } else if (item.name === "USDC") {
-          //   return { ...item, balance: web3.utils.fromWei(usdcBalance) };
-          // } else if (item.name === "XRP") {
-          //   return { ...item, balance: web3.utils.fromWei(xrpBalance) };
-          // } else if (item.name === "ADA") {
-          //   return { ...item, balance: web3.utils.fromWei(adaBalance) };
-          // } else if (item.name === "DOGE") {
-          //   return { ...item, balance: web3.utils.fromWei(dogeBalance) };
-          // } else if (item.name === "MATIC") {
-          //   return { ...item, balance: web3.utils.fromWei(maticBalance) };
-          // } else if (item.name === "TRX") {
-          //   return { ...item, balance: web3.utils.fromWei(trxBalance) };
-          // }
           else if (item.name === "AFT") {
             return { ...item, balance: web3.utils.fromWei(aftBalance) };
           }
@@ -231,41 +140,7 @@ function Swap() {
         //     return { ...prev, balance: web3.utils.fromWei(usdtBalance) };
         //   });
         //   break;
-        // case "ETH":
-        //   setFromInputData((prev) => {
-        //     return { ...prev, balance: web3.utils.fromWei(ethBalance) };
-        //   });
-        //   break;
-        // case "USDC":
-        //   setFromInputData((prev) => {
-        //     return { ...prev, balance: web3.utils.fromWei(usdcBalance) };
-        //   });
-        //   break;
-        // case "XRP":
-        //   setFromInputData((prev) => {
-        //     return { ...prev, balance: web3.utils.fromWei(xrpBalance) };
-        //   });
-        //   break;
-        // case "ADA":
-        //   setFromInputData((prev) => {
-        //     return { ...prev, balance: web3.utils.fromWei(adaBalance) };
-        //   });
-        //   break;
-        // case "DOGE":
-        //   setFromInputData((prev) => {
-        //     return { ...prev, balance: web3.utils.fromWei(dogeBalance) };
-        //   });
-        //   break;
-        // case "MATIC":
-        //   setFromInputData((prev) => {
-        //     return { ...prev, balance: web3.utils.fromWei(maticBalance) };
-        //   });
-        //   break;
-        // case "TRX":
-        //   setFromInputData((prev) => {
-        //     return { ...prev, balance: web3.utils.fromWei(trxBalance) };
-        //   });
-        //   break;
+
         case "AFT":
           setFromInputData((prev) => {
             return { ...prev, balance: web3.utils.fromWei(aftBalance) };
@@ -293,41 +168,7 @@ function Swap() {
         //     return { ...prev, balance: web3.utils.fromWei(usdtBalance) };
         //   });
         //   break;
-        // case "ETH":
-        //   setToInputData((prev) => {
-        //     return { ...prev, balance: web3.utils.fromWei(ethBalance) };
-        //   });
-        //   break;
-        // case "USDC":
-        //   setToInputData((prev) => {
-        //     return { ...prev, balance: web3.utils.fromWei(usdcBalance) };
-        //   });
-        //   break;
-        // case "XRP":
-        //   setToInputData((prev) => {
-        //     return { ...prev, balance: web3.utils.fromWei(xrpBalance) };
-        //   });
-        //   break;
-        // case "ADA":
-        //   setToInputData((prev) => {
-        //     return { ...prev, balance: web3.utils.fromWei(adaBalance) };
-        //   });
-        //   break;
-        // case "DOGE":
-        //   setToInputData((prev) => {
-        //     return { ...prev, balance: web3.utils.fromWei(dogeBalance) };
-        //   });
-        //   break;
-        // case "MATIC":
-        //   setToInputData((prev) => {
-        //     return { ...prev, balance: web3.utils.fromWei(maticBalance) };
-        //   });
-        //   break;
-        // case "TRX":
-        //   setToInputData((prev) => {
-        //     return { ...prev, balance: web3.utils.fromWei(trxBalance) };
-        //   });
-        //   break;
+
         case "AFT":
           setToInputData((prev) => {
             return { ...prev, balance: web3.utils.fromWei(aftBalance) };
@@ -523,7 +364,9 @@ function Swap() {
       console.log("Slippage %", slippage / 100);
 
       const amountOutMin = web3.utils.toWei(
-        (parseFloat(toInputData.amount) * (1 - slippage / 100)).toFixed(18).toString(),
+        (parseFloat(toInputData.amount) * (1 - slippage / 100))
+          .toFixed(18)
+          .toString(),
       );
 
       console.log("amountOutMin", amountOutMin);

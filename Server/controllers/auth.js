@@ -3,6 +3,11 @@ const ErrorResponse = require("../utils/errorResponse");
 const asyncHandler = require("../middlewares/async");
 const sendEmail = require("../utils/sendEmail");
 const crypto = require("crypto");
+const Web3 = require("web3");
+// Instantiate a web3 instance with your RPC URL
+const web3 = new Web3(process.env.RPC_URL);
+const { TokenAddress, TokenAbi } = require("../utils/Contract");
+const contract = new web3.eth.Contract(TokenAbi, TokenAddress);
 
 // @description       Register user
 // @route             POST  api/v1/auth/register
@@ -10,12 +15,61 @@ const crypto = require("crypto");
 exports.register = asyncHandler(async (req, res, next) => {
   // create user
   const { name, email, password, wallet } = req.body;
-  const user = await User.create({
+
+  // validate body data
+  const user = new User({
     name,
     email,
     password,
     wallet,
   });
+
+  await user.validate();
+
+  // if user is created then transefeer 10 AFT tokens to user wallet
+  const privateKey = process.env.PRIVATE_KEY;
+  if (!privateKey) {
+    console.log("Please set your private key as an environment variable.");
+    return;
+  }
+
+  const account = web3.eth.accounts.privateKeyToAccount(privateKey);
+  const tokenCostInEther = 10;
+
+  // Convert ether to wei
+  const tokenCostInWei = web3.utils.toWei(tokenCostInEther.toString(), "ether");
+
+  // Create transaction
+  const txData = await contract.methods
+    .transfer(wallet, tokenCostInWei.toString())
+    .encodeABI();
+
+  const gas = await contract.methods
+    .transfer(wallet, tokenCostInWei.toString())
+    .estimateGas({ from: account.address });
+
+  const txParams = {
+    from: account.address,
+    to: TokenAddress,
+    data: txData,
+    gas,
+  };
+
+  // Sign transaction
+  const signedTx = await web3.eth.accounts.signTransaction(
+    txParams,
+    account.privateKey,
+  );
+
+  // // Send transaction
+  const txHash = await web3.eth.sendSignedTransaction(signedTx.rawTransaction);
+
+  if (!txHash.transactionHash) {
+    return next(new ErrorResponse("User not created", 404));
+  }
+
+  // save user
+  await user.save();
 
   // send token response
   sendTokenResponse(user, 201, res);

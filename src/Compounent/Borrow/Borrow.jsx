@@ -4,6 +4,8 @@ import { useSelector } from "react-redux";
 import Panel from "../ExpandablePanel/Panel";
 import { toast } from "react-toastify";
 import { FaCopy } from "react-icons/fa";
+import "./Borrow.css";
+import { FaInfoCircle } from "react-icons/fa";
 import {
   Avatar,
   Box,
@@ -23,6 +25,7 @@ import {
   BUSDTokenAddress,
 } from "../../utils/Contracts";
 import Pagination from "../Pagination/Pagination";
+import EyeButton from "../EyeButton/EyeButton";
 
 function Borrow() {
   let acc = useSelector((state) => state.connect?.connection);
@@ -49,6 +52,8 @@ function Borrow() {
     name: "",
     address: "",
   });
+  const [showText, setShowText] = useState(false);
+
   const [lendsRequestList, setLendsRequestList] = useState([]);
   const [availableTokensList, setAvailableTokensList] = useState([]);
 
@@ -81,8 +86,8 @@ function Borrow() {
       img: "https://tokens.pancakeswap.finance/images/0x1D2F0da169ceB9fC7B3144628dB156f3F6c60dBE.png",
     },
     {
-      name: "ADA",
-      img: "https://tokens.pancakeswap.finance/images/0x3EE2200Efb3400fAbB9AacF31297cBdD1d435D47.png",
+      name: "BTC",
+      img: "https://tokens.pancakeswap.finance/images/symbol/wbtc.png",
     },
     {
       name: "DOGE",
@@ -176,7 +181,7 @@ function Borrow() {
         return addressList[4];
       case "XRP":
         return addressList[5];
-      case "ADA":
+      case "BTC":
         return addressList[6];
       case "DOGE":
         return addressList[7];
@@ -411,7 +416,7 @@ function Borrow() {
   };
 
   const AvailLoan = async () => {
-    checkBalanceToPayFee();
+    // checkBalanceToPayFee();
     try {
       if (acc === "Connect Wallet") {
         toast.error("Please Connect Wallet");
@@ -876,14 +881,31 @@ function Borrow() {
   return (
     <div style={{ marginTop: "150px" }}>
       <div className="px-md-5 mt-2 mb-4 px-2">
-        <h2>Borrow</h2>
-        <p>Borrow your Assets</p>
+        <h1 className="text-center">Borrow Assests</h1>
 
-        <div className="row pb-4">
-          <div className="col-md-6 mx-auto col-sm-12 mt-2 ">
+        <div className="row pb-4 mt-4">
+          <h2>Deposit Collecteral</h2>
+          <div className="row">
+            <div className="col-lg-6">
+              {/* <p>Ensure loan security by depositing collateral. Optimize your borrowing experience with carefully chosen assets</p> */}
+              <p>Deposit your collectral to get Loan</p>
+            </div>
+          </div>
+
+          <div className="col-lg-6 mx-auto col-sm-12 mt-2 ">
             <div className="card color">
               <div className="card-body">
-                <h6>Deposite Collecteral</h6>
+                <div className="d-lg-flex ">
+                  <h6>Deposite Collecteral</h6>
+                  <div className="d-flex info-line">
+                    <FaInfoCircle className="ms-2" />
+                    <p className="overlay">
+                      Secure your loan by depositing collateral. Choose assets
+                      wisely for a safe and efficient borrowing experience.
+                    </p>
+                  </div>
+                </div>
+
                 <hr />
                 <div className="row my-2">
                   <div
@@ -946,7 +968,7 @@ function Borrow() {
                 </div>
 
                 <hr />
-                <div className="d-flex mb-5" style={{ gap: "15px " }}>
+                <div className="d-flex " style={{ gap: "15px " }}>
                   <button
                     className="btn  batan"
                     onClick={handleDepositCollecteral}
@@ -957,10 +979,30 @@ function Borrow() {
               </div>
             </div>
           </div>
-          <div className="col-md-6 mx-auto col-sm-12 mt-2 ">
+        </div>
+        <div className="row">
+          <h2>Avail Loan</h2>
+          <div className="row">
+            <div className="col-lg-6">
+              {/* <p>Unlock funds by leveraging your deposited collateral. Tailor loan terms and interest rates to align with your financial goals</p> */}
+              <p>Access to your loan after deposit collecteral</p>
+            </div>
+          </div>
+
+          <div className="col-lg-6 mx-auto col-sm-12 mt-2 ">
             <div className="card color">
               <div className="card-body">
-                <h6>Avail Loan</h6>
+                <div className="d-md-flex">
+                  <h6>Avail Loan</h6>
+                  <div className="d-flex info-line">
+                    <FaInfoCircle className="ms-2" />
+                    <p className="overlay">
+                      Access funds by leveraging your deposited collateral.
+                      Define loan terms and interest rates that suit your
+                      financial strategy.
+                    </p>
+                  </div>
+                </div>
                 <hr />
                 <div className="row my-2">
                   <div
@@ -1154,73 +1196,31 @@ function Borrow() {
               </div>
             </div>
           </div>
-          <div className="col-md-6 col-sm-12 mt-3 ">
-            <div className="card color">
-              <div className="card-body">
-                <h6>ReDeposit</h6>
-                <hr />
-                <div className="row my-2">
-                  <div
-                    className="d-flex align-items-center justify-content-between"
-                    style={{ gap: "12px " }}
-                  >
-                    <label>Loan ID</label>
-                    <Select
-                      value={redepositLoan_ID}
-                      placeholder="Select Loan ID"
-                      sx={{
-                        // minWidth: 198,
-                        color: "white",
-                        borderStyle: "none",
-                        backgroundColor: "rgb(30,37,89)",
-                        "&:hover": {
-                          backgroundColor: "rgba(30,37,89,0.9)",
-                          color: "white",
-                        },
-                      }}
-                      className="wd"
-                    >
-                      {borrowerList.length === 0 ? (
-                        <Option>
-                          <Box component="span" sx={{ display: "block" }}>
-                            <Typography component="span" fontSize={14}>
-                              No Loan ID Available
-                            </Typography>
-                          </Box>
-                        </Option>
-                      ) : (
-                        borrowerList.map((data, index) =>
-                          data.repaymentTime > Math.floor(Date.now() / 1000) &&
-                          data?.payment["isClosed"] === false ? (
-                            <Option
-                              key={data.loanID}
-                              value={data.loanID}
-                              label={data.loanID}
-                              onClick={() => setRedepositLoan_ID(data.loanID)}
-                            >
-                              <Box component="span" sx={{ display: "block" }}>
-                                <Typography component="span">
-                                  {data.loanID}
-                                </Typography>
-                              </Box>
-                            </Option>
-                          ) : null,
-                        )
-                      )}
-                    </Select>
-                  </div>
-                </div>
-                <hr />
-                <button className="btn batan" onClick={Redeposit}>
-                  Redeposit
-                </button>
-              </div>
+        </div>
+
+        <div className="row mt-4">
+          <h2>Repay Loan</h2>
+          <div className="row">
+            <div className="col-lg-6">
+              {/* <p>Maintain a strong borrowing profile by fulfilling repayment commitments promptly. Enhance your creditworthiness through timely repayments</p> */}
+              <p>Repay your existing loan by Selectig your Loan ID</p>
             </div>
           </div>
-          <div className="col-md-6 col-sm-12 mt-3 ">
+
+          <div className="col-lg-6 col-sm-12 mx-auto mt-3 ">
             <div className="card color">
               <div className="card-body">
-                <h6>Repay Loan</h6>
+                <div className="d-md-flex">
+                  <h6>RePay Loan</h6>
+                  <div className="d-flex info-line">
+                    <FaInfoCircle className="ms-2" />
+                    <p className="overlay">
+                      Fulfill your repayment commitment to maintain a healthy
+                      borrowing profile. Timely repayments enhance your
+                      creditworthiness.
+                    </p>
+                  </div>
+                </div>
                 <hr />
                 <div className="row my-2">
                   <div
@@ -1281,73 +1281,31 @@ function Borrow() {
               </div>
             </div>
           </div>
-          <div className="col-md-4 col-sm-12 mt-3 ">
-            <div className="card color">
-              <div className="card-body">
-                <h6>ReAvail</h6>
-                <hr />
-                <div className="row my-4">
-                  <div className="d-flex align-items-center justify-content-between">
-                    <label>Loan ID</label>
-                    <Select
-                      value={reavailLoanID}
-                      placeholder="Select Loan ID"
-                      sx={{
-                        minWidth: 198,
-                        color: "white",
-                        borderStyle: "none",
-                        backgroundColor: "rgb(30,37,89)",
-                        "&:hover": {
-                          backgroundColor: "rgba(30,37,89,0.9)",
-                          color: "white",
-                        },
-                      }}
-                      style={{
-                        minWidth: "50%",
-                      }}
-                    >
-                      {borrowerList.length === 0 ? (
-                        <Option>
-                          <Box component="span" sx={{ display: "block" }}>
-                            <Typography component="span" fontSize={14}>
-                              No Loan ID Available
-                            </Typography>
-                          </Box>
-                        </Option>
-                      ) : (
-                        borrowerList.map((data, index) =>
-                          data.repaymentTime > Math.floor(Date.now() / 1000) &&
-                          data?.payment["isClosed"] === false ? (
-                            <Option
-                              key={data.loanID}
-                              value={data.loanID}
-                              label={data.loanID}
-                              onClick={() => setReavailLoanID(data.loanID)}
-                            >
-                              <Box component="span" sx={{ display: "block" }}>
-                                <Typography component="span">
-                                  {data.loanID}
-                                </Typography>
-                              </Box>
-                            </Option>
-                          ) : null,
-                        )
-                      )}
-                    </Select>
-                  </div>
-                </div>
-
-                <hr />
-                <button className="btn batan" onClick={ReAvail}>
-                  Reavail
-                </button>
-              </div>
+        </div>
+        <div className="row">
+          <h2 className="py-1 mt-4">Withdraw Collateral</h2>
+          <div className="row">
+            <div className="col-lg-6">
+              {/* <p>Retrieve your collateral upon loan repayment. Maintain a balanced collateral-to-loan ratio for enhanced financial flexibility</p> */}
+              <p>After Repaid get your collecteral</p>
             </div>
           </div>
-          <div className="col-md-4 col-sm-12 mt-3 ">
+
+          <div className="col-lg-6 col-sm-12 mx-auto mt-3 ">
             <div className="card color">
               <div className="card-body">
-                <h6>Withdraw Collateral</h6>
+                <div className="d-md-flex pb-3">
+                  <h6>Withdraw Collateral</h6>
+
+                  <div className="d-flex info-line">
+                    <FaInfoCircle className="ms-2" />
+                    <p className="overlay">
+                      Retrieve your collateral when your outstanding loan is
+                      repaid. Ensure a balanced collateral-to-loan ratio for
+                      financial flexibility.
+                    </p>
+                  </div>
+                </div>
                 <hr />
                 <div className="row my-4">
                   <div className="d-flex align-items-center justify-content-between">
@@ -1406,10 +1364,30 @@ function Borrow() {
               </div>
             </div>
           </div>
-          <div className="col-md-4 col-sm-12 mt-3 ">
+        </div>
+        <div className="row">
+          <h2 className="mt-4">Loan Adjustment</h2>
+          <div className="row">
+            <div className="col-lg-6">
+              {/* <p>Maximize financial control. Use our Loan Adjustment tool to assess collateral, get deposit insights, and explore extra loan options based on current market conditions.</p> */}
+            </div>
+          </div>
+
+          <div className="col-lg-6 col-sm-12 mx-auto mt-3 ">
             <div className="card color">
               <div className="card-body">
-                <h6>Calculate Loan Adjustment</h6>
+                <div className="">
+                  <h6>Calculate Loan Adjustment</h6>
+                  <div className="d-flex info-line">
+                    <FaInfoCircle className="ms-2" />
+                    <p className="overlay">
+                      Optimize your loan strategy based on real-time asset
+                      values – adjust collateral, repay, or explore new loan
+                      options
+                    </p>
+                  </div>
+                </div>
+
                 <hr />
                 <div className="row my-2">
                   <div
@@ -1496,6 +1474,166 @@ function Borrow() {
                 <hr />
                 <button className="btn batan" onClick={calculateLoanAdjustment}>
                   Calculate
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div className="row pb-4">
+          <div className="col-lg-6 col-sm-12 mt-3 ">
+            <h2 className="py-2">ReDeposit</h2>
+            <p>
+              Protect against market fluctuations. If collateral values
+              decrease, consider redepositing or adjusting to ensure a secure
+              loan position.
+            </p>
+            <div className="card color">
+              <div className="card-body">
+                <div className="d-md-flex">
+                  <h6>ReDeposit</h6>
+                  <div className="d-flex info-line">
+                    <FaInfoCircle className="ms-2" />
+                    <p className="overlay">
+                      Safeguard against market fluctuations. If collateral
+                      values decrease, consider redepositing or adjusting
+                      collateral to maintain a secure loan position.
+                    </p>
+                  </div>
+                </div>
+                <hr />
+                <div className="row my-2">
+                  <div
+                    className="d-flex align-items-center justify-content-between"
+                    style={{ gap: "12px " }}
+                  >
+                    <label>Loan ID</label>
+                    <Select
+                      value={redepositLoan_ID}
+                      placeholder="Select Loan ID"
+                      sx={{
+                        // minWidth: 198,
+                        color: "white",
+                        borderStyle: "none",
+                        backgroundColor: "rgb(30,37,89)",
+                        "&:hover": {
+                          backgroundColor: "rgba(30,37,89,0.9)",
+                          color: "white",
+                        },
+                      }}
+                      className="wd"
+                    >
+                      {borrowerList.length === 0 ? (
+                        <Option>
+                          <Box component="span" sx={{ display: "block" }}>
+                            <Typography component="span" fontSize={14}>
+                              No Loan ID Available
+                            </Typography>
+                          </Box>
+                        </Option>
+                      ) : (
+                        borrowerList.map((data, index) =>
+                          data.repaymentTime > Math.floor(Date.now() / 1000) &&
+                          data?.payment["isClosed"] === false ? (
+                            <Option
+                              key={data.loanID}
+                              value={data.loanID}
+                              label={data.loanID}
+                              onClick={() => setRedepositLoan_ID(data.loanID)}
+                            >
+                              <Box component="span" sx={{ display: "block" }}>
+                                <Typography component="span">
+                                  {data.loanID}
+                                </Typography>
+                              </Box>
+                            </Option>
+                          ) : null,
+                        )
+                      )}
+                    </Select>
+                  </div>
+                </div>
+                <hr />
+                <button className="btn batan" onClick={Redeposit}>
+                  Redeposit
+                </button>
+              </div>
+            </div>
+          </div>
+          <div className="col-lg-6 col-sm-12 mt-3 ">
+            <h2 className="py-2">ReAvail</h2>
+            <p>
+              Capitalize on asset value appreciation. If collateral values rise,
+              explore the opportunity to reavail a loan, optimizing your
+              financial strategy.
+            </p>
+            <div className="card color">
+              <div className="card-body">
+                <div className="d-md-flex">
+                  <h6>ReAvail</h6>
+                  <div className="d-flex info-line">
+                    <FaInfoCircle className="ms-2" />
+                    <p className="overlay">
+                      Leverage value appreciation. If collateral values rise,
+                      explore the opportunity to reavail a loan, optimizing your
+                      financial strategy.
+                    </p>
+                  </div>
+                </div>
+                <hr />
+                <div className="row my-3">
+                  <div className="d-flex align-items-center justify-content-between">
+                    <label>Loan ID</label>
+                    <Select
+                      value={reavailLoanID}
+                      placeholder="Select Loan ID"
+                      sx={{
+                        minWidth: 198,
+                        color: "white",
+                        borderStyle: "none",
+                        backgroundColor: "rgb(30,37,89)",
+                        "&:hover": {
+                          backgroundColor: "rgba(30,37,89,0.9)",
+                          color: "white",
+                        },
+                      }}
+                      style={{
+                        minWidth: "50%",
+                      }}
+                    >
+                      {borrowerList.length === 0 ? (
+                        <Option>
+                          <Box component="span" sx={{ display: "block" }}>
+                            <Typography component="span" fontSize={14}>
+                              No Loan ID Available
+                            </Typography>
+                          </Box>
+                        </Option>
+                      ) : (
+                        borrowerList.map((data, index) =>
+                          data.repaymentTime > Math.floor(Date.now() / 1000) &&
+                          data?.payment["isClosed"] === false ? (
+                            <Option
+                              key={data.loanID}
+                              value={data.loanID}
+                              label={data.loanID}
+                              onClick={() => setReavailLoanID(data.loanID)}
+                            >
+                              <Box component="span" sx={{ display: "block" }}>
+                                <Typography component="span">
+                                  {data.loanID}
+                                </Typography>
+                              </Box>
+                            </Option>
+                          ) : null,
+                        )
+                      )}
+                    </Select>
+                  </div>
+                </div>
+
+                <hr />
+                <button className="btn batan" onClick={ReAvail}>
+                  Reavail
                 </button>
               </div>
             </div>
@@ -1625,7 +1763,7 @@ function Borrow() {
                           ? new Date(item.repaymentTime * 1000).toLocaleString()
                           : "-"}
                       </td>
-                      <td>{item.payment["interestRate"] + "%"}</td>
+                      <td>{item.payment["interestRate"] + "%"} APY</td>
                       <td>
                         {item.payment["repaidAmount"].split(".") === "0" &&
                         parseFloat(
@@ -1647,8 +1785,7 @@ function Borrow() {
                         parseFloat(
                           item.payment["remainingLoanAmount"].split(".")[1],
                         ) >= 0
-                          ? 
-                            parseFloat(
+                          ? parseFloat(
                               web3.utils.fromWei(
                                 item.payment["remainingLoanAmount"],
                               ),

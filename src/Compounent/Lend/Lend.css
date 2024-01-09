@@ -5,3 +5,33 @@ input[type="text"] {
   border: none !important;
   color: white !important;
 }
+.info-line{
+  overflow: hidden;
+  max-width: 80px;
+  max-height: 20px;
+  /* color: aqua; */
+}
+.overlay{
+  position:absolute;
+  overflow: hidden;
+  height:0; 
+  font-size: 10px;
+
+}
+.info-line:hover .overlay{
+  width: 65%;
+  height: 100%;
+  margin-left: 50px;
+  transition: .5s ease;
+}
+
+
+@media (width<=600px){
+  
+  .info-line:hover .overlay{
+      width:85%;
+      font-size: 8px;
+  }
+  
+
+}

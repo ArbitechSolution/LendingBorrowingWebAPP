@@ -67,7 +67,7 @@ const LoanTable = ({
     <div>
       {/* <h2 className="mt-5 text-center">{title}</h2> */}
       <div className="col-md-12 mx-auto col-sm-12 mt-2 table-responsive ">
-        <div className="card colorsa">
+        <div className="card colorsa table-responsive">
           <div className="card-body">
             <table className="table text-white text-center ">
               <thead>
@@ -119,7 +119,8 @@ const LoanTable = ({
                           "..." +
                           item["borrower"]?.slice(-4)}
                       </td>
-                      <td>{item["borrowed"]}</td>
+                      <td>{parseFloat(item["borrowed"]).toFixed(4)}</td>
+
                       <td>{item.status}</td>
                     </tr>
                   );

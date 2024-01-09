@@ -12,6 +12,13 @@ const connectReducer = (state = INITIAL_STATE, action) => {
         ...state,
         connection: action.payload,
       };
+
+    case ActionTypes.DISCONNECT:
+      return {
+        ...state,
+        connection: "Connect Wallet",
+      };
+
     case ActionTypes.WEB3_INSTANCE:
       return {
         ...state,
