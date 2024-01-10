@@ -1,16 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { useSelector } from "react-redux";
 import Dash_Stats from "../Dash_Stats/Dash_Stats";
-import {
-  LendingAbi,
-  LendingAddress,
-  StakingAbi,
-  StakingAddress,
-  TokenAbi,
-  TokenAddress,
-  BUSDTokenAbi,
-  BUSDTokenAddress,
-} from "../../utils/Contracts";
+import { LendingAbi, LendingAddress } from "../../utils/Contracts";
 import Composition_Table from "../Composition_Table/Composition_Table";
 import Composition_Table2 from "../Composition_Table/Composition_Table2";
 
@@ -19,7 +10,6 @@ function Dashbord() {
   let web3 = useSelector((state) => state.connect?.web3);
   const [lenderData, setLenderData] = useState([]);
   const [borrowerData, setBorrowerData] = useState([]);
-  
 
   const [tokenData, setTokenData] = useState([
     {
@@ -47,8 +37,8 @@ function Dashbord() {
       img: "https://tokens.pancakeswap.finance/images/0x1D2F0da169ceB9fC7B3144628dB156f3F6c60dBE.png",
     },
     {
-      name: "ADA",
-      img: "https://tokens.pancakeswap.finance/images/0x3EE2200Efb3400fAbB9AacF31297cBdD1d435D47.png",
+      name: "BTC",
+      img: "https://tokens.pancakeswap.finance/images/symbol/wbtc.png",
     },
     {
       name: "DOGE",
@@ -128,21 +118,20 @@ function Dashbord() {
   }, [acc]);
 
   return (
-    <div style={{marginTop:"150px"}}>
-     
+    <div style={{ marginTop: "150px" }}>
       <Dash_Stats />
-      
+
       <Composition_Table
         title="Lender"
         table_data={lenderData}
         tokenData={tokenData}
-        itemsPerPage={10} 
+        itemsPerPage={10}
       />
       <Composition_Table2
         title="Borrower"
         table_data={borrowerData}
         tokenData={tokenData}
-        itemsPerPage={10} 
+        itemsPerPage={10}
       />
     </div>
   );

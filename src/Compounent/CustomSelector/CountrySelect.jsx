@@ -1,8 +1,8 @@
-import React, { useState, useMemo } from "react";
+import React, { useState, useMemo, useEffect } from "react";
 import countryList from "react-select-country-list";
 import { Select, Option } from "@mui/joy";
 
-function CountrySelector({ country, handleChange }) {
+function CountrySelector({ country, handleChange, defaultValue }) {
   const option = {
     value: "Select",
     label: "Select Country",
@@ -10,6 +10,11 @@ function CountrySelector({ country, handleChange }) {
   const [value, setValue] = useState(country || option.label);
 
   const options = useMemo(() => countryList().getData(), []);
+
+  useEffect(() => {
+    setValue(country);
+  }
+  , [country]);
 
   return (
     <Select
@@ -25,7 +30,7 @@ function CountrySelector({ country, handleChange }) {
           backgroundColor: "#1B2155 !important",
         },
       }}
-      value={value || option.label}
+      value={value}
     >
       <Option
         key={option.value}

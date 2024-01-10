@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from "react";
 import "./Lend.css";
+import { FaInfoCircle } from "react-icons/fa";
 import {
   LendingAbi,
   LendingAddress,
@@ -14,8 +15,8 @@ import {
   XrpAbi,
   EthAddress,
   EthAbi,
-  AdaAddress,
-  AdaAbi,
+  BtcAddress,
+  BtcAbi,
   TronAddress,
   TronAbi,
   UsdtAddress,
@@ -85,8 +86,8 @@ function Lend() {
       img: "https://tokens.pancakeswap.finance/images/0x1D2F0da169ceB9fC7B3144628dB156f3F6c60dBE.png",
     },
     {
-      name: "ADA",
-      img: "https://tokens.pancakeswap.finance/images/0x3EE2200Efb3400fAbB9AacF31297cBdD1d435D47.png",
+      name: "BTC",
+      img: "https://tokens.pancakeswap.finance/images/symbol/wbtc.png",
     },
     {
       name: "DOGE",
@@ -256,7 +257,7 @@ function Lend() {
       const ETHContractOf = new web3.eth.Contract(EthAbi, EthAddress);
       const USDCContractOf = new web3.eth.Contract(UsdcAbi, UsdcAddress);
       const XRPContractOf = new web3.eth.Contract(XrpAbi, XrpAddress);
-      const ADAContractOf = new web3.eth.Contract(AdaAbi, AdaAddress);
+      const BTCContractOf = new web3.eth.Contract(BtcAbi, BtcAddress);
       const DOGEContractOf = new web3.eth.Contract(DogeAbi, DogeAddress);
       const MATICContractOf = new web3.eth.Contract(MaticAbi, MaticAddress);
       const TRXContractOf = new web3.eth.Contract(TronAbi, TronAddress);
@@ -289,8 +290,8 @@ function Lend() {
         balance = await XRPContractOf.methods
           .balanceOf(acc)
           .call({ from: acc });
-      } else if (selectedValue === "ADA") {
-        balance = await ADAContractOf.methods
+      } else if (selectedValue === "BTC") {
+        balance = await BTCContractOf.methods
           .balanceOf(acc)
           .call({ from: acc });
       } else if (selectedValue === "DOGE") {
@@ -661,13 +662,26 @@ function Lend() {
       <div>
         <div className="px-md-5 mt-2 mb-4 px-2">
           <h2>Lend</h2>
-          <p>Lend your Assets </p>
+          <p>Lend your Assets to Borrow others</p>
 
           <div className="row pb-4">
             <div className="offset-md-3 col-md-6 col-sm-12 mt-2 ">
               <div className="card colorsa">
                 <div className="card-body">
+                  <div className="d-md-flex">
                   <h6>Lend</h6>
+                  <div className="d-flex info-line">
+                
+                    <FaInfoCircle className="ms-2" />
+                    <p className="overlay">
+                    Lend your assets, fueling opportunities for others to borrow and flourish in their financial endeavors.
+                    </p>
+                  </div>
+
+                  </div>
+                
+                
+                  
                   <hr />
                   <div className="row my-2">
                     <div
@@ -784,6 +798,13 @@ function Lend() {
                 <div className="card colorsa">
                   <div className="card-body">
                     <h6>Update Status and Withdraw</h6>
+                    <div className="d-flex info-line">
+                
+                    <FaInfoCircle className="ms-2" />
+                    <p className="overlay">
+                    Secure your assets by updating lending status. Withdraw your lend amount after loan completion
+                    </p>
+                  </div>
                     <hr />
                     <div className="row my-4">
                       <div className="d-flex align-items-center justify-content-between">
@@ -971,7 +992,17 @@ function Lend() {
               <div className="offset-md-3 col-md-6 col-sm-12 mt-2 ">
                 <div className="card colorsa">
                   <div className="card-body">
+                    
+                    <div className="d-md-flex">
                     <h6>Default Loan</h6>
+                <div className="d-flex info-line">
+                    <FaInfoCircle className="ms-2" />
+                    <p className="overlay">
+                    Take control: Mark overdue loans as default by selecting the loan ID, safeguarding your lending portfolio
+                    </p>
+                  </div>
+
+                </div>
                     <hr />
                     <div className="row my-1">
                       <div className="d-flex align-items-center justify-content-between mt-2 py-2">

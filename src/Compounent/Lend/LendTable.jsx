@@ -29,7 +29,7 @@ const LendTable = ({
     <div className="row">
       <div className="col-md-12 col-sm-12 mt-2 table-responsive">
       {/* <h2 className="mt-5 text-center">{title}</h2> */}
-        <div className="card colorsa">
+        <div className="card colorsa table-responsive ">
           <div className="card-body">
             <table className="table text-white text-center ">
               <thead>
@@ -65,10 +65,10 @@ const LendTable = ({
                   return (
                     <tr className="border-bottom  sdsd" key={i}>
                       <td>{item[0]}</td>
-                      <td>{web3.utils.fromWei(item[3].toString(), "ether")}</td>
-                      <td>{item[4]}</td>
-                      <td>{item[6] / 60}</td>
-                      <td>{web3.utils.fromWei(item[8].toString(), "ether")}</td>
+                      <td>{web3.utils.fromWei(item[3].toString(), "ether")} </td>
+                      <td>{item[4]}% APY</td>
+                      <td>{item[6] / 60} days</td>
+                      <td>{parseFloat(web3.utils.fromWei(item[8], "ether")).toFixed(4)}</td>
                       <td>{item[9] ? "Open" : "Close"}</td>
                       <td>
                         <a

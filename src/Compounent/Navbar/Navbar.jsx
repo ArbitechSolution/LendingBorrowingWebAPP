@@ -3,25 +3,36 @@ import logo from "../image/AFT.png";
 import wallet from "../image/wallet.svg";
 import drop from "../image/drop.jpg";
 import "./Navbar.css";
-import { connectionAction, web3Actions } from "../../Redux/connection/actions";
+import { connectionAction, web3Actions, disconnectAction } from "../../Redux/connection/actions";
 import { Link, useNavigate } from "react-router-dom";
 import { useSelector, useDispatch } from "react-redux";
 import Dropdown from "react-bootstrap/Dropdown";
 import Web3 from "web3";
+import { useWeb3Modal } from "@web3modal/ethers/react";
+import { useWeb3ModalAccount } from "@web3modal/ethers/react";
 
-function Navbar() {
+function Navbar({ handleWalletModal }) {
+  const { address, isConnected, provider, disconnect } = useWeb3ModalAccount();
   const dispatch = useDispatch();
   const acc = useSelector((state) => state.connect?.connection);
 
-  const connectWallet = async () => {
-    dispatch(connectionAction());
-    if (window.ethereum) {
-      const web3 = new Web3(window.ethereum);
-      dispatch(web3Actions(web3)); // Pass the Web3 instance to Redux
+  useEffect(() => {
+    if (address && isConnected) {
+      dispatch(connectionAction(address));
+
+      if (window.ethereum) {
+        console.log("address", address);
+        const web3 = new Web3(window.ethereum);
+        dispatch(web3Actions(web3)); // Pass the Web3 instance to Redux
+      }
+    }else{
+      dispatch(disconnectAction());
     }
-  };
+  }, [address, isConnected]);
+    
 
   const navigate = useNavigate();
+  const { open } = useWeb3Modal();
 
   const handleLogOut = (e) => {
     e.preventDefault();
@@ -114,7 +125,7 @@ function Navbar() {
               <button
                 className="btn btnnn "
                 type="button"
-                onClick={connectWallet}
+                onClick={() => open()}
               >
                 <img src={wallet} alt="" />{" "}
                 {acc

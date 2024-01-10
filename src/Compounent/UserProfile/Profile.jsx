@@ -75,6 +75,7 @@ const UserProfile = () => {
         },
       );
       const user = response.data.data;
+      console.log(user);
       setUser({
         name: user.name,
         email: user.email,

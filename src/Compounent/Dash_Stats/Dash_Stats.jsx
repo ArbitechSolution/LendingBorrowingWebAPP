@@ -10,14 +10,10 @@ import {
   ListItemDecorator,
 } from "@mui/joy";
 import {
-  TokenAddress,
-  TokenAbi,
   StakingAddress,
   StakingAbi,
   LendingAddress,
   LendingAbi,
-  BUSDTokenAddress,
-  BUSDTokenAbi,
   redeemRewardAddress,
   redeemRewardAbi,
 } from "../../utils/Contracts";
@@ -56,8 +52,8 @@ function Dash_Stats() {
       img: "https://tokens.pancakeswap.finance/images/0x1D2F0da169ceB9fC7B3144628dB156f3F6c60dBE.png",
     },
     {
-      name: "ADA",
-      img: "https://tokens.pancakeswap.finance/images/0x3EE2200Efb3400fAbB9AacF31297cBdD1d435D47.png",
+      name: "BTC",
+      img: "https://tokens.pancakeswap.finance/images/symbol/wbtc.png",
     },
     {
       name: "DOGE",
@@ -222,26 +218,24 @@ function Dash_Stats() {
         .calculateTotalContractBalanceOfEachToken()
         .call({ from: acc });
 
-
-        
-        // loop over assetsBalance[1] and set balance in tokenData state
-        setTokenData((prev) => {
+      // loop over assetsBalance[1] and set balance in tokenData state
+      setTokenData((prev) => {
         return prev.map((item, index) => {
           return { ...item, balance: assetsBalance[1][index] };
         });
       });
-      
+
       let promises = [];
       // Create an array of promises to fetch live prices concurrently
       for (let i = 0; i < assetsBalance[0].length; i++) {
         promises.push(
-          lendingContract.methods.getLivePrice(assetsBalance[0][i]).call()
+          lendingContract.methods.getLivePrice(assetsBalance[0][i]).call(),
         );
       }
-      
+
       // Use Promise.all to await all promises
       const results = await Promise.all(promises);
-      console.log(results)
+      console.log(results);
 
       // loop over tokenData and set live price of each token
       setTokenData((prev) => {
@@ -279,7 +273,9 @@ function Dash_Stats() {
                   <div className="row px-2">
                     <div className="col AUM">Total Fees</div>
                     <div className="col text-end AUM">
-                      {feeBalance ? `${web3.utils.fromWei(feeBalance)} AFT` : "-"}
+                      {feeBalance
+                        ? `${web3.utils.fromWei(feeBalance)} AFT`
+                        : "-"}
                     </div>
                   </div>
                   <div className="row px-2">
@@ -399,7 +395,9 @@ function Dash_Stats() {
                     <div className="d-flex align-items-center justify-content-between">
                       <label>Calculated Value</label>
                       <div>
-                        {calculatedValue ? parseFloat(calculatedValue).toFixed(4) : "No Result"}
+                        {calculatedValue
+                          ? parseFloat(calculatedValue).toFixed(4)
+                          : "No Result"}
                       </div>
                     </div>
                   </div>

@@ -9,7 +9,7 @@ import logo from "../../Compounent/image/AFT.png";
 // import LoginImg from '../../assets/images/login-image.jpg'
 import LoginImg from "../../assets/images/illustration1.png";
 
-function Signup() {
+function Signup({handleModal}) {
   const toastConfig = {
     position: "top-center",
     autoClose: 1500,
@@ -85,6 +85,7 @@ function Signup() {
 
         // save token to local storage
         localStorage.setItem("aftJwtToken", response.data.token);
+        handleModal();
         navigate("/landingPage");
       }
     } catch (error) {

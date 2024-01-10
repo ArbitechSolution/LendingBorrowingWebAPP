@@ -29,6 +29,7 @@ const UserSchema = new mongoose.Schema({
   wallet : {
     type: String,
     required: [true, "Please add a wallet."],
+    unique: true,
   },
   city: {
     type: String,

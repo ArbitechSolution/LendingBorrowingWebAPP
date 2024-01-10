@@ -2,12 +2,12 @@ import React from "react";
 import Navbar from "../Navbar/Navbar";
 import { Navigate } from "react-router-dom";
 
-const ProtectedRoute = ({ element: Component, ...rest }) => {
+const ProtectedRoute = ({ element: Component, handleWalletModal, ...rest }) => {
   const token = localStorage.getItem("aftJwtToken");
 
   return token ? (
     <>
-      <Navbar />
+      <Navbar  />
       {Component}
     </>
   ) : (

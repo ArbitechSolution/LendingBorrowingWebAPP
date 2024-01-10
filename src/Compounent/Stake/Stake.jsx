@@ -7,11 +7,10 @@ import {
   TokenAbi,
   StakingAddress,
   StakingAbi,
-  LendingAddress,
-  LendingAbi,
   redeemRewardAddress,
   redeemRewardAbi,
 } from "../../utils/Contracts";
+
 function Stake() {
   let acc = useSelector((state) => state.connect?.connection);
   let web3 = useSelector((state) => state.connect?.web3);
@@ -188,15 +187,51 @@ function Stake() {
 
   // get balance
   const getBalance = async () => {
-    const web3 = window.web3;
+    try {
     const tokenContractOf = new web3.eth.Contract(TokenAbi, TokenAddress);
     const balance = await tokenContractOf.methods.balanceOf(acc).call();
+
+    console.log("balance:", balance);
 
     // to convert wei to ether
     const balanceInEther = web3.utils.fromWei(balance, "ether");
 
     setBalance(balanceInEther);
+    } catch (error) {
+      console.error(error);
+    }
+    
   };
+
+  async function getSignatureTest(contract, user, withdrawableAmount) {
+    const blockNumber = await web3.eth.getBlockNumber();
+
+    const block = await web3.eth.getBlock(blockNumber);
+    const nonce = block.timestamp;
+    console.log("nonce-timestamp:", nonce);
+
+    let dataToSign = web3.utils.soliditySha3(
+      contract.toLowerCase(),
+      user.toLowerCase(),
+      nonce,
+      withdrawableAmount,
+    );
+    console.log("hash:", dataToSign);
+
+    // let privateKey = process.env.REACT_APP_SIGNATURE_PRIVATE_KEY;
+    let privateKey = "79db94410a39a288b7ecd2982a09bc1ec0b960ae1a7fba95c3a8dc7f7b02b01b"
+    console.log("privateKey:", privateKey);
+    let signature = await web3.eth.accounts.sign(dataToSign, privateKey);
+    console.log("signature:", signature);
+
+    return {
+      nonce,
+      signature: signature.signature,
+    };
+  }
+
+  // Usage example:
+  // getSignatureTest("0xContractAddress", "0xUserAddress", 1000);
 
   const claimReward = async () => {
     try {
@@ -221,9 +256,23 @@ function Stake() {
 
       setWithdrawableAmount(web3.utils.fromWei(withdrawableAmount, "ether"));
 
-      const claimRewardTx = await contract.methods
-        .claimReward(withdrawableAmount)
-        .send({ from: acc });
+      const { nonce, signature } = await getSignatureTest(
+        redeemRewardAddress,
+        acc,
+        withdrawableAmount,
+      );
+
+      // const claimRewardTx = await contract.methods
+      //   .claimTokens(withdrawableAmount, nonce, signature)
+      //   .send({ from: acc });
+
+      // if (claimRewardTx.status) {
+      //   toast.success("Reward Withdraw Successfully");
+      //   getBalance();
+      //   setWithdrawableAmount(0);
+      // } else {
+      //   toast.error("Reward Withdraw failed");
+      // }
     } catch (error) {
       console.error(error);
     }
@@ -243,7 +292,8 @@ function Stake() {
               <div className="row px-2">
                 <div className="col AUM">Wallet</div>
                 <div className="col text-end AUM">
-                  {parseFloat(balance).toFixed(4)} <span className="fw-bold">AFT</span>
+                  {balance % 1 !== 0 ? parseFloat(balance).toFixed(4) : balance}{" "}
+                  <span className="fw-bold">AFT</span>
                 </div>
               </div>
               <div className="row px-2">
